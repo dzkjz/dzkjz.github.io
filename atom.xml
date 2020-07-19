@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-19T06:43:56.526Z</updated>
+    <updated>2020-07-19T06:44:57.612Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,25 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[总结nuxt laravel nginx mysql docker ubuntu部署的流程]]></title>
+        <id>https://dzkjz.github.io/post/zong-jie-nuxt-laravel-nginx-mysql-docker-ubuntu-bu-shu-de-liu-cheng/</id>
+        <link href="https://dzkjz.github.io/post/zong-jie-nuxt-laravel-nginx-mysql-docker-ubuntu-bu-shu-de-liu-cheng/">
+        </link>
+        <updated>2020-07-19T06:40:35.000Z</updated>
+        <content type="html"><![CDATA[<p>总结分为几个部分：</p>
+<p>1.docker</p>
+<p>2.docker-compose</p>
+<p>3.注意事项</p>
+<p>4.laravel发布需要准备的文件和生产环境要做的一些操作</p>
+<p>5.nuxt遇到的坑</p>
+<p>6.mysql</p>
+<p>7.nginx</p>
+<hr>
+<p>一、Docker</p>
+<p>什么是docker可以参考</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://dzkjz.github.io/post/hello-gridea/</id>
