@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-20T06:31:12.710Z</updated>
+    <updated>2020-07-20T06:35:19.817Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -492,7 +492,30 @@ server{
          }
 </code></pre>
 <p>再看目录结构</p>
-<pre><code>drwxrwxr-x 16 ***** *****     4096 Jul 18 15:05 ./                                         drwxrwxr-x  4 ***** *****      4096 Jul 13 07:09 ../                                         drwxrwxr-x 11 ***** *****      4096 Jul 12 17:00 app/                                       -rw-rw-r--  1 ***** *****      1686 Jul 12 17:00 artisan                                     drwxrwxr-x  3 ***** *****      4096 Jul 12 17:00 bootstrap/                                 -rw-rw-r--  1 ***** *****      1660 Jul 12 17:00 composer.json                               -rw-rw-r--  1 ***** *****    208927 Jul 12 17:00 composer.lock                               drwxrwxr-x  2 ***** *****      4096 Jul 12 17:00 config/                                     drwxrwxr-x  5 ***** *****      4096 Jul 12 17:00 database/                                   drwxrwxr-x  4 ***** *****      4096 Jul 16 06:15 docker-compose/                             -rw-rw-r--  1 ***** *****      1806 Jul 18 13:06 docker-compose.prod.yml                     -rw-rw-r--  1 ***** *****       741 Jul 12 17:12 Dockerfile                                 drwxrwxr-x  3 ***** *****      4096 Jul 15 18:07 dockerfiles/                               -rw-rw-r--  1 ***** *****       220 Jul 12 17:00 .editorconfig                               -rw-rw-r--  1 ***** *****       844 Jul 12 18:37 .env                                       -rw-rw-r--  1 ***** *****       778 Jul 12 17:00 .env.example                               drwxrwxr-x  8 ***** *****      4096 Jul 12 17:00 .git/                                       -rw-rw-r--  1 ***** *****       111 Jul 12 17:00 .gitattributes                             -rw-rw-r--  1 ***** *****       163 Jul 12 17:00 .gitignore                                 drwxrwxr-x  2 ***** *****      4096 Jul 12 17:00 .idea/                                     -rw-rw-r--  1 ***** *****      1013 Jul 12 17:00 package.json                               -rw-rw-r--  1 ***** *****    462139 Jul 12 17:00 package-lock.json                           -rw-rw-r--  1 ***** *****      1197 Jul 12 17:00 phpunit.xml                                 drwxrwxr-x  2 ***** *****      4096 Jul 13 14:46 public/
+<pre><code>drwxrwxr-x 16 ***** *****     4096 Jul 18 15:05 ./
+drwxrwxr-x  4 ***** *****      4096 Jul 13 07:09 ../
+drwxrwxr-x 11 ***** *****      4096 Jul 12 17:00 app/
+-rw-rw-r--  1 ***** *****      1686 Jul 12 17:00 artisan
+drwxrwxr-x  3 ***** *****      4096 Jul 12 17:00 bootstrap/
+-rw-rw-r--  1 ***** *****      1660 Jul 12 17:00 composer.json
+-rw-rw-r--  1 ***** *****    208927 Jul 12 17:00 composer.lock
+drwxrwxr-x  2 ***** *****      4096 Jul 12 17:00 config/
+drwxrwxr-x  5 ***** *****      4096 Jul 12 17:00 database/
+drwxrwxr-x  4 ***** *****      4096 Jul 16 06:15 docker-compose/
+-rw-rw-r--  1 ***** *****      1806 Jul 18 13:06 docker-compose.prod.yml
+-rw-rw-r--  1 ***** *****       741 Jul 12 17:12 Dockerfile
+drwxrwxr-x  3 ***** *****      4096 Jul 15 18:07 dockerfiles/
+-rw-rw-r--  1 ***** *****       220 Jul 12 17:00 .editorconfig
+-rw-rw-r--  1 ***** *****       844 Jul 12 18:37 .env
+-rw-rw-r--  1 ***** *****       778 Jul 12 17:00 .env.example
+drwxrwxr-x  8 ***** *****      4096 Jul 12 17:00 .git/
+-rw-rw-r--  1 ***** *****       111 Jul 12 17:00 .gitattributes
+-rw-rw-r--  1 ***** *****       163 Jul 12 17:00 .gitignore
+drwxrwxr-x  2 ***** *****      4096 Jul 12 17:00 .idea/
+-rw-rw-r--  1 ***** *****      1013 Jul 12 17:00 package.json
+-rw-rw-r--  1 ***** *****    462139 Jul 12 17:00 package-lock.json
+-rw-rw-r--  1 ***** *****      1197 Jul 12 17:00 phpunit.xml
+drwxrwxr-x  2 ***** *****      4096 Jul 13 14:46 public/
 -rw-rw-r--  1 ***** *****      4497 Jul 12 17:00 README.md
 drwxrwxr-x  6 ***** *****      4096 Jul 12 17:00 resources/
 drwxrwxr-x  2 ***** *****      4096 Jul 12 17:00 routes/
@@ -513,7 +536,10 @@ drwxr-xr-x 48 ***** *****      4096 Jul 12 18:28 vendor/
 </code></pre>
 <p>访问的时候，尝试的是比如	<code>http://api.exampl.com/api/pigs/all/1</code>会解析出uri <code>api/pigs/all/1</code>，这个uri文件在public目录中是没有的。</p>
 <p>public目录：</p>
-<pre><code>drwxrwxr-x  2 ***** ***** 4096 Jul 13 14:46 ./                                               drwxrwxr-x 16 ***** ***** 4096 Jul 18 15:05 ../                                             -rw-rw-r--  1 ***** *****    0 Jul 12 17:00 favicon.ico                                     -rw-rw-r--  1 ***** *****  603 Jul 12 17:00 .htaccess
+<pre><code>drwxrwxr-x  2 ***** ***** 4096 Jul 13 14:46 ./
+drwxrwxr-x 16 ***** ***** 4096 Jul 18 15:05 ../
+-rw-rw-r--  1 ***** *****    0 Jul 12 17:00 favicon.ico
+-rw-rw-r--  1 ***** *****  603 Jul 12 17:00 .htaccess
 -rw-rw-r--  1 ***** ***** 1823 Jul 12 17:00 index.php
 -rw-rw-r--  1 ***** *****   24 Jul 12 17:00 robots.txt
 lrwxrwxrwx  1 ***** *****   27 Jul 13 14:46 storage -&gt; /var/www/storage/app/public
@@ -706,7 +732,8 @@ http {
 </code></pre>
 <p>注意就是最后一行<code>include /etc/nginx/conf.d/*.conf;</code>引入了这两个conf文件。</p>
 <p>同时我们注意权限：</p>
-<pre><code class="language-drwxr-xr-x">drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
+<pre><code>drwxr-xr-x    1 root     root          4096 Jul 18 15:11 .
+drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
 drwxrwxr-x    2 1000     1000          4096 Jul 15 16:54 certs
 drwxrwxr-x    3 1000     1000          4096 Jul 19 18:06 conf.d
 -rw-r--r--    1 root     root          1077 Jul  7 16:14 fastcgi.conf
@@ -721,7 +748,8 @@ lrwxrwxrwx    1 root     root            22 Jul 10 20:27 modules -&gt; /usr/lib/
 -rw-r--r--    1 root     root          3610 Jul  7 16:14 win-utf
 </code></pre>
 <p>这里面certs和conf.d文件夹的owner和组都是1000，就是app容器里的用户。里面的文件也是这样的。</p>
-<pre><code class="language-drwxrwxr-x">drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
+<pre><code>drwxrwxr-x    3 1000     1000          4096 Jul 19 18:06 .
+drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
 drwxrwxr-x    2 1000     1000          4096 Jul 15 16:54 certs
 -rw-rw-r--    1 1000     1000          1465 Jul 19 18:06 petapi.conf
 -rw-rw-r--    1 1000     1000          1709 Jul 18 15:07 petclient.conf
