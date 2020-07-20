@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-20T06:23:25.690Z</updated>
+    <updated>2020-07-20T06:29:56.182Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -129,7 +129,7 @@ USER $user #设置容器的用户
 <p>需要了解更多指令可以参考：</p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/copy">COPY 复制文件</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/add">ADD 更高级的复制文件</a></p>
-<p>[Dockerfile 最佳实践文档](Dockerfile 最佳实践文档)</p>
+<p><a href="https://yeasy.gitbook.io/docker_practice/appendix/best_practices">Dockerfile 最佳实践文档</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/cmd">CMD 容器启动命令</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/entrypoint">ENTRYPOINT 入口点</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/env">ENV 设置环境变量</a></p>
