@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-20T06:35:19.817Z</updated>
+    <updated>2020-07-24T11:36:48.942Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -86,6 +86,7 @@
 <p>还有上面是笼统的说成是dockerfile文件所在文件夹，其实也是不完全正确的。</p>
 <p>因为可以 -f ../Dockerfilev3 这么指定需要的Dockerfile 首先路径在外面，然后名字也不同，不过一般情况不这么干。默认状态下前面说的不严谨但也可以是对的。还有<a href="https://yeasy.gitbook.io/docker_practice/image/build#qi-ta-docker-build-de-yong-fa">其它 <code>docker build</code> 的用法。</a></p>
 </blockquote>
+<h5 id="app-容器-dockerfile">app 容器 Dockerfile</h5>
 <pre><code class="language-yml">FROM php:7.2.19-fpm #指定 基础镜像
 
 # Arguments defined in docker-compose.yml
@@ -129,7 +130,7 @@ USER $user #设置容器的用户
 <p>需要了解更多指令可以参考：</p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/copy">COPY 复制文件</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/add">ADD 更高级的复制文件</a></p>
-<p><a href="https://yeasy.gitbook.io/docker_practice/appendix/best_practices">Dockerfile 最佳实践文档</a></p>
+<p>[Dockerfile 最佳实践文档](Dockerfile 最佳实践文档)</p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/cmd">CMD 容器启动命令</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/entrypoint">ENTRYPOINT 入口点</a></p>
 <p><a href="https://yeasy.gitbook.io/docker_practice/image/dockerfile/env">ENV 设置环境变量</a></p>
@@ -496,7 +497,7 @@ server{
 drwxrwxr-x  4 ***** *****      4096 Jul 13 07:09 ../
 drwxrwxr-x 11 ***** *****      4096 Jul 12 17:00 app/
 -rw-rw-r--  1 ***** *****      1686 Jul 12 17:00 artisan
-drwxrwxr-x  3 ***** *****      4096 Jul 12 17:00 bootstrap/
+drwxrwxr-x  3 ***** *****      4096 Jul 12 17:00 bootstrap/ 
 -rw-rw-r--  1 ***** *****      1660 Jul 12 17:00 composer.json
 -rw-rw-r--  1 ***** *****    208927 Jul 12 17:00 composer.lock
 drwxrwxr-x  2 ***** *****      4096 Jul 12 17:00 config/
@@ -529,10 +530,9 @@ drwxr-xr-x 48 ***** *****      4096 Jul 12 18:28 vendor/
 <p>nginx在 api.example.com:80或443请求的时候，80强制转443，然后看443中处理逻辑。</p>
 <p>容器中的<code>root /var/www/public/</code>对应的就是宿主机 public文件夹。</p>
 <pre><code>location / {
-                 try_files $uri $uri/ /index.php?$query_string;
-                 gzip_static on;
-                 }
-         }
+	try_files $uri $uri/ /index.php?$query_string;
+	gzip_static on;
+	}
 </code></pre>
 <p>访问的时候，尝试的是比如	<code>http://api.exampl.com/api/pigs/all/1</code>会解析出uri <code>api/pigs/all/1</code>，这个uri文件在public目录中是没有的。</p>
 <p>public目录：</p>
@@ -558,46 +558,45 @@ ssl_certificate_key /etc/nginx/certs/key.pem;
 <p>同样的来看看</p>
 <p>frontapp部分的conf配置：</p>
 <pre><code>server {
-        listen 80;
-        listen [::]:80;
-        server_name example.com www.example.com;
-        return 301 https://$http_host$request_uri;
-        #rewrite ^(.*)$ https://$host$1 permanent; we just replace request to https
+listen 80;
+listen [::]:80;
+server_name example.com www.example.com;
+return 301 https://$http_host$request_uri;
+#rewrite ^(.*)$ https://$host$1 permanent; we just replace request to https
 }
 server{
-        listen 443 ssl;
-        listen [::]:443 ssl;
-        server_name example.com www.example.com;
-        #ssl on; no need this anymore please change use listen 443 ssl only
-        ssl_certificate /etc/nginx/certs/cert.pem;
-        ssl_certificate_key /etc/nginx/certs/key.pem;
-        #ssl_session_timeout 5m;
-        #ssl_protocols read blow info please;
-        # By default nginx uses “ssl_protocols TLSv1 TLSv1.1 TLSv1.2” and “ssl_ciphers HIGH:!aNULL:!MD5”, so configuring them explicitly is generally not needed.
-        index index.php index.html;
-        error_log /var/log/nginx/error.log;
-        access_log /var/log/nginx/access.log;
-        root /var/www/public;
-        location ~ \.php$ {
-                try_files $uri =404;
-                fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass frontapp:9000;
-                fastcgi_index index.php;
-                include fastcgi_params;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_param PATH_INFO $fastcgi_path_info;
-                }
-
-        location / {
-                proxy_set_header X-Real-IP $remote_addr;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-				proxy_set_header Host  $http_host;
-				proxy_set_header X-Nginx-Proxy true;
-				proxy_set_header Connection &quot;&quot;;
-				proxy_pass http://frontapp:8000; #因为在nuxt中 server配置就这个
-                gzip_static on;
-                }
-        }
+listen 443 ssl;
+listen [::]:443 ssl;
+server_name example.com www.example.com;
+#ssl on; no need this anymore please change use listen 443 ssl only
+ssl_certificate /etc/nginx/certs/cert.pem;
+ssl_certificate_key /etc/nginx/certs/key.pem;
+#ssl_session_timeout 5m;
+#ssl_protocols read blow info please;
+# By default nginx uses “ssl_protocols TLSv1 TLSv1.1 TLSv1.2” and “ssl_ciphers HIGH:!aNULL:!MD5”, so configuring them explicitly is generally not needed.
+index index.php index.html;
+error_log /var/log/nginx/error.log;
+access_log /var/log/nginx/access.log;
+root /var/www/public;
+location ~ \.php$ {
+try_files $uri =404;
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+fastcgi_pass frontapp:9000;
+fastcgi_index index.php;
+include fastcgi_params;
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+fastcgi_param PATH_INFO $fastcgi_path_info;
+}
+location / {
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header Host  $http_host;
+proxy_set_header X-Nginx-Proxy true;
+proxy_set_header Connection &quot;&quot;;
+proxy_pass http://frontapp:8000; #因为在nuxt中 server配置就这个
+gzip_static on;
+}
+}
 </code></pre>
 <p>与petapi.conf不同的就是</p>
 <pre><code>location / {
@@ -647,6 +646,11 @@ server{
 <p>laravel的代码，我是直接git clone 下来然后进到app容器里</p>
 <p>执行</p>
 <p><code>cp .env.example .env</code> .env文件。</p>
+<p>特别注意</p>
+<pre><code>APP_ENV=production
+APP_DEBUG=false
+APP_URL
+</code></pre>
 <p><code>php artisan key:generate</code> 生成key</p>
 <p>然后自己配置.env文件中的值，mail啊 jwt啊 mysql之类的。</p>
 <p><code>php artisan migrate</code> 数据库</p>
@@ -655,7 +659,8 @@ server{
 <p>再在app容器执行</p>
 <p><code>php artisan storage:link</code></p>
 <p>然后就可以用了。</p>
-<p>至于邮件，需要开启queue，以及supervisor。【暂缺】</p>
+<p><code>php artisan optimize</code></p>
+<p>至于邮件，需要开启queue，以及<a href="https://medium.com/@ahmeeddhon/laravel-docker-using-alpine-1f80fab7359b">supervisor</a>。【暂缺】【不用supervisor也可以开启queue并确保不service down 参考<a href="#%E4%B8%83%E3%80%81%E6%9B%B4%E6%96%B0">更新部分</a> 】</p>
 <h2 id="四-nuxt遇到的坑">四、nuxt遇到的坑</h2>
 <p>如果有代码用到了</p>
 <pre><code class="language-js"> target: (process.env.NODE_ENV === &quot;production&quot;) ? process.env.API_URL : &quot;http://petapi.test/api&quot;,
@@ -689,6 +694,7 @@ NODE_ENV=&quot;production&quot;
 AUTH_URL=&quot;https://api.example.com/api/auth&quot;
 </code></pre>
 <h2 id="五-mysql">五、mysql</h2>
+<p>执行<code>docker cp ./****.sql ***api-db:/tmp/</code>copy到mysql里；</p>
 <p>这个容器用的默认的没有bash，只有sh。</p>
 <p>一些常用的命令。</p>
 <p>mysql -uroot -p</p>
@@ -732,8 +738,7 @@ http {
 </code></pre>
 <p>注意就是最后一行<code>include /etc/nginx/conf.d/*.conf;</code>引入了这两个conf文件。</p>
 <p>同时我们注意权限：</p>
-<pre><code>drwxr-xr-x    1 root     root          4096 Jul 18 15:11 .
-drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
+<pre><code class="language-drwxr-xr-x">drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
 drwxrwxr-x    2 1000     1000          4096 Jul 15 16:54 certs
 drwxrwxr-x    3 1000     1000          4096 Jul 19 18:06 conf.d
 -rw-r--r--    1 root     root          1077 Jul  7 16:14 fastcgi.conf
@@ -748,8 +753,7 @@ lrwxrwxrwx    1 root     root            22 Jul 10 20:27 modules -&gt; /usr/lib/
 -rw-r--r--    1 root     root          3610 Jul  7 16:14 win-utf
 </code></pre>
 <p>这里面certs和conf.d文件夹的owner和组都是1000，就是app容器里的用户。里面的文件也是这样的。</p>
-<pre><code>drwxrwxr-x    3 1000     1000          4096 Jul 19 18:06 .
-drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
+<pre><code class="language-drwxrwxr-x">drwxr-xr-x    1 root     root          4096 Jul 18 15:11 ..
 drwxrwxr-x    2 1000     1000          4096 Jul 15 16:54 certs
 -rw-rw-r--    1 1000     1000          1465 Jul 19 18:06 petapi.conf
 -rw-rw-r--    1 1000     1000          1709 Jul 18 15:07 petclient.conf
@@ -775,9 +779,172 @@ ssl_certificate_key /etc/nginx/conf.d/certs/key.pem;
 <p>还有个Upstream 参考 <a href="https://docs.nginx.com/nginx/admin-guide/security-controls/securing-http-traffic-upstream/">Securing HTTP Traffic to Upstream Servers</a></p>
 <p>以及 <a href="https://www.thepolyglotdeveloper.com/2017/03/nginx-reverse-proxy-containerized-docker-applications/">Use NGINX As A Reverse Proxy To Your Containerized Docker Applications</a></p>
 <p>以及 <a href="https://www.freecodecamp.org/news/docker-nginx-letsencrypt-easy-secure-reverse-proxy-40165ba3aee2/">How to set up an easy and secure reverse proxy with Docker, Nginx &amp; Letsencrypt</a></p>
-<h2 id="最后目前存在的bug">最后，目前存在的bug：</h2>
+<h4 id="目前存在的bug">目前存在的bug：</h4>
 <p>网站标题没有<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/%E6%89%B9%E6%B3%A8%202020-07-20%20141957.png" alt="批注 2020-07-20 141957" loading="lazy"></p>
-<p>privacy没有，contact么有，footer没有，邮件 jwt没配置，没开queue，recaptcha没配置。</p>
+<p>privacy没有【已添加页面】，contact么有【不要】，footer没有【已添加】，邮件 【后期申请了服务后更新env文件即可】jwt没配置【已配置】，没开queue【见下方】，recaptcha没配置【已经设置为由env文件配置】。</p>
+<p>至于queue，原本打算使用supervisord，但是参考：</p>
+<p><a href="https://www.reddit.com/r/docker/comments/8zlakh/advice_best_approach_to_getting_supervisor_setup/">[Advice] Best approach to getting Supervisor setup with a docker compose setup?</a></p>
+<blockquote>
+<p>​	There is no need for supervisor, just add another php service to your file (same volumes) and add a command line with your queue cmd.</p>
+<pre><code class="language-yml">php-queue:
+ restart: always
+ image: php:7.2-fpm
+ command: php artisan queue:work
+ volumes:
+        - ./www:/var/www
+</code></pre>
+<p>这里面restart always就能保证重启维护了。</p>
+<p>If I wanted to have multiple works would I just setup multiple <code>php-queue</code> containers? Would I need to be concerned about running to many PHP containers on one server?</p>
+<blockquote>
+<p>If you mean multiple queues then i think that queue:work has a --queue argument so you can specify multiple queues.</p>
+<p>If you mean multiple processes then you can use the <code>scale</code> argument in docker-compose, something like:</p>
+<pre><code>docker-compose up -d --scale php-queue=3
+</code></pre>
+<p>For Swarm mode you can use the <a href="https://docs.docker.com/compose/compose-file/#replicas"><code>replicas</code></a> option.</p>
+<p><a href="https://github.com/maitrungduc1410/docker-laravel-horizon-load-balancing">Option --scale webserver=3 will create 3 instances of <code>webserver</code> service (you can choose any number of instances you like)</a></p>
+</blockquote>
+<p>That is an interesting approach. How would you handle reboots and auto running the command?</p>
+<blockquote>
+<p>Thats what <a href="https://docs.docker.com/compose/compose-file/#restart"><code>restart: always</code></a> does, it will restart the container if it crashes and autostarts them on boot. If you are using Swarm then you should use <a href="https://docs.docker.com/compose/compose-file/#restart_policy">restart-policy</a> instead.</p>
+</blockquote>
+<p>I would spin up an new container for supervisor Just use the same app path</p>
+<p>Remember you need an redis also</p>
+</blockquote>
+<p>所以最后完成版本的docker-composer.prod.yml如下：</p>
+<h2 id="七-更新">七、更新</h2>
+<h3 id="updated-docker-compose-prodyml">Updated docker-compose-prod.yml</h3>
+<pre><code class="language-yml">version: &quot;3.7&quot;
+services:
+  app:
+    build:
+      args:
+        user: petapi
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: petapii
+    container_name: petapi-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - petapin
+  php-queue:
+    image: php:7.2.19-fpm
+    container_name: petapi-app-queue
+    command: php artisan queue:work
+    working_dir: /var/www/
+    restart: always
+    volumes:
+      - ./:/var/www
+    networks:
+      - petapin
+  frontapp:
+    build:
+      context: ~/petclient/dockerfiles/node/
+      dockerfile:  Dockerfile
+    image: frontapp
+    container_name: petclient-frontapp
+    restart: unless-stopped
+    working_dir: /app
+    networks:
+      - petclientn
+  db:
+    image: mysql:5.7
+    container_name: petapi-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - petapin
+  nginx:
+    image: nginx:1.19.1-alpine
+    container_name: pet-nginx
+    restart: always
+    depends_on:
+      - app
+      - frontapp
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+      - ./docker-compose/nginx/certs:/etc/nginx/certs
+    networks:
+      - petapin
+      - petclientn
+networks:
+  petapin:
+    driver: bridge
+  petclientn:
+    driver: bridge
+</code></pre>
+<p>由于进行了一些源代码的更新，特别是前端的代码，所以这里顺带讲解一下以后也可以参考，如何进行更新。</p>
+<p>请开始前参考 [Updated docker-compose-prod.yml](#Updated docker-compose-prod.yml) 把<code>docker-compose-prod.yml</code> 更改完毕。</p>
+<h3 id="七-一-sql数据库迁移">七、（一） SQL数据库迁移</h3>
+<p>首先是后端api，如果需要大更新特别是涉及到数据库的，sql数据库备份很重要。</p>
+<p>两种方式:</p>
+<h5 id="第一种手动为了走一遍流程">第一种，手动【为了走一遍流程】</h5>
+<p>执行<code>docker exec -it petapi-db bash</code>进入db容器</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724023050297.png" alt="image-20200724023050297" loading="lazy"></figure>
+<p>执行<code>mysql -uroot -p</code> 并输入密码，登录数据库</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724023113362.png" alt="" loading="lazy"></figure>
+<p>登录后执行<code>show databases;</code>检查数据库，然后确认我们要备份的数据库</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724023211774.png" alt="" loading="lazy"></figure>
+<p>接下来执行<code>exit</code>退出数据库登录，</p>
+<p>在db容器shell执行<code>mysqldump -uroot -p ***api &gt; backup.sql</code> 就可以了，格式参考<a href="https://blog.shanelee.name/2017/04/09/how-to-import-and-export-databases-in-mysql-or-mariadb-with-docker/">How To Import and Export Databases in MySQL or MariaDB with Docker</a>为：</p>
+<pre><code class="language-bash">mysqldump -u username -p database_name &gt; dump.sql  
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724023446387.png" alt="" loading="lazy"></figure>
+<p>可以执行<code>head -n 5 backup.sql</code> 检查结果；<code>5</code>不够可以设置<code>20</code></p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724023737718.png" alt="" loading="lazy"></figure>
+<p>由于我们的db容器把数据卷设置在了<code>docker-entrypoint-initdb.d</code>文件夹里，所以最好是备份到这文件夹里。这样宿主机备份后，宿主机可以直接拿到，这里我就直接给mv到文件夹里去了。</p>
+<p><code>exit</code>退出容器，然后就可以在宿主机 <code>docker-compose.prod.yml</code>的上下文<code>./docker-compose/mysql</code>文件夹路径里看到我们刚dump打包的数据库备份文件了。</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724024534310.png" alt="" loading="lazy"></figure>
+<p>接下来就是<a href="#%E4%BA%94%E3%80%81mysql">参考之前的导入方法</a>导入到新数据库即可。</p>
+<h5 id="第二种使用databackmysql-backup">第二种，使用<a href="https://hub.docker.com/r/databack/mysql-backup">databack/mysql-backup</a></h5>
+<p>建议使用这种方式，因为可以自动执行备份。即使不迁移，平时的运维也应该这么做好备份比较安全。备份完成之后，建议直接发送或上传到库。</p>
+<h3 id="七-二pull-更新后的laravel-api后端代码">七、（二）pull 更新后的laravel api后端代码</h3>
+<p>其实就是重复操作 <a href="#%E4%B8%89%E3%80%81laravel%E5%8F%91%E5%B8%83%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E8%A6%81%E5%81%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C">三、laravel发布需要准备的文件和生产环境要做的一些操作</a></p>
+<h3 id="七-三-前端部分">七、（三） 前端部分</h3>
+<p>整体来说可以参考<a href="#%E5%9B%9B%E3%80%81nuxt%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91">四、nuxt遇到的坑</a> ，这里当然详细讲解一下。</p>
+<p>首先是把代码更新到github。</p>
+<p>执行 <code>ssh user_name@server_ip_address</code>登录到服务器。</p>
+<p>node的Dockerfile不需要更新了。</p>
+<p>我们直接切到 <a href="#node%E5%AE%B9%E5%99%A8Dockerfile">node容器Dockerfile</a> 上下文的路径 <code>./pet-client</code>下，参考 [<code>docker-compose.prod.yml</code>](#Updated docker-compose-prod.yml)中frontapp部分定义的context:<code>context: ~/petclient/dockerfiles/node/</code> ，即切换到的路径是<code>~/petclient/dockerfiles/node/pet-client</code> 这里面就是我们前端代码存放的位置了。</p>
+<p>在 <code>~/petclient/dockerfiles/node/</code>这个路径下执行：<code>rm -rf pets-client/</code>删除掉前端代码，因为我们的容器镜像，打包的时候是直接COPY到容器内的。更新的时候，删除这个文件夹，然后稍后删除镜像，重新打包启动即可。</p>
+<p>然后执行 <code>git clone https://github.com/****/******.git</code> 把代码拉到宿主机内。如果已经clone过的 可以<code>git pull https://github.com/****/******.git</code>进行update。</p>
+<p>然后切换到<code>docker-compose.prod.yml</code>所在文件夹路径下执行: <code>docker-compose -f docker-compose.prod.yml down</code>关闭所有服务。</p>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-20200724141740430.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>这个警告是因为我们编辑过<code>docker-compose.prod.yml</code>，但是运行的服务并不是这个编辑过的。以后最好是全部停了之后，再编辑。</p>
+</blockquote>
+<p>接下来执行 <code>docker ps -a</code>查看容器，移除掉旧版本的容器。</p>
+<p>接下来执行 <code>docker images</code>查看镜像，然后执行<code>docker rmi 镜像名</code>的方式移除掉node，frontapp镜像，</p>
+<p>然后执行<code>docker-compose -f docker-compose.prod.yml build frontapp</code> 构建frontapp的镜像。</p>
+<p>构建完成 执行 <code>docker-compose -f docker-compose.prod.yml up -d</code>即可。</p>
+<p>容器完全构建好了并启动之后，继续下面的操作。</p>
+<h3 id="七-四配置env文件">七、（四）配置.env文件</h3>
+<blockquote>
+<p><strong>如果docker-compose.yml文件和Dockerfile提前需要.env文件中设置的值，那此步骤需要在build前操作。</strong></p>
+<p>因为后端api是数据卷挂载到容器内的，所以.env文件可以宿主机里编辑。</p>
+<p>frontapp是COPY到容器内的，所以需要切换到容器内，或者<strong>在build前建立好，build执行的时候直接COPY到容器内了</strong>，建议提前在petclient被clone到本地后就编辑好。</p>
+<p>如果是需要容器内修改，</p>
+<p>执行<code>docker exec -it petclient-frontapp bash</code>进入容器内。</p>
+<p>执行 vi .env 然后编辑然后保存退出。</p>
+</blockquote>
+<p>完成。</p>
+<p>补充，最好精简一下css 及 js代码。</p>
+<h2 id="八-ssl-cronjob-与-supervisor介绍">八、ssl cronJob 与 supervisor介绍</h2>
 ]]></content>
     </entry>
     <entry>
