@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>总结nuxt laravel nginx mysql docker ubuntu部署的流程 | JojoLegend</title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1595590605116">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1595591579197">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="总结nuxt laravel nginx mysql docker ubuntu部署的流程 | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
@@ -46,7 +46,7 @@ nginx
       <div class="main-content">
         <div class="site-header">
   <a href="https://dzkjz.github.io/">
-  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1595590605116" alt="">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1595591579197" alt="">
   </a>
   <h1 class="site-title">
     JojoLegend
@@ -428,7 +428,9 @@ listen 443 ssl;
    ssl_certificate_key /etc/nginx/certs/key.pem;
    #ssl_session_timeout 5m;
    #ssl_protocols read blow info please;
-   # By default nginx uses “ssl_protocols TLSv1 TLSv1.1 TLSv1.2” and “ssl_ciphers HIGH:!aNULL:!MD5”, so configuring them explicitly is generally not needed.
+   # By default nginx uses “ssl_protocols TLSv1 TLSv1.1 TLSv1.2” and 
+#“ssl_ciphers HIGH:!aNULL:!MD5”, so configuring them explicitly is 
+#generally not needed.
    index index.php index.html;
    error_log /var/log/nginx/error.log;
    access_log /var/log/nginx/access.log;
@@ -449,8 +451,7 @@ listen 443 ssl;
     }   
 </code></pre>
 </blockquote>
-<pre><code> 注意 `fastcgi_pass petapi-app:9000;` 我们用到了container_name 即这个app容器的名字。9000是默认php-fpm的端口。
-</code></pre>
+<p>注意 <code>fastcgi_pass petapi-app:9000;</code> 我们用到了container_name 即这个app容器的名字。9000是默认php-fpm的端口。</p>
 <p>其次，我们Dockerfile之前没有设置数据卷，这里设置了加载 <code>docker-compose.prod.yml</code>所在文件夹全部内容 到容器中</p>
 <p>restart:  指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 <code>always</code> 或者 <code>unless-stopped</code>。</p>
 <p>networks:  配置容器连接的网络。这个网络主要是给服务容器之间通信的，db我们用的mysql通过这个网络和app通信，nginx也通过这个网络和app通信。这三个公用的 petapin 这个网路，这个网络是在 外层 networks:中定义的。</p>
@@ -670,7 +671,9 @@ ssl_certificate /etc/nginx/certs/cert.pem;
 ssl_certificate_key /etc/nginx/certs/key.pem;
 #ssl_session_timeout 5m;
 #ssl_protocols read blow info please;
-# By default nginx uses “ssl_protocols TLSv1 TLSv1.1 TLSv1.2” and “ssl_ciphers HIGH:!aNULL:!MD5”, so configuring them explicitly is generally not needed.
+# By default nginx uses “ssl_protocols TLSv1 TLSv1.1 TLSv1.2” and 
+#“ssl_ciphers HIGH:!aNULL:!MD5”, so configuring them explicitly is generally 
+#not needed.
 index index.php index.html;
 error_log /var/log/nginx/error.log;
 access_log /var/log/nginx/access.log;
@@ -760,8 +763,7 @@ APP_URL
 <p>至于邮件，需要开启queue，以及<a href="https://medium.com/@ahmeeddhon/laravel-docker-using-alpine-1f80fab7359b">supervisor</a>。【暂缺】【不用supervisor也可以开启queue并确保不service down 参考<a href="#%E4%B8%83%E3%80%81%E6%9B%B4%E6%96%B0">更新部分</a> 】</p>
 <h2 id="四-nuxt遇到的坑">四、nuxt遇到的坑</h2>
 <p>如果有代码用到了</p>
-<pre><code class="language-js"> target: (process.env.NODE_ENV === &quot;production&quot;) ? process.env.API_URL : &quot;http://petapi.test/api&quot;,
-</code></pre>
+<p><code>target: (process.env.NODE_ENV === &quot;production&quot;) ? process.env.API_URL : &quot;http://petapi.test/api&quot;,</code></p>
 <p>这样的，那env文件必须要有。否则必然报target null 类型错误。</p>
 <p>还要安装<a href="https://github.com/nuxt-community/dotenv-module">dotenv</a> ,且配置如下：</p>
 <pre><code class="language-js">require('dotenv').config(); //https://github.com/nuxt-community/proxy-module/issues/3
@@ -807,7 +809,8 @@ AUTH_URL=&quot;https://api.example.com/api/auth&quot;
 <p>看看nginx.conf文件：</p>
 <p>执行<code>docker exec -it pet-nginx sh</code>进到nginx容器，因为没有安装bash所以用sh。</p>
 <p>找到nginx.conf打开：</p>
-<pre><code class="language-conf">user  nginx;                                                                                 worker_processes  auto;
+<pre><code class="language-conf">user  nginx;
+worker_processes  auto;
 error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
 events {
