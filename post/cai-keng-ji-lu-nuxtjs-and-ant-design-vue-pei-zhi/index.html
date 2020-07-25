@@ -1,0 +1,337 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>「踩坑记录」 Nuxt.js &amp; Ant-design-vue 配置 | JojoLegend</title>
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1595659338787">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="「踩坑记录」 Nuxt.js &amp; Ant-design-vue 配置 | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="Nuxt.js &amp; ant-design-vue
+最近开发一个带seo以及部分后台功能的项目，nuxt作为vue ssr框架可以非常好的完成这个需求，这里我选择了ant-design-vue作为UI组件库。
+以下是踩坑的一些记录 ：..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://dzkjz.github.io/">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1595659338787" alt="">
+  </a>
+  <h1 class="site-title">
+    JojoLegend
+  </h1>
+  <p class="site-description">
+    Something for age
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              「踩坑记录」 Nuxt.js &amp; Ant-design-vue 配置
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-25
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="nuxtjs-ant-design-vue">Nuxt.js &amp; ant-design-vue</h1>
+<p>最近开发一个带seo以及部分后台功能的项目，nuxt作为vue ssr框架可以非常好的完成这个需求，这里我选择了<code>ant-design-vue</code>作为UI组件库。</p>
+<p>以下是踩坑的一些记录 ：</p>
+<p>首先介绍一下项目情况和需求：</p>
+<ul>
+<li>Nuxt.js是一个 Vue.js 通用框架，预设了使用 Vue.js开发SSR的各种配置。项目中使用的是SSR模式，因此首屏是由<strong>服务端完成渲染</strong>。</li>
+<li>项目仅用到少数的UI组件，因此我们希望使用按需加载组件，以减少网络开销。</li>
+</ul>
+<h2 id="1-按需加载引入组件">1. 按需加载引入组件</h2>
+<p>首先我们移除掉 nuxt.config.js 中</p>
+<pre><code class="language-js">{   css: ['ant-design-vue/dist/antd.css'],   // 这里会全局引入所有样式，不是我们所希望的按需加载 }
+</code></pre>
+<p>参考官方文档antd-vue # 按需加载：</p>
+<pre><code class="language-js">// 同时参考 Nuxt-cli 创建项目时 创建的 plugin/antd-ui.js 
+import Vue from 'vue' import Button from 'ant-design-vue/lib/button'; 
+import 'ant-design-vue/lib/button/style'; // 或者 ant-design-vue/lib/button/style/css 加载 css 文件  
+Vue.use(Button.name, Button)
+</code></pre>
+<p>编译未通过，提示错误：</p>
+<pre><code class="language-shell">// https://github.com/ant-design/ant-motion/issues/44 .bezierEasingMixin(); ^ Inline JavaScript is not enabled. Is it set in your options?
+</code></pre>
+<p>根据报错所提供的信息，less升级到3.0 后，需要 less-loader配置一个功能，才能正常使用：</p>
+<pre><code class="language-js">// nuxt.config.js 
+{  
+    build: {   
+        loaders: {    
+            less: {     
+                javascriptEnabled: true    
+            }   
+        }  
+    } 
+}
+</code></pre>
+<p>编译通过，打开页面，返回500，提示：</p>
+<figure data-type="image" tabindex="1"><img src="https://i0.wp.com/upload-images.jianshu.io/upload_images/4655331-6b7d1982b438ab82.png" alt="img" loading="lazy"></figure>
+<p>image.png</p>
+<p>编译能通过，说明代码编译没有问题，但是server端执行时出现了错误。尝试注释掉plugin/antd-ui.js引入样式文件这行 import 'ant-design-vue/lib/button/style'; ，server首屏渲染能够正常启动，但引入的button组件样式丢失。</p>
+<p>打开 ant-design-vue/lib/button/style/index.js 查看：</p>
+<pre><code class="language-js">'use strict'; 
+require('../../style/index.less'); 
+require('./index.less');  
+// ant-design-vue/es/button/style/index.js 
+import '../../style/index.less'; 
+import './index.less';
+</code></pre>
+<p>可以看到，antd-vue为生产环境提供了两种模块的代码。为了tree-shaking 我们优先选择 es 模块。</p>
+<blockquote>
+<p>补充知识：现在的webpack@4+ 支持识别项目 packge.json module字段，使用ESModule的依赖更好的支持构建中的tree-shaking。</p>
+</blockquote>
+<p>修改代码为 es/button/...，编译通过，但页面仍抛出一500服务端错误：</p>
+<figure data-type="image" tabindex="2"><img src="https://i0.wp.com/upload-images.jianshu.io/upload_images/4655331-ae7c35452bf86a74.png" alt="img" loading="lazy"></figure>
+<p>image.png</p>
+<p>根据错误提示cannot use import statement和es包使用的ESModule语法，猜测服务端侧渲染页面时语法出错，Node.js 不能直接识别 .js文件内的ESModule语法。</p>
+<pre><code class="language-js">// .nuxt.config.js 
+{  
+    plugins: 
+    [   
+        {    
+            src: '@/plugins/antd-ui',    
+            mode: 'client' // 仅 客户端使用plugin   
+        }  
+    ] 
+}
+</code></pre>
+<p>页面正常加载，但Vue.js 给出了错误提示</p>
+<figure data-type="image" tabindex="3"><img src="https://i0.wp.com/upload-images.jianshu.io/upload_images/4655331-e03fb922189d9a8c.png" alt="img" loading="lazy"></figure>
+<p>image.png</p>
+<p>此时，我们再将plugin代码替换回lib以及移除mode: 'client ，错误又回到了最开始的 invalid or unexpected token。</p>
+<p>搜索Nuxt官方文档：</p>
+<blockquote>
+<p>如果要使用Babel与特定的依赖关系进行转换，你可以在build.transpile中添加它们，transpile中的选项可以是字符串或正则表达式对象，用于匹配依赖项文件名。</p>
+</blockquote>
+<p>添加配置：</p>
+<pre><code class="language-js">{ // nuxt.config.js  
+    build: {   
+        transpile: [/ant-design-vue/]
+    } 
+}
+</code></pre>
+<p>终于，服务端渲染正常，样式也正常加载。接着引入 ant-design-vue官方推荐使用的插件babel-plugin-import</p>
+<pre><code class="language-js">// nuxt.config.js 
+{  
+    build: {
+        babel: {
+            plugins: [
+                [      
+                    'import',      
+                    {       
+                        libraryName: 'ant-design-vue',       
+                        libraryDirectory: 'es',       
+                        // 选择子目录 例如 es 表示 ant-design-vue/es/component       
+                        // lib 表示 ant-design-vue/lib/component              
+                        style: true       
+                        // 默认不使用该选项，即不导入样式 , 注意 ant-design-vue 使用 js 文件引入样式       
+                        // true 表示 import  'ant-design-vue/es/component/style'      
+                        // 'css' 表示 import 'ant-design-vue/es/component/style/css'      
+                    }     
+                ]    
+            ]   
+        }  
+    } 
+}  // plugins/antd-ui.js 
+import Vue from 'vue' 
+import { Button } from 'ant-dsign-vue' // 这时，可以通过 简写的方式引入样式和组件  
+Vue.use(Button)
+</code></pre>
+<h2 id="2-pages目录内引入组件">2. pages目录内引入组件</h2>
+<figure data-type="image" tabindex="4"><img src="https://i0.wp.com/upload-images.jianshu.io/upload_images/4655331-8123f1ba7bbc27a8.gif" alt="img" loading="lazy"></figure>
+<p>flash.gif</p>
+<p>上图是在pages/index.vue内引入组件，npm run build &amp;&amp; npm run start 执行后的线上环境，可以看到样式在刷新首屏时，会看到闪烁的现象，这里出现的问题在于入口文件并不包含组件，而是异步引入的，从编译结果上也可以看到 610kb 的包对应的chunk vendors.pages/index ，并不在entrypoint内，默认情况下Nuxt.js 路由页面已经被分配为dynamic import，同时style是通过js设置到style上的，而不是单独打包出来。经过测试，css单独打包后，UI组件仍是单独分包，即便是单独打包出来，依然会有按需加载的问题，首屏仍会闪烁。</p>
+<figure data-type="image" tabindex="5"><img src="https://i0.wp.com/upload-images.jianshu.io/upload_images/4655331-1dd3852daa2d8ff2.png" alt="img" loading="lazy"></figure>
+<p>build result</p>
+<p>因此，如果组件被大多数页面使用，推荐在 plugin内注册，或者通过 nuxt.config.js的css相关文件直接引入对应的组件样式，同时关闭babel-import-plugin 的 style选项。 (吐槽一句，iView只能引入单一全局样式，不能按需加载样式，1.5m的大小非常恐怖)</p>
+<p>除此以外，可以考虑配置webpack的splitchunks配置，实现自己的需求。</p>
+<h2 id="3-解决antd-icon-过大传统艺能">3. 解决antd-icon 过大（传统艺能</h2>
+<p>前面生产环境的包可以发现，只使用了一个Button，却打包了600kb的依赖，检查后发现是引入了@ant-design/icon 包。</p>
+<p>参考： https://github.com/HeskeyBaozi/reduce-antd-icons-bundle-demo</p>
+<pre><code class="language-js">{ // nuxt.config.js  
+    build: 
+    {   
+        extend(config, ctx) {
+            config.resolve.alias['@ant-design/icons/lib/dist$'] = path.resolve(__dirname, './assets/icon/antd-icon.js') // 引入需要的  
+        }  
+    } 
+}
+</code></pre>
+<h2 id="题外话">题外话</h2>
+<p><strong>“按需引入”</strong></p>
+<figure data-type="image" tabindex="6"><img src="https://i0.wp.com/upload-images.jianshu.io/upload_images/4655331-2faf55ca3844885e.png" alt="img" loading="lazy"></figure>
+<p>image.png</p>
+<p>https://github.com/ant-design/babel-plugin-import/issues/347</p>
+<h2 id="reference">reference</h2>
+<p>https://github.com/vueComponent/ant-design-vue/issues/234<br>
+https://www.zhihu.com/question/265227812</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#nuxtjs-ant-design-vue">Nuxt.js &amp; ant-design-vue</a>
+<ul>
+<li><a href="#1-%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%E5%BC%95%E5%85%A5%E7%BB%84%E4%BB%B6">1. 按需加载引入组件</a></li>
+<li><a href="#2-pages%E7%9B%AE%E5%BD%95%E5%86%85%E5%BC%95%E5%85%A5%E7%BB%84%E4%BB%B6">2. pages目录内引入组件</a></li>
+<li><a href="#3-%E8%A7%A3%E5%86%B3antd-icon-%E8%BF%87%E5%A4%A7%E4%BC%A0%E7%BB%9F%E8%89%BA%E8%83%BD">3. 解决antd-icon 过大（传统艺能</a></li>
+<li><a href="#%E9%A2%98%E5%A4%96%E8%AF%9D">题外话</a></li>
+<li><a href="#reference">reference</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://dzkjz.github.io/post/zong-jie-nuxt-laravel-nginx-mysql-docker-ubuntu-bu-shu-de-liu-cheng/">
+              <h3 class="post-title">
+                总结nuxt laravel nginx mysql docker ubuntu部署的流程
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'b067c4f3d31f7962c097',
+    clientSecret: '3c8e8557b958738414c4edabfec529ca9c29bfe9',
+    repo: 'https://dzkjz.github.io/',
+    owner: 'dzkjz',
+    admin: ['dzkjz'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://dzkjz.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
