@@ -1,0 +1,322 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> 解决 sitemap robots.txt 以及提交google index | JojoLegend</title>
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1595767705531">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title=" 解决 sitemap robots.txt 以及提交google index | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="Sitemap
+在nuxt app里面执行
+npm install @nuxtjs/sitemap
+
+//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/us..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://dzkjz.github.io/">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1595767705531" alt="">
+  </a>
+  <h1 class="site-title">
+    JojoLegend
+  </h1>
+  <p class="site-description">
+    Something for age
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+               解决 sitemap robots.txt 以及提交google index
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-26
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="sitemap"><a href="#https://www.npmjs.com/package/@nuxtjs/sitemap">Sitemap</a></h2>
+<p>在nuxt app里面执行</p>
+<pre><code class="language-powershell">npm install @nuxtjs/sitemap
+</code></pre>
+<pre><code class="language-js">//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    'vue-social-sharing/nuxt',
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt',//https://www.npmjs.com/package/cookie-universal-nuxt
+    '@nuxtjs/sitemap',
+  ],
+
+  sitemap: {
+    //https://www.npmjs.com/package/@nuxtjs/sitemap
+    hostname: 'https://' + process.env.DOMAIN_NAME,
+    gzip: true,
+    exclude: [
+      '/verify/**',
+      '/verifynew/**',
+      '/password_reset/**',
+      '/dashboard_reset/**',
+      '/animals/create/**',
+    ],
+</code></pre>
+<p>具体配置<a href="#https://www.npmjs.com/package/@nuxtjs/sitemap">官方文档</a>有讲。</p>
+<p>默认情况下只有static页面会自动添加，对于动态的路由页面，<code>parent/:children</code>，这样的，参考 <a href="#https://elision.design/en/blog/dynamic-routes-in-sitemap-with-nuxt-js">HOW TO: Include dynamic routes in sitemap with Nuxt.js</a></p>
+<h2 id="robottxt"><a href="#https://www.npmjs.com/package/@nuxtjs/robots">Robot.txt</a></h2>
+<p><code>npm install @nuxtjs/robots</code></p>
+<pre><code class="language-js">//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    'vue-social-sharing/nuxt',
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt',//https://www.npmjs.com/package/cookie-universal-nuxt
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
+  ],
+        robots: [ //https://www.npmjs.com/package/@nuxtjs/robots
+    {
+      // UserAgent: 'Googlebot',
+      UserAgent: '*',
+      Disallow: () =&gt; [
+        '/verify',
+        '/verify',
+        '/verifynew',
+        '/password_reset',
+        '/dashboard_reset',
+        '/animals/create',
+      ], // accepts function
+      Sitemap: 'https://' + process.env.DOMAIN_NAME + '/sitemap.xml',
+    }
+  ],
+</code></pre>
+<p>具体配置介绍参考<a href="#https://www.npmjs.com/package/@nuxtjs/robots">官方文档</a>。</p>
+<h2 id="ask-google-to-recrawl-your-urls"><a href="https://support.google.com/webmasters/answer/6065812">Ask Google to recrawl your URLs</a></h2>
+<p>Submit a sitemap (many URLs at once)</p>
+<p>A sitemap is an important way for Google to discover URLs on your site. A sitemap can also include additional metadata about alternate language versions and video-, image-, or news-specific pages. <a href="https://support.google.com/webmasters/answer/156184">Learn how to create a sitemap.</a></p>
+<p>If you have not changed your sitemap since the last time Google crawled it, resubmitting the sitemap won't have any additional benefit. If you have updated pages in the sitemap, mark them with <code>&lt;lastmod&gt;</code>.</p>
+<p>Here are the different ways that you can alert Google about your sitemap:</p>
+<ul>
+<li><strong>Submit a sitemap using the <a href="https://support.google.com/webmasters/answer/7451001">sitemaps report</a>.</strong></li>
+<li><strong>Use the ping tool.</strong> Send a GET request in your browser or the command line to this address, specifying the full URL of the sitemap. Be sure that the sitemap file is accessible:<br>
+<code>http://www.google.com/ping?sitemap=*&lt;full_URL_of_sitemap&gt;*</code><br>
+<strong>Example:</strong><br>
+<code>http://www.google.com/ping?sitemap=https://example.com/sitemap.xml</code></li>
+<li><strong>Insert the following line anywhere in your <code>robots.txt</code> file</strong>, specifying the path to your sitemap. We will find it the next time we crawl your site:<br>
+<code>Sitemap: http://example.com/my_sitemap.xml</code></li>
+</ul>
+<h2 id="nuxt页面跳转过度动效">Nuxt页面跳转过度动效</h2>
+<pre><code class="language-css">/*assets/styles/main.css*/
+/*@import '@vue-cookie-accept-decline.css';*/
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+
+.page-enter, .page-leave-to {
+  opacity: 0;
+}
+</code></pre>
+<pre><code class="language-js">//nuxt.config.js 
+css: [
+      ...
+    '@/assets/styles/main.css',
+      ...
+  ],
+</code></pre>
+<p>官方文档：</p>
+<p>https://nuxtjs.org/api/configuration-loading</p>
+<p>https://nuxtjs.org/api/pages-transition</p>
+<pre><code class="language-js">//nuxt.config.js
+loading: {
+    color: 'orange',
+    height: '5px',
+    failedColor: 'red',
+    duration: 5000,
+    continuous: true,
+  },
+</code></pre>
+<p>自定义的可以参考 <a href="#https://nuxtjs.org/api/configuration-loading#using-a-custom-loading-component">使用自定义的组件设置加载样式</a></p>
+<h2 id="改变favicon">改变Favicon</h2>
+<p>参考 https://github.com/nuxt/nuxt.js/issues/903</p>
+<pre><code class="language-js">//nuxt.config.js
+link: [
+      {rel: 'icon', type: 'image/x-icon', href: '/tiere_favi.png'},
+    ]
+</code></pre>
+<p><a href="#https://nuxtjs.org/guide/assets/">官方文档</a>也可以看看</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#sitemap">Sitemap</a></li>
+<li><a href="#robottxt">Robot.txt</a></li>
+<li><a href="#ask-google-to-recrawl-your-urls">Ask Google to recrawl your URLs</a></li>
+<li><a href="#nuxt%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E8%BF%87%E5%BA%A6%E5%8A%A8%E6%95%88">Nuxt页面跳转过度动效</a></li>
+<li><a href="#%E6%94%B9%E5%8F%98favicon">改变Favicon</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://dzkjz.github.io/post/cai-keng-ji-lu-nuxtjs-and-ant-design-vue-pei-zhi/">
+              <h3 class="post-title">
+                「踩坑记录」 Nuxt.js &amp; Ant-design-vue 配置
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'b067c4f3d31f7962c097',
+    clientSecret: '3c8e8557b958738414c4edabfec529ca9c29bfe9',
+    repo: 'https://dzkjz.github.io/',
+    owner: 'dzkjz',
+    admin: ['dzkjz'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://dzkjz.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

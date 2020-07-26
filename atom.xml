@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-25T06:42:21.624Z</updated>
+    <updated>2020-07-26T12:48:28.328Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,129 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[ 解决 sitemap robots.txt 以及提交google index]]></title>
+        <id>https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/</id>
+        <link href="https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/">
+        </link>
+        <updated>2020-07-26T12:48:03.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="sitemap"><a href="#https://www.npmjs.com/package/@nuxtjs/sitemap">Sitemap</a></h2>
+<p>在nuxt app里面执行</p>
+<pre><code class="language-powershell">npm install @nuxtjs/sitemap
+</code></pre>
+<pre><code class="language-js">//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    'vue-social-sharing/nuxt',
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt',//https://www.npmjs.com/package/cookie-universal-nuxt
+    '@nuxtjs/sitemap',
+  ],
+
+  sitemap: {
+    //https://www.npmjs.com/package/@nuxtjs/sitemap
+    hostname: 'https://' + process.env.DOMAIN_NAME,
+    gzip: true,
+    exclude: [
+      '/verify/**',
+      '/verifynew/**',
+      '/password_reset/**',
+      '/dashboard_reset/**',
+      '/animals/create/**',
+    ],
+</code></pre>
+<p>具体配置<a href="#https://www.npmjs.com/package/@nuxtjs/sitemap">官方文档</a>有讲。</p>
+<p>默认情况下只有static页面会自动添加，对于动态的路由页面，<code>parent/:children</code>，这样的，参考 <a href="#https://elision.design/en/blog/dynamic-routes-in-sitemap-with-nuxt-js">HOW TO: Include dynamic routes in sitemap with Nuxt.js</a></p>
+<h2 id="robottxt"><a href="#https://www.npmjs.com/package/@nuxtjs/robots">Robot.txt</a></h2>
+<p><code>npm install @nuxtjs/robots</code></p>
+<pre><code class="language-js">//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    'vue-social-sharing/nuxt',
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt',//https://www.npmjs.com/package/cookie-universal-nuxt
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
+  ],
+        robots: [ //https://www.npmjs.com/package/@nuxtjs/robots
+    {
+      // UserAgent: 'Googlebot',
+      UserAgent: '*',
+      Disallow: () =&gt; [
+        '/verify',
+        '/verify',
+        '/verifynew',
+        '/password_reset',
+        '/dashboard_reset',
+        '/animals/create',
+      ], // accepts function
+      Sitemap: 'https://' + process.env.DOMAIN_NAME + '/sitemap.xml',
+    }
+  ],
+</code></pre>
+<p>具体配置介绍参考<a href="#https://www.npmjs.com/package/@nuxtjs/robots">官方文档</a>。</p>
+<h2 id="ask-google-to-recrawl-your-urls"><a href="https://support.google.com/webmasters/answer/6065812">Ask Google to recrawl your URLs</a></h2>
+<p>Submit a sitemap (many URLs at once)</p>
+<p>A sitemap is an important way for Google to discover URLs on your site. A sitemap can also include additional metadata about alternate language versions and video-, image-, or news-specific pages. <a href="https://support.google.com/webmasters/answer/156184">Learn how to create a sitemap.</a></p>
+<p>If you have not changed your sitemap since the last time Google crawled it, resubmitting the sitemap won't have any additional benefit. If you have updated pages in the sitemap, mark them with <code>&lt;lastmod&gt;</code>.</p>
+<p>Here are the different ways that you can alert Google about your sitemap:</p>
+<ul>
+<li><strong>Submit a sitemap using the <a href="https://support.google.com/webmasters/answer/7451001">sitemaps report</a>.</strong></li>
+<li><strong>Use the ping tool.</strong> Send a GET request in your browser or the command line to this address, specifying the full URL of the sitemap. Be sure that the sitemap file is accessible:<br>
+<code>http://www.google.com/ping?sitemap=*&lt;full_URL_of_sitemap&gt;*</code><br>
+<strong>Example:</strong><br>
+<code>http://www.google.com/ping?sitemap=https://example.com/sitemap.xml</code></li>
+<li><strong>Insert the following line anywhere in your <code>robots.txt</code> file</strong>, specifying the path to your sitemap. We will find it the next time we crawl your site:<br>
+<code>Sitemap: http://example.com/my_sitemap.xml</code></li>
+</ul>
+<h2 id="nuxt页面跳转过度动效">Nuxt页面跳转过度动效</h2>
+<pre><code class="language-css">/*assets/styles/main.css*/
+/*@import '@vue-cookie-accept-decline.css';*/
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+
+.page-enter, .page-leave-to {
+  opacity: 0;
+}
+</code></pre>
+<pre><code class="language-js">//nuxt.config.js 
+css: [
+      ...
+    '@/assets/styles/main.css',
+      ...
+  ],
+</code></pre>
+<p>官方文档：</p>
+<p>https://nuxtjs.org/api/configuration-loading</p>
+<p>https://nuxtjs.org/api/pages-transition</p>
+<pre><code class="language-js">//nuxt.config.js
+loading: {
+    color: 'orange',
+    height: '5px',
+    failedColor: 'red',
+    duration: 5000,
+    continuous: true,
+  },
+</code></pre>
+<p>自定义的可以参考 <a href="#https://nuxtjs.org/api/configuration-loading#using-a-custom-loading-component">使用自定义的组件设置加载样式</a></p>
+<h2 id="改变favicon">改变Favicon</h2>
+<p>参考 https://github.com/nuxt/nuxt.js/issues/903</p>
+<pre><code class="language-js">//nuxt.config.js
+link: [
+      {rel: 'icon', type: 'image/x-icon', href: '/tiere_favi.png'},
+    ]
+</code></pre>
+<p><a href="#https://nuxtjs.org/guide/assets/">官方文档</a>也可以看看</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[「踩坑记录」 Nuxt.js & Ant-design-vue 配置]]></title>
         <id>https://dzkjz.github.io/post/cai-keng-ji-lu-nuxtjs-and-ant-design-vue-pei-zhi/</id>
