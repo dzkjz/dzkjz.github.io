@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-27T07:46:07.509Z</updated>
+    <updated>2020-07-27T15:33:06.404Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -16,8 +16,7 @@
         <link href="https://dzkjz.github.io/post/mysql-docker-rong-qi-guan-yu-ru-he-chu-li-down-hou-up-shu-ju-jiu-diu-shi-de-wen-ti-yi-ji-yuan-li/">
         </link>
         <updated>2020-07-27T07:45:51.000Z</updated>
-        <content type="html"><![CDATA[<p>[toc]</p>
-<p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
+        <content type="html"><![CDATA[<p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
 <p>容器随时我们可以关闭更新更换，但是要怎么做到数据的连续性就很关键了。</p>
 <h2 id="一-场景介绍">一、场景介绍</h2>
 <p>比较常见的情况，如果你运行起一个数据库容器，如果你删除了这个容器，那存在其中的数据也就丢失了。</p>
@@ -372,31 +371,7 @@ https://www.zhihu.com/question/265227812</p>
         <link href="https://dzkjz.github.io/post/zong-jie-nuxt-laravel-nginx-mysql-docker-ubuntu-bu-shu-de-liu-cheng/">
         </link>
         <updated>2020-07-19T06:40:35.000Z</updated>
-        <content type="html"><![CDATA[<p>总结分为几个部分：</p>
-<ol>
-<li>
-<p>docker</p>
-</li>
-<li>
-<p>docker-compose</p>
-</li>
-<li>
-<p>注意事项</p>
-</li>
-<li>
-<p>laravel发布需要准备的文件和生产环境要做的一些操作</p>
-</li>
-<li>
-<p>nuxt遇到的坑</p>
-</li>
-<li>
-<p>mysql</p>
-</li>
-<li>
-<p>nginx</p>
-</li>
-</ol>
-<h2 id="一-docker">一、Docker</h2>
+        <content type="html"><![CDATA[<h2 id="一-docker">一、Docker</h2>
 <p>什么是docker可以参考:<a href="https://yeasy.gitbook.io/docker_practice/introduction/what">什么是 Docker</a></p>
 <p>在进行下面的操作之前，请先<a href="https://yeasy.gitbook.io/docker_practice/install">安装Docker </a></p>
 <p>针对这篇文章，我们需要的是：</p>
@@ -1303,6 +1278,85 @@ networks:
 </blockquote>
 <p>完成。</p>
 <p>补充，最好精简一下css 及 js代码。</p>
+<h3 id="七-五参考mysql-docker容器关于如何处理down后up数据就丢失的问题以及原理-防止每次重新配置数据库">七、（五）参考<a href="https://dzkjz.github.io/post/mysql-docker-rong-qi-guan-yu-ru-he-chu-li-down-hou-up-shu-ju-jiu-diu-shi-de-wen-ti-yi-ji-yuan-li/">Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理</a> 防止每次重新配置数据库</h3>
+<p><code>docker-compose.prod.yml</code>更新为：</p>
+<pre><code class="language-yml">version: &quot;3.7&quot;
+services:
+  app:
+    build:
+      args:
+        user: petapi
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: petapii
+    container_name: petapi-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - petapin
+  php-queue:
+    restart: always
+    container_name: petapi-app-queue
+    working_dir: /var/www/
+    image: php:7.2.19-fpm
+    command: php artisan queue:work
+    volumes:
+      - ./:/var/www
+    networks:
+      - petapin
+  frontapp:
+    build:
+      context: ~/petclient/dockerfiles/node/
+      dockerfile:  Dockerfile
+    image: frontapp
+    container_name: petclient-frontapp
+    restart: unless-stopped
+    networks:
+      - petclientn
+  db:
+    image: mysql:5.7
+    container_name: petapi-db
+    restart: unless-stopped
+    env_file:
+      - ~/petapi/pets-api/.env
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+      - ./docker-compose/mysql/data:/var/lib/mysql
+    networks:
+      - petapin
+  nginx:
+    image: nginx:1.19.1-alpine
+    container_name: pet-nginx
+    restart: always
+    depends_on:
+      - app
+      - frontapp
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+      - ./docker-compose/nginx/certs:/etc/nginx/certs
+    networks:
+      - petapin
+      - petclientn
+networks:
+  petapin:
+    driver: bridge
+  petclientn:
+    driver: bridge
+</code></pre>
 <h2 id="八-ssl-cronjob-与-supervisor介绍">八、ssl cronJob 与 supervisor介绍</h2>
 ]]></content>
     </entry>
