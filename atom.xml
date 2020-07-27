@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-26T12:48:28.328Z</updated>
+    <updated>2020-07-27T07:46:07.509Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,97 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理]]></title>
+        <id>https://dzkjz.github.io/post/mysql-docker-rong-qi-guan-yu-ru-he-chu-li-down-hou-up-shu-ju-jiu-diu-shi-de-wen-ti-yi-ji-yuan-li/</id>
+        <link href="https://dzkjz.github.io/post/mysql-docker-rong-qi-guan-yu-ru-he-chu-li-down-hou-up-shu-ju-jiu-diu-shi-de-wen-ti-yi-ji-yuan-li/">
+        </link>
+        <updated>2020-07-27T07:45:51.000Z</updated>
+        <content type="html"><![CDATA[<p>[toc]</p>
+<p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
+<p>容器随时我们可以关闭更新更换，但是要怎么做到数据的连续性就很关键了。</p>
+<h2 id="一-场景介绍">一、场景介绍</h2>
+<p>比较常见的情况，如果你运行起一个数据库容器，如果你删除了这个容器，那存在其中的数据也就丢失了。</p>
+<p>特别是执行<code>docker-compose down</code>然后更新dockerfile和docker-compose.yml文件，再执行<code>docker-compose up -d</code>，你之前网站的数据就丢了。</p>
+<h2 id="二-原理以及原因">二、原理以及原因</h2>
+<blockquote>
+<p>我们在有运行数据库容器的机器里面演示；</p>
+</blockquote>
+<p>执行<code>docker volume ls</code>查看服务器里面的数据卷：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200727152424.png" alt="" loading="lazy"></figure>
+<p>默认driver就是local ，我们配置的数据卷都在这里面了。</p>
+<p>为了查看哪一个是数据库容器的数据卷，以及对应的详细信息</p>
+<p>执行<code>docker inspect 数据库容器名</code></p>
+<p>然后找到 Mounts部分：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200727152753.png" alt="" loading="lazy"></figure>
+<p>第一个我们配置的可以在docker-compose.prod.yml中找到：</p>
+<pre><code class="language-yml">  db:
+    image: mysql:5.7
+    container_name: ***api-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+</code></pre>
+<p>而第二个对应目标地址是<code>/var/lib/mysql</code>的，因为我没有配置，所以自动给了一个，正是这个没有配置，导致每次<code>docker-compose up -d</code>就生成一个新容器及对应的数据卷，然后之前的数据库数据就丢失了。</p>
+<h2 id="三-处理办法">三、处理办法</h2>
+<p>如果你配置了比如</p>
+<pre><code class="language-yml">  db:
+    ...
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+      - /data/mysql:/var/lib/mysql
+   #   - /data/pgsql:/var/lib/postgresql
+   #   - /data/maria:/var/lib/mariadb
+   #   - /data/redis:/var/lib/redis
+   #   - /data/memcached:/var/lib/memcached
+   #   - /data/neo4j:/var/lib/neo4j/data
+    networks:
+      ...
+</code></pre>
+<p>配置了对应的本地[宿主机]数据卷位置，第一次<code>docker-compose up -d</code>的时候会直接关联起来，而下一次执行<code>docker-compose up -d</code>的时候，daemon执行到生成一个对应数据卷位置的时候，发现已经给了配置，那就跳过，使用先前的。</p>
+<p>当然也可以这么配置：</p>
+<pre><code class="language-yml">volumes:
+- db-data:/var/lib/mysql
+volumes:
+ db-data:
+  driver: local
+</code></pre>
+<blockquote>
+<p>参考 <a href="https://linuxhint.com/run_postgresql_docker_compose/">Running PostgreSQL using Docker Compose</a></p>
+<p>参考 <a href="https://stackoverflow.com/questions/43297384/data-is-lost-in-mysql-docker-container-after-comminting-it-to-a-new-image">Data is lost in Mysql docker container after comminting it to a new image?</a></p>
+<blockquote>
+<p>I don't know which image you're using but I believe every <code>Dockerfile</code> of <a href="https://github.com/docker-library/mysql">official mysql images</a> has following command:</p>
+<pre><code>VOLUME /var/lib/mysql
+</code></pre>
+<p>which means all mysql data goes to volume. From <a href="https://docs.docker.com/engine/tutorials/dockervolumes/">docker volume docs</a> they specially mentioned that:</p>
+<pre><code>&gt; Changes to a data volume will not be included when you update an image.
+</code></pre>
+<p>And this is the root cause you loss your data in newly started container.</p>
+<p>For your question:</p>
+<blockquote>
+<p>How to achieve this?</p>
+</blockquote>
+<p>You can use either <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume">mounted volumes</a>, or create a <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#creating-and-mounting-a-data-volume-container">data volume container</a>, then run mysql container with option <code>--volumes-from</code>. The former links contain step-by-step guide of how to do it.</p>
+<blockquote>
+<p>I don't want to use mounted volumes because i want to link this container with another container of my application so that it can inset and update into db</p>
+</blockquote>
+<p>I don't know what other concerns you have about mounted volumes, but as far as I can tell, using mounted volumes does not prevent you to link containers.</p>
+<p>Hope this helps you.</p>
+</blockquote>
+</blockquote>
+<h2 id="四-如果不慎丢失怎么恢复">四、如果不慎丢失，怎么恢复</h2>
+<p>如果数据卷都删除了 docker rm 容器的时候 添加了 -v 或 -volume，那就拜拜，没有任何办法的。如果没有删除volume 参考：</p>
+<p><a href="https://www.primozker.in/post/saving-lost-data-docker/">Saving 'lost' MYSQL database running in Docker</a></p>
+<p>更多可以看<a href="https://docs.docker.com/storage/volumes/">官方文档</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ 解决 sitemap robots.txt 以及提交google index]]></title>
         <id>https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/</id>
