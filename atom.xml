@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-27T15:33:06.404Z</updated>
+    <updated>2020-07-29T13:52:42.671Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -1144,6 +1144,8 @@ ssl_certificate_key /etc/nginx/conf.d/certs/key.pem;
 <p>I would spin up an new container for supervisor Just use the same app path</p>
 <p>Remember you need an redis also</p>
 </blockquote>
+<p>如果确实需要supervisord可以参考<a href="https://stackoverflow.com/a/57353086">How to keep Laravel Queue system running on server</a> ，也可以考虑使用bash脚本：<br>
+<a href="https://laravel-news.com/laravel-scheduler-queue-docker">Running the Laravel Scheduler and Queue with Docker</a></p>
 <p>所以最后完成版本的docker-composer.prod.yml如下：</p>
 <h2 id="七-更新">七、更新</h2>
 <h3 id="updated-docker-compose-prodyml">Updated docker-compose-prod.yml</h3>
