@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-29T13:52:42.671Z</updated>
+    <updated>2020-07-30T16:56:21.584Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,74 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[laravel使用sendgrid的配置]]></title>
+        <id>https://dzkjz.github.io/post/laravel-shi-yong-sendgrid-de-pei-zhi/</id>
+        <link href="https://dzkjz.github.io/post/laravel-shi-yong-sendgrid-de-pei-zhi/">
+        </link>
+        <updated>2020-07-30T16:55:49.000Z</updated>
+        <content type="html"><![CDATA[<p><code>petapi-app</code>的<code>.env</code>文件需要修改：</p>
+<p>將<code>QUEUE_CONNECTION=sync</code>改爲：</p>
+<pre><code>QUEUE_CONNECTION=database
+</code></pre>
+<p>這樣才能使用queue job，之前不改就一直给👴报500错误：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731005112.png" alt="" loading="lazy"></figure>
+<p>而且参考使用 <code>https://github.com/s-ichikawa/laravel-sendgrid-driver</code></p>
+<p>之后 sendgrid 配置就很简单了：</p>
+<blockquote>
+<p>.env</p>
+<pre><code>MAIL_DRIVER=sendgrid
+SENDGRID_API_KEY='YOUR_SENDGRID_API_KEY'
+</code></pre>
+<p>config/services.php (In using lumen, require creating config directory and file.)</p>
+<pre><code>   'sendgrid' =&gt; [
+       'api_key' =&gt; env('SENDGRID_API_KEY'),
+   ],
+</code></pre>
+<p>config/mail.php</p>
+<pre><code>   'mailers' =&gt; [
+       'sendgrid' =&gt; [
+           'transport' =&gt; 'sendgrid',
+       ],
+   ],
+</code></pre>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[laravel使用sendgrid]]></title>
+        <id>https://dzkjz.github.io/post/laravel-shi-yong-sendgrid/</id>
+        <link href="https://dzkjz.github.io/post/laravel-shi-yong-sendgrid/">
+        </link>
+        <updated>2020-07-30T16:55:49.000Z</updated>
+        <content type="html"><![CDATA[<p><code>petapi-app</code>的<code>.env</code>文件需要修改：</p>
+<p>將<code>QUEUE_CONNECTION=sync</code>改爲：</p>
+<pre><code>QUEUE_CONNECTION=database
+</code></pre>
+<p>這樣才能使用queue job，之前不改就一直给👴报500错误：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731005112.png" alt="" loading="lazy"></figure>
+<p>而且参考使用 <code>https://github.com/s-ichikawa/laravel-sendgrid-driver</code></p>
+<p>之后 sendgrid 配置就很简单了：</p>
+<blockquote>
+<p>.env</p>
+<pre><code>MAIL_DRIVER=sendgrid
+SENDGRID_API_KEY='YOUR_SENDGRID_API_KEY'
+</code></pre>
+<p>config/services.php (In using lumen, require creating config directory and file.)</p>
+<pre><code>   'sendgrid' =&gt; [
+       'api_key' =&gt; env('SENDGRID_API_KEY'),
+   ],
+</code></pre>
+<p>config/mail.php</p>
+<pre><code>   'mailers' =&gt; [
+       'sendgrid' =&gt; [
+           'transport' =&gt; 'sendgrid',
+       ],
+   ],
+</code></pre>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理]]></title>
         <id>https://dzkjz.github.io/post/mysql-docker-rong-qi-guan-yu-ru-he-chu-li-down-hou-up-shu-ju-jiu-diu-shi-de-wen-ti-yi-ji-yuan-li/</id>
