@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-30T19:30:01.868Z</updated>
+    <updated>2020-07-30T19:35:13.070Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -178,43 +178,10 @@ supervisorctl update
 supervisorctl start petapi-worker:*
 </code></pre>
 <p>然后Dockerfile添加：</p>
-<pre><code>COPY --chown=$user ./docker-compose/supervisor/supervisor_petapi.sh .                   CMD supervisor_petapi.sh                  
+<pre><code>COPY --chown=$user ./docker-compose/supervisor/supervisor_petapi.sh /var/www
+CMD /var/www/supervisor_petapi.sh                  
 </code></pre>
 <p>这样app容器启动的时候就会执行上述脚本命令了。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[laravel使用sendgrid]]></title>
-        <id>https://dzkjz.github.io/post/laravel-shi-yong-sendgrid/</id>
-        <link href="https://dzkjz.github.io/post/laravel-shi-yong-sendgrid/">
-        </link>
-        <updated>2020-07-30T16:55:49.000Z</updated>
-        <content type="html"><![CDATA[<p><code>petapi-app</code>的<code>.env</code>文件需要修改：</p>
-<p>將<code>QUEUE_CONNECTION=sync</code>改爲：</p>
-<pre><code>QUEUE_CONNECTION=database
-</code></pre>
-<p>這樣才能使用queue job，之前不改就一直给👴报500错误：</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731005112.png" alt="" loading="lazy"></figure>
-<p>而且参考使用 <code>https://github.com/s-ichikawa/laravel-sendgrid-driver</code></p>
-<p>之后 sendgrid 配置就很简单了：</p>
-<blockquote>
-<p>.env</p>
-<pre><code>MAIL_DRIVER=sendgrid
-SENDGRID_API_KEY='YOUR_SENDGRID_API_KEY'
-</code></pre>
-<p>config/services.php (In using lumen, require creating config directory and file.)</p>
-<pre><code>   'sendgrid' =&gt; [
-       'api_key' =&gt; env('SENDGRID_API_KEY'),
-   ],
-</code></pre>
-<p>config/mail.php</p>
-<pre><code>   'mailers' =&gt; [
-       'sendgrid' =&gt; [
-           'transport' =&gt; 'sendgrid',
-       ],
-   ],
-</code></pre>
-</blockquote>
 ]]></content>
     </entry>
     <entry>
@@ -1569,38 +1536,6 @@ networks:
     driver: bridge
 </code></pre>
 <h2 id="八-ssl-cronjob-与-supervisor介绍">八、ssl cronJob 与 supervisor介绍</h2>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://dzkjz.github.io/post/hello-gridea/</id>
-        <link href="https://dzkjz.github.io/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
