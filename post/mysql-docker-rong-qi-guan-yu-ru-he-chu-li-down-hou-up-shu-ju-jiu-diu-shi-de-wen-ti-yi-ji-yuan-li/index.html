@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理 | JojoLegend</title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596131512188">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596137387445">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理 | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
@@ -11,10 +11,10 @@
 
 
 
-    <meta name="description" content="docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。
-容器随时我们可以关闭更新更换，但是要怎么做到数据的连续性就很关键了。
-一、场景介绍
-比较常见的情况，如果你运行起一个数据库容器，如果你删..." />
+    <meta name="description" content="Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理
+[toc]
+docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。
+容器随时我们可以关闭更新更换，但是要怎么做到..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -24,7 +24,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://dzkjz.github.io/">
-  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596131512188" alt="">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596137387445" alt="">
   </a>
   <h1 class="site-title">
     JojoLegend
@@ -91,7 +91,9 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
+                <p>Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理</p>
+<p>[toc]</p>
+<p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
 <p>容器随时我们可以关闭更新更换，但是要怎么做到数据的连续性就很关键了。</p>
 <h2 id="一-场景介绍">一、场景介绍</h2>
 <p>比较常见的情况，如果你运行起一个数据库容器，如果你删除了这个容器，那存在其中的数据也就丢失了。</p>

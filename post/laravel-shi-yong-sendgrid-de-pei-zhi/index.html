@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>laravel使用sendgrid的配置 | JojoLegend</title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596131512188">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596137387445">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="laravel使用sendgrid的配置 | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
@@ -28,7 +28,7 @@ QUEUE_CONNECTION=database
       <div class="main-content">
         <div class="site-header">
   <a href="https://dzkjz.github.io/">
-  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596131512188" alt="">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596137387445" alt="">
   </a>
   <h1 class="site-title">
     JojoLegend
@@ -88,7 +88,7 @@ QUEUE_CONNECTION=database
                 2020-07-31
               </span>
               <span>
-                2 min read
+                5 min read
               </span>
               
             </div>
@@ -150,6 +150,116 @@ SENDGRID_API_KEY='YOUR_SENDGRID_API_KEY'
 <figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731014523.png" alt="" loading="lazy"></figure>
 <p>还要注意，之前使用的queue容器，因为默认是root用户 无法执行artisan命令 所以这个容器就用不上了。</p>
 <p>于是又改成了在docker容器里加<code>supervisord</code>：</p>
+<blockquote>
+<p>不过在使用supervisord前多说几句，</p>
+<p>平时执行的 <code>php artisan queue:work</code>一旦关闭terminal，就会中止，所以需要介绍一个<a href="https://linux.die.net/man/1/nohup"><code>nohup</code></a>命令，此命令可以忽略terminal中止，<em>nohup-运行不受挂断影响的命令，并采用非tty输出</em> ，那么参考https://stackoverflow.com/a/28625847 即可执行：</p>
+<p><code>nohup php artisan queue:work --daemon &amp;</code></p>
+<p>或者执行下面命令把log输出到文件中</p>
+<p><code>nohup php artisan queue:work --daemon &gt; app/storage/logs/laravel.log &amp;</code></p>
+</blockquote>
+<p>开始讲解如何使用supervisord:</p>
+<p><a href="https://laravel.com/docs/7.x/queues#supervisor-configuration">官方讲解</a></p>
+<p><a href="https://medium.com/@rohit_shirke/configuring-supervisor-for-laravel-queues-81e555e550c6">补充讲解</a></p>
+<p><a href="https://blog.whabash.com/posts/installing-supervisor-manage-laravel-queue-processes-ubuntu">Installing Supervisor to Manage Laravel Queue Processes on Ubuntu</a></p>
+<p>执行<code>sudo apt install supervisor</code> 这个安装由于可以在dockerfile中完成所以直接加到了app服务的Dockerfile中。</p>
+<pre><code>FROM php:7.2.19-fpm
+
+# Arguments defined in docker-compose.yml
+ARG user
+ARG uid
+
+# Install system dependencies
+RUN apt-get update &amp;&amp; apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+	supervisor
+
+
+# Clear cache
+RUN apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer &amp;&amp; \
+    chown -R $user:$user /home/$user
+
+# Set working directory
+WORKDIR /var/www
+
+USER $user
+
+</code></pre>
+<p>然后是Supervisor配置文件，默认情况这个配置文件需要放在/etc/supervisor/conf.d文件夹下面，此文件夹下，可以创建无数你需要的配置文件，反正需要supervisor监视的就给到这里面，那这个文件夹在<code>docker-compose.prod.yml</code>里面直接用volume挂载好就行了，我这里是</p>
+<pre><code class="language-yml">version: &quot;3.7&quot;
+services:
+  app:
+    build:
+      args:
+        user: petapi
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: petapii
+    container_name: petapi-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/supervisor:/etc/supervisor/conf.d
+    networks:
+      - petapin
+</code></pre>
+<p>挂的这个文件夹</p>
+<p><code>- ./docker-compose/supervisor:/etc/supervisor/conf.d</code></p>
+<p>然后再在 宿主机 上下文 <code>./docker-compose/supervisor</code>路径创建名为<code>petapi-worker.conf</code>的文件，容器启动后，容器内就挂得有一个<code>/etc/supervisor/conf.d/petapi-worker.conf</code>文件了。</p>
+<p>编辑文件如下：</p>
+<pre><code class="language-conf">[program:petapi-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=sudo php /var/www/artisan queue:work --tries=3 --sleep=3 --daemon
+user=petapi
+autostart=true
+autorestart=true
+numprocs=1
+redirect_stderr=true
+stopwaitsecs=3600
+stdout_logfile=/var/www/storage/logs/petapi-worker-supervisor.log
+</code></pre>
+<p>我的petapi挂载在/var/www下面，artisan命令执行也在改文件夹路径，所以command为<code>command=sudo php /var/www/artisan queue:work</code></p>
+<blockquote>
+<p>也可以使用conf再执行脚本的方式，参考 https://gist.github.com/danharper/9136507</p>
+</blockquote>
+<blockquote>
+<p><strong>由于需要给supervisor执行php artisan命令的权限，所以用户设置为了petapi，有的如：<a href="https://ekn.me/2019-11-05/how-to-use-laravel-queue-worker-with-supervisor">How to use Laravel Queue Worker with Supervisor </a> 及<a href="https://blog.whabash.com/posts/installing-supervisor-manage-laravel-queue-processes-ubuntu">Installing Supervisor to Manage Laravel Queue Processes on Ubuntu</a>给了用户组supervisor然后给这个用户组添加执行artisan命令的权限，这里我们不需要的。</strong></p>
+</blockquote>
+<p>然后服务容器启动就执行</p>
+<pre><code>sudo supervisorctl reread
+
+sudo supervisorctl update
+
+sudo supervisorctl start petapi-worker:*
+</code></pre>
+<p>直接写到supervisor_petapi.sh脚本里面，文件在<code>./docker-compose/supervisor</code>宿主机文件夹内</p>
+<pre><code class="language-sh">supervisorctl reread
+
+supervisorctl update
+
+supervisorctl start petapi-worker:*
+</code></pre>
+<p>然后Dockerfile添加：</p>
+<pre><code>COPY --chown=$user ./docker-compose/supervisor/supervisor_petapi.sh .                   CMD supervisor_petapi.sh                  
+</code></pre>
+<p>这样app容器启动的时候就会执行上述脚本命令了。</p>
 
               </div>
               <div class="toc-container">
