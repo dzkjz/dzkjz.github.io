@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>laravel使用sendgrid的配置 | JojoLegend</title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596128177562">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596131512188">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="laravel使用sendgrid的配置 | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
@@ -15,9 +15,10 @@
 將QUEUE_CONNECTION=sync改爲：
 QUEUE_CONNECTION=database
 
+
 這樣才能使用queue job，之前不改就一直给👴报500错误：
 
-而且参考使用 ht..." />
+而且参考使用 h..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -27,7 +28,7 @@ QUEUE_CONNECTION=database
       <div class="main-content">
         <div class="site-header">
   <a href="https://dzkjz.github.io/">
-  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596128177562" alt="">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596131512188" alt="">
   </a>
   <h1 class="site-title">
     JojoLegend
@@ -87,7 +88,7 @@ QUEUE_CONNECTION=database
                 2020-07-31
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
@@ -98,10 +99,11 @@ QUEUE_CONNECTION=database
 <p>將<code>QUEUE_CONNECTION=sync</code>改爲：</p>
 <pre><code>QUEUE_CONNECTION=database
 </code></pre>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731015131.png" alt="" loading="lazy"></figure>
 <p>這樣才能使用queue job，之前不改就一直给👴报500错误：</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731005112.png" alt="" loading="lazy"></figure>
-<p>而且参考使用 <code>https://github.com/s-ichikawa/laravel-sendgrid-driver</code></p>
-<p>之后 sendgrid 配置就很简单了：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731005112.png" alt="" loading="lazy"></figure>
+<p><s>而且参考使用 <code>https://github.com/s-ichikawa/laravel-sendgrid-driver</code></s></p>
+<p><s>之后 sendgrid 配置就很简单了：</s></p>
 <blockquote>
 <p>.env</p>
 <pre><code>MAIL_DRIVER=sendgrid
@@ -120,6 +122,34 @@ SENDGRID_API_KEY='YOUR_SENDGRID_API_KEY'
    ],
 </code></pre>
 </blockquote>
+<p>用了之后报550错误</p>
+<p>官方文档写</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>550</th>
+<th><code>Requested action not taken: mailbox unavailable</code></th>
+<th>The user’s mailbox was unavailable. Usually because it could not be found, or because of incoming policy reasons. Remove these address from your list - it is likely a fake, or it was mistyped.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><strong>所以又换成了原来的默认配置，并且参考 https://sendgrid.com/docs/for-developers/sending-email/laravel/ 配置了<code>.env</code>，然后就ok了 port是用的587+ tls没有用ssl+465</strong></p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731015038.png" alt="" loading="lazy"></figure>
+<p>另外参考 <code>https://laravel.io/forum/why-queue-still-waiting-when-send-mail-in-laravel</code> 可以在app容器内执行</p>
+<pre><code>composer dumpautoload
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731014523.png" alt="" loading="lazy"></figure>
+<p>还要注意，之前使用的queue容器，因为默认是root用户 无法执行artisan命令 所以这个容器就用不上了。</p>
+<p>于是又改成了在docker容器里加<code>supervisord</code>：</p>
 
               </div>
               <div class="toc-container">
