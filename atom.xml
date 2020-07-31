@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-31T09:44:14.690Z</updated>
+    <updated>2020-07-31T10:18:37.368Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -328,6 +328,12 @@ CMD /var/www/supervisor_petapi.sh
 <p>也是最合适的方式，这样一个容器只负责一件事。</p>
 <p><code>docker-compose.prod.yml</code>采用php-queue服务，其服务容器的镜像就是这个petapi-app的镜像，而用户不给参数，则直接使用petapi-app中就设置好的petapi用户，然后command就是<code>command: [&quot;php&quot;, &quot;/var/www/app/artisan&quot;, &quot;queue:work&quot;, &quot;--daemon&quot;, &quot;--sleep=3&quot;, &quot;--tries=3&quot;]</code></p>
 <p>这样supervisor都不用。</p>
+<p>不过 同时我们还需要执行一个<code>composer dumpautoload</code>命令，参考<a href="https://stackoverflow.com/questions/30063907/using-docker-compose-how-to-execute-multiple-commands">Using Docker-Compose, how to execute multiple commands</a>所以：</p>
+<pre><code>command: &gt;
+	bash -c &quot;php artisan queue:work --sleep=3 --tries=3 &amp;&amp;
+	composer dumpautoload&quot;
+</code></pre>
+<p>如果没有安装bash的，请使用<code>sh -c</code></p>
 <h4 id="docker-composerprodyml"><code>docker-composer.prod.yml</code></h4>
 <pre><code class="language-yml">version: &quot;3.7&quot;
 services:
@@ -351,7 +357,9 @@ services:
     container_name: petapi-app-queue
     working_dir: /var/www/
     image: petapii
-    command: [&quot;php&quot;, &quot;artisan&quot;, &quot;queue:work&quot;,&quot;--sleep=3&quot;, &quot;--tries=3&quot;]
+    depends_on:
+      - &quot;app&quot;
+    command: bash -c &quot;php artisan queue:work --sleep=3 --tries=3 &amp;&amp; composer dumpautoload&quot;
     volumes:
       - ./:/var/www
     networks:

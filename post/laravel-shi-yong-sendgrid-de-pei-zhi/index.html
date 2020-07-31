@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>laravel使用sendgrid的配置 | JojoLegend</title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596188645362">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596190709416">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="laravel使用sendgrid的配置 | JojoLegend - Atom Feed" href="https://dzkjz.github.io//atom.xml">
@@ -28,7 +28,7 @@ QUEUE_CONNECTION=database
       <div class="main-content">
         <div class="site-header">
   <a href="https://dzkjz.github.io/">
-  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596188645362" alt="">
+  <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596190709416" alt="">
   </a>
   <h1 class="site-title">
     JojoLegend
@@ -407,6 +407,12 @@ CMD /var/www/supervisor_petapi.sh
 <p>也是最合适的方式，这样一个容器只负责一件事。</p>
 <p><code>docker-compose.prod.yml</code>采用php-queue服务，其服务容器的镜像就是这个petapi-app的镜像，而用户不给参数，则直接使用petapi-app中就设置好的petapi用户，然后command就是<code>command: [&quot;php&quot;, &quot;/var/www/app/artisan&quot;, &quot;queue:work&quot;, &quot;--daemon&quot;, &quot;--sleep=3&quot;, &quot;--tries=3&quot;]</code></p>
 <p>这样supervisor都不用。</p>
+<p>不过 同时我们还需要执行一个<code>composer dumpautoload</code>命令，参考<a href="https://stackoverflow.com/questions/30063907/using-docker-compose-how-to-execute-multiple-commands">Using Docker-Compose, how to execute multiple commands</a>所以：</p>
+<pre><code>command: &gt;
+	bash -c &quot;php artisan queue:work --sleep=3 --tries=3 &amp;&amp;
+	composer dumpautoload&quot;
+</code></pre>
+<p>如果没有安装bash的，请使用<code>sh -c</code></p>
 <h4 id="docker-composerprodyml"><code>docker-composer.prod.yml</code></h4>
 <pre><code class="language-yml">version: &quot;3.7&quot;
 services:
@@ -430,7 +436,9 @@ services:
     container_name: petapi-app-queue
     working_dir: /var/www/
     image: petapii
-    command: [&quot;php&quot;, &quot;artisan&quot;, &quot;queue:work&quot;,&quot;--sleep=3&quot;, &quot;--tries=3&quot;]
+    depends_on:
+      - &quot;app&quot;
+    command: bash -c &quot;php artisan queue:work --sleep=3 --tries=3 &amp;&amp; composer dumpautoload&quot;
     volumes:
       - ./:/var/www
     networks:
