@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-31T10:19:40.069Z</updated>
+    <updated>2020-07-31T14:57:36.092Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[ 向google提交站点【请求收录】]]></title>
+        <id>https://dzkjz.github.io/post/xiang-google-ti-jiao-zhan-dian-qing-qiu-shou-lu/</id>
+        <link href="https://dzkjz.github.io/post/xiang-google-ti-jiao-zhan-dian-qing-qiu-shou-lu/">
+        </link>
+        <updated>2020-07-31T14:57:17.000Z</updated>
+        <content type="html"><![CDATA[<p>登录地址 https://search.google.com/</p>
+<p>需要验证域名所有权</p>
+<p>参考 <a href="https://www.youtube.com/watch?v=B4p1nVspM5U">How to Ask Google to Recrawl URLs of Your WordPress Site</a></p>
+<p>或 <a href="https://www.wpbeginner.com/wp-tutorials/how-to-ask-google-to-recrawl-urls-of-your-wordpress-site/">How to Ask Google to Recrawl URLs of Your WordPress Site</a></p>
+<p>提交页面 index请求</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731225136.png" alt="" loading="lazy"></figure>
+<p>现在搜索框中输入页面地址，回车，看是不是页面被索引了，如果需要索引 点REQUEST INDEXING即可。</p>
+<p>提交sitemap</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731225523.png" alt="" loading="lazy"></figure>
+<p>一般来说，一个小时到一天就收录了。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[laravel使用sendgrid的配置]]></title>
         <id>https://dzkjz.github.io/post/laravel-shi-yong-sendgrid-de-pei-zhi/</id>
