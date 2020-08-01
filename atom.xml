@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-07-31T14:57:36.092Z</updated>
+    <updated>2020-08-01T17:51:08.733Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,71 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[SEO 之 Keyword research]]></title>
+        <id>https://dzkjz.github.io/post/seo-zhi-keyword-research/</id>
+        <link href="https://dzkjz.github.io/post/seo-zhi-keyword-research/">
+        </link>
+        <updated>2020-08-01T17:50:42.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="what-is-seosearch-engine-optimization">What is SEO[search engine optimization]</h2>
+<p><a href="https://www.youtube.com/watch?v=D7UxlkwdYc0">What is SEO and How Does it Work? (2020)</a></p>
+<p>1.40%</p>
+<p>2.20%</p>
+<p>3.10%</p>
+<p>few than 10% will goto next page</p>
+<p>relavant</p>
+<p>people also ask</p>
+<h3 id="on-page-seo"><a href="https://www.youtube.com/watch?v=R0ETQVW3PbI">On-Page SEO</a></h3>
+<p>controllable</p>
+<p>是可以在写完文章后做的调整。写的时候也可以。</p>
+<ol>
+<li>标题中有你要的主题keyword，越靠前越好。</li>
+<li>url中也要有。url尽量短一点，主题鲜明一点。</li>
+<li>第一段文本甚至于第一段的第一句，要有keyword。</li>
+<li>内链，为了提高在站时长。google也会据此加分。甚至就是简单的，【建议阅读+链接】的格式。</li>
+<li>副标题，子标题可以尽量有keyword。或者关联keyword的助力keyword。</li>
+<li>避免长文本段落，可以加图片增加一点空间。图片 alt文本【描述图片用】，图片title。</li>
+<li>meta description 一般就是</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801221937.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>但是不要超过160个字符。</p>
+</blockquote>
+<ol start="8">
+<li>可以加几个出站链接。</li>
+</ol>
+<h3 id="backlinks">Backlinks</h3>
+<h2 id="keyword-research"><a href="https://www.youtube.com/watch?v=Mhk76ZvccK8">Keyword Research</a></h2>
+<h3 id="关键词动机">关键词动机</h3>
+<h4 id="品牌-amazon-netflix">品牌 amazon netflix...</h4>
+<h4 id="商品型号-cannon-5d-tesla-model-s">商品型号 cannon 5d, Tesla Model S...</h4>
+<h4 id="资料信息-what-how">资料信息 what how ...</h4>
+<h4 id="查询-best-top-coupon-deals-cheap-budget-affordable-free">查询 best top coupon deals cheap budget affordable free...</h4>
+<h3 id="方法">方法</h3>
+<blockquote>
+<p>注意，主要是用于博客类的网站</p>
+</blockquote>
+<h4 id="头脑风暴">头脑风暴</h4>
+<p>应该自己想一个topic，没人比你更清楚你要做的是什么。从这个start point出发，联想一些词，但是由于长期关注到的是这几个主题词，并不一定能清楚知道，用户平时搜索的词具体是什么，更多的是什么，比例如何，关联度如何，所以需要下面的工具。</p>
+<h4 id="工具">工具</h4>
+<h5 id="keywords-everywhere"><a href="https://keywordseverywhere.com/">keywords everywhere</a></h5>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801213305.png" alt="" loading="lazy"></figure>
+<h5 id="related-keywords">related keywords</h5>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801212122.png" alt="" loading="lazy"></figure>
+<h5 id="answerthepublic"><a href="https://answerthepublic.com/">answerthepublic</a></h5>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801213424.png" alt="" loading="lazy"></figure>
+<h5 id="semrush"><a href="https://www.semrush.com/">Semrush</a> 付费版</h5>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801213709.png" alt="" loading="lazy"></figure>
+<h5 id="ahrefs"><a href="https://ahrefs.com/">Ahrefs</a></h5>
+<p><a href="https://www.youtube.com/watch?v=1BME8PfbulI">How to Use Ahrefs for Keyword Research</a> 视频很罗嗦，主题就是一个很简单的Ahref说明书。</p>
+<h5 id="这里"><a href="https://www.youtube.com/watch?v=0r_HMKDxpK0">这里</a>还推荐了一个工具： <a href="https://neilpatel.com/ubersuggest/">Ubersuggest</a></h5>
+<h5 id="google-trends"><a href="https://trends.google.com/trends/">Google Trends</a></h5>
+<p>介绍基本用法，其实很简单，就是输入搜索词，然后结果分析一下。<a href="https://www.youtube.com/watch?v=u75nbWDqymA">How To Use Google Trends! Market Research To Compare Keywords, Topics &amp; Niches, Fast!</a>，其他的都是废话。</p>
+<h5 id="kwfinder"><a href="https://kwfinder.com/">KWFinder</a></h5>
+<h4 id="seo-tutorial-for-beginners-step-by-step-guide-2020-yoast-seo"><a href="https://www.youtube.com/watch?v=f_n0_cxWqSs">SEO Tutorial for Beginners - Step by Step Guide 2020! (+YOAST SEO)</a></h4>
+<h5 id="keyword"><a href="https://keyword.com/">Keyword</a></h5>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ 向google提交站点【请求收录】]]></title>
         <id>https://dzkjz.github.io/post/xiang-google-ti-jiao-zhan-dian-qing-qiu-shou-lu/</id>
