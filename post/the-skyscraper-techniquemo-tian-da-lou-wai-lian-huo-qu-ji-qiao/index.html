@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理 | JojoLegend
+    The Skyscraper Technique（“摩天大楼”外链获取技巧） | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596564248261">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -106,98 +106,54 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理
+                            The Skyscraper Technique（“摩天大楼”外链获取技巧）
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-07-27</time>
+                            <time class="post-time">2020-08-05</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理</p>
-<p>[toc]</p>
-<p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
-<p>容器随时我们可以关闭更新更换，但是要怎么做到数据的连续性就很关键了。</p>
-<h2 id="一-场景介绍">一、场景介绍</h2>
-<p>比较常见的情况，如果你运行起一个数据库容器，如果你删除了这个容器，那存在其中的数据也就丢失了。</p>
-<p>特别是执行<code>docker-compose down</code>然后更新dockerfile和docker-compose.yml文件，再执行<code>docker-compose up -d</code>，你之前网站的数据就丢了。</p>
-<h2 id="二-原理以及原因">二、原理以及原因</h2>
-<blockquote>
-<p>我们在有运行数据库容器的机器里面演示；</p>
-</blockquote>
-<p>执行<code>docker volume ls</code>查看服务器里面的数据卷：</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200727152424.png" alt="" loading="lazy"></figure>
-<p>默认driver就是local ，我们配置的数据卷都在这里面了。</p>
-<p>为了查看哪一个是数据库容器的数据卷，以及对应的详细信息</p>
-<p>执行<code>docker inspect 数据库容器名</code></p>
-<p>然后找到 Mounts部分：</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200727152753.png" alt="" loading="lazy"></figure>
-<p>第一个我们配置的可以在docker-compose.prod.yml中找到：</p>
-<pre><code class="language-yml">  db:
-    image: mysql:5.7
-    container_name: ***api-db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-</code></pre>
-<p>而第二个对应目标地址是<code>/var/lib/mysql</code>的，因为我没有配置，所以自动给了一个，正是这个没有配置，导致每次<code>docker-compose up -d</code>就生成一个新容器及对应的数据卷，然后之前的数据库数据就丢失了。</p>
-<h2 id="三-处理办法">三、处理办法</h2>
-<p>如果你配置了比如</p>
-<pre><code class="language-yml">  db:
-    ...
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-      - /data/mysql:/var/lib/mysql
-   #   - /data/pgsql:/var/lib/postgresql
-   #   - /data/maria:/var/lib/mariadb
-   #   - /data/redis:/var/lib/redis
-   #   - /data/memcached:/var/lib/memcached
-   #   - /data/neo4j:/var/lib/neo4j/data
-    networks:
-      ...
-</code></pre>
-<p>配置了对应的本地[宿主机]数据卷位置，第一次<code>docker-compose up -d</code>的时候会直接关联起来，而下一次执行<code>docker-compose up -d</code>的时候，daemon执行到生成一个对应数据卷位置的时候，发现已经给了配置，那就跳过，使用先前的。</p>
-<p>当然也可以这么配置：</p>
-<pre><code class="language-yml">volumes:
-- db-data:/var/lib/mysql
-volumes:
- db-data:
-  driver: local
-</code></pre>
-<blockquote>
-<p>参考 <a href="https://linuxhint.com/run_postgresql_docker_compose/">Running PostgreSQL using Docker Compose</a></p>
-<p>参考 <a href="https://stackoverflow.com/questions/43297384/data-is-lost-in-mysql-docker-container-after-comminting-it-to-a-new-image">Data is lost in Mysql docker container after comminting it to a new image?</a></p>
-<blockquote>
-<p>I don't know which image you're using but I believe every <code>Dockerfile</code> of <a href="https://github.com/docker-library/mysql">official mysql images</a> has following command:</p>
-<pre><code>VOLUME /var/lib/mysql
-</code></pre>
-<p>which means all mysql data goes to volume. From <a href="https://docs.docker.com/engine/tutorials/dockervolumes/">docker volume docs</a> they specially mentioned that:</p>
-<pre><code>&gt; Changes to a data volume will not be included when you update an image.
-</code></pre>
-<p>And this is the root cause you loss your data in newly started container.</p>
-<p>For your question:</p>
-<blockquote>
-<p>How to achieve this?</p>
-</blockquote>
-<p>You can use either <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume">mounted volumes</a>, or create a <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#creating-and-mounting-a-data-volume-container">data volume container</a>, then run mysql container with option <code>--volumes-from</code>. The former links contain step-by-step guide of how to do it.</p>
-<blockquote>
-<p>I don't want to use mounted volumes because i want to link this container with another container of my application so that it can inset and update into db</p>
-</blockquote>
-<p>I don't know what other concerns you have about mounted volumes, but as far as I can tell, using mounted volumes does not prevent you to link containers.</p>
-<p>Hope this helps you.</p>
-</blockquote>
-</blockquote>
-<h2 id="四-如果不慎丢失怎么恢复">四、如果不慎丢失，怎么恢复</h2>
-<p>如果数据卷都删除了 docker rm 容器的时候 添加了 -v 或 -volume，那就拜拜，没有任何办法的。如果没有删除volume 参考：</p>
-<p><a href="https://www.primozker.in/post/saving-lost-data-docker/">Saving 'lost' MYSQL database running in Docker</a></p>
-<p>更多可以看<a href="https://docs.docker.com/storage/volumes/">官方文档</a></p>
+                                    <p>原文在这里：https://backlinko.com/skyscraper-technique</p>
+<h3 id="skyscraper技巧的精髓和操作步骤">Skyscraper技巧的精髓和操作步骤：</h3>
+<p>第一步：在互联网上找到一篇拥有大量外链的文章A；</p>
+<p>第二步：分析文章A的弱点，并撰写一篇质量比它更好的文章B，发布在你的网站上；</p>
+<p>第三步：找到所有给文章A外链的页面，（手工）找出其邮件联系方式，并发送一封邮件请求对方给你的文章B一条外链。</p>
+<p>需要指出的是：Brian Dean推崇手工联系（personalized email outreach），去除不合适的外链机会或者找不到邮件地址的，然后一封封发送，邮件的个性化程度极高。</p>
+<p>而且，他通常还把outreach的过程分成两步，第一步先（礼貌地）询问对方站长是否有意向阅读自己的文章B，待对方邮件回复同意后再发送链接URL并（委婉地）说出自己的终极请求：要外链！</p>
+<p>转化率一般较高，Brian Dean在文中提到，他的一个campaign（外联活动）发送了160封邮件，获得了17条外链，转化率11%。</p>
+<p>你要尝试过通过邮件外联去获取外链的话，就知道这转化率是相当可观的。</p>
+<h3 id="shotgun-skyscraper-technique散弹枪摩天大楼外链获取技巧">Shotgun Skyscraper Technique（“散弹枪摩天大楼”外链获取技巧）</h3>
+<p>原文：https://www.authorityhacker.com/link-building-techniques/</p>
+<p>为什么叫Shotgun（散弹枪）？</p>
+<p>因为传统的由Brian Dean提出的The Skyscraper Technique有点像Sniper（狙击枪），邮件一封一封的发送。</p>
+<p>而，Shotgun（散弹枪）可以一次发送很多邮件。</p>
+<p>两者之间最大的区别就是：手工 vs 自动化。</p>
+<p>不能说那个比那个好，也不要认为Shotgun Skyscraper比传统的Skyscraper更高级。</p>
+<p>说实话，一直以来，我就是个“手工”挡的推崇者，因为我追求更好的转化率，记得以前跟读者们说过，我一天最多能手工发送30-40封outeach email，最好的campaign转化率（外链数量 / 发送邮件数量）高达15%。</p>
+<p>第一步：通过Ahrefs找出你niche KD（keyword difficulty）较高的那些关键词，挖掘可制作链接资产（linkable assets）的目标话题。</p>
+<p>注：KD越高，代表SERP首页的排序结果拥有越多的外链（即我们有越多的outreach机会），参看 https://help.ahrefs.com/en/articles/72265-what-does-kd-stand-for-in-keywords-explorer</p>
+<p>第二步：针对目标话题，创建一篇比目前排在首页的竞争对手页面质量更好的文章（或其它格式）。</p>
+<p>第三步：使用Ahrefs自动导出所有链接给竞争对手页面的那些网站（我们称之为prospects，即潜在外链机会）。</p>
+<p>第四步：使用Hunter（或其他类似的邮件自动查收工具）自动找出prospects的邮件地址，并进行list cleanup（去除不存在或无法送达的那些prospects）。</p>
+<p>第五步：通过Mailshake（或其他邮件发送工具）撰写outreach email，并设置自动发送等细节。</p>
+<p>几个Tips</p>
+<ol>
+<li>Shotgun Skyscraper外链技巧成功的核心在于你文章B是否足够优秀，这也是对方站长决定是否接受你外链请求的根本。</li>
+</ol>
+<p>怎么判断是否足够优秀呢？最快的办法就是自己扪心自问，让同事看，拿自己的文章跟目前排在谷歌前几的竞争对手比。</p>
+<ol start="2">
+<li>
+<p>Shotgun Skyscraper外链技巧重视效率，力争用20%的成本拿到80%的回报，所以不会拘泥于一些小细节，比如：outreach邮件不会（也不可能）很个性化，无法送达的邮件地址也不会再去管它直接忽视。</p>
+</li>
+<li>
+<p>除了推广信息类文章（information articles），也可以用来推广其他页面，比如：我的几个转化率高达5%的campaigns就是推广的商业性文章（commercial articles），我还用它推广过网站首页，依然拿到过外链。</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/shotgun-skyscraper1.png" alt="" loading="lazy"></figure>
+<p>为什么我喜欢Email Outreach？<br>
+如果把SEO分成三大块：内容 + 外链 + 技术端优化，我认为外链是SEO的精髓，也是最具挑战的一部分。</p>
+<p>拿到一条外链，不仅仅证明你创建的内容质量达标，更增长了你做好SEO的信心，最重要的是，在这个过程中，你可以学到很多，这是我最enjoy的。</p>
 
                                 </div>
                     </article>
@@ -205,9 +161,9 @@ volumes:
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/">
+                            <a href="https://dzkjz.github.io/post/xin-zhan-you-na-xie-kuai-jie-gao-xiao-de-wai-lian-huo-qu-ce-lue/">
                                 <h3 class="post-title">
-                                     解决 sitemap robots.txt 以及提交google index
+                                    新站有哪些快捷高效的外链获取策略？
                                 </h3>
                             </a>
                         </div>
@@ -228,10 +184,12 @@ volumes:
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E4%B8%80-%E5%9C%BA%E6%99%AF%E4%BB%8B%E7%BB%8D">一、场景介绍</a></li>
-<li><a href="#%E4%BA%8C-%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%8E%9F%E5%9B%A0">二、原理以及原因</a></li>
-<li><a href="#%E4%B8%89-%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95">三、处理办法</a></li>
-<li><a href="#%E5%9B%9B-%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%85%8E%E4%B8%A2%E5%A4%B1%E6%80%8E%E4%B9%88%E6%81%A2%E5%A4%8D">四、如果不慎丢失，怎么恢复</a></li>
+<li>
+<ul>
+<li><a href="#skyscraper%E6%8A%80%E5%B7%A7%E7%9A%84%E7%B2%BE%E9%AB%93%E5%92%8C%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4">Skyscraper技巧的精髓和操作步骤：</a></li>
+<li><a href="#shotgun-skyscraper-technique%E6%95%A3%E5%BC%B9%E6%9E%AA%E6%91%A9%E5%A4%A9%E5%A4%A7%E6%A5%BC%E5%A4%96%E9%93%BE%E8%8E%B7%E5%8F%96%E6%8A%80%E5%B7%A7">Shotgun Skyscraper Technique（“散弹枪摩天大楼”外链获取技巧）</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
