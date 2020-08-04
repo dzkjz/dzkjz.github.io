@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-04T14:53:24.530Z</updated>
+    <updated>2020-08-04T14:55:43.814Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -30,17 +30,57 @@
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2019年清迈SEO大会笔记（Day 1）摘抄]]></title>
+        <title type="html"><![CDATA[2019年清迈SEO大会笔记 摘抄]]></title>
         <id>https://dzkjz.github.io/post/2019-nian-qing-mai-seo-da-hui-bi-ji-day-1zhai-chao/</id>
         <link href="https://dzkjz.github.io/post/2019-nian-qing-mai-seo-da-hui-bi-ji-day-1zhai-chao/">
         </link>
         <updated>2020-08-04T11:59:28.000Z</updated>
         <content type="html"><![CDATA[<p>就是谈了个<a href="https://surferseo.com/">SurferSEO</a>，以及这个观点：</p>
-<blockquote></blockquote>
+<blockquote>
+<p>Kyle Roof做了一个题为《Google’s Algorithm is an Algorithm》（谷歌的算法只是算法）的演讲，他首先抛出了”Google can’t read”（谷歌不会像人一样阅读）的结论，然后通过实验证实了。</p>
+<p>实验的大概过程是：他将一个全是乱码（lump sum）的网页参与了”rhinoplasty chiang mai”（清迈整鼻手术）关键词的排名，而且排在第一页。<br>
+这就是为什么近两年Correlational SEO（相关性SEO）很火的原因，一些工具比如：Surfer SEO, Coral, Page Optimizer Pro在市场上大卖。</p>
+</blockquote>
 <p>但是我比较在意的是这段话：</p>
 <blockquote>
 <p>怎么做到的呢？他首先分析了这个词排名前三的竞争页面，总结出一些特征，比如：关键词出现在哪里？重复次数多少？语义相关的词有哪些？几张图片？字数多少等等。</p>
 </blockquote>
+<p>这个就很牛了，就是讲了分析同行的数据的方法。</p>
+<p>外链部分：</p>
+<blockquote>
+<p>你可以在多语言网站肆意建设外链，几乎任何一种外链建设策略都不会受到谷歌的惩罚。</p>
+</blockquote>
+<blockquote>
+<p>Google.com, google.co.uk等英语搜索背后有成千上千万的谷歌员工去维护，你很难有投机取巧的机会，而北欧、越南等多语种地区，一般只有几个谷歌员工维护，所以可以“钻空子”的漏洞自然不少。</p>
+</blockquote>
+<p>技术部分：</p>
+<blockquote>
+<p>并号召我们SEO人别用Chrome浏览器（他自己用FireFox），因为Google会收集我们的使用数据（别免费把数据给搜索引擎）。</p>
+<p>Barry推荐的technical SEO audit工具有：</p>
+<p>Deep Crawl</p>
+<p>Scream Frog</p>
+<p>GSC Index (Google Search Console)</p>
+<p>GTmetrix</p>
+<p>301 Redirection Checker</p>
+</blockquote>
+<p><strong>不过这种分享会，要么资料观点网上有，要么就是不能分享的也不会分享了。</strong></p>
+<blockquote>
+<p>开头，他讲到了今年年初的两个小收获：</p>
+<p>一是：更改一篇博客文章的update date后排名上涨，原来Google freshness真的有用；</p>
+<p>并得出一些实用的结论：</p>
+<p>别太过分关注搜索量（keyword volumn），还得看看SERP的点击率和前几名的流量（通过Ahrefs的click data）。比如：有些词搜索量巨大，但几乎不产生点击行为，那你就算拍上去了也是白搭，不会有多少流量。<br>
+Build hubs, not pages。也就是silo的意思，把内容和主题相近的那些文章归类在一个hub里。<br>
+内链的效果不比外链效果差，而且内链锚文本随意，关键词锚文本也可以。<br>
+给谷歌想要的内容，而不是你认为最高质量的内容，什么是谷歌想要的内容呢，用Surfer SEO去发现SERP前几名的一些共性，然后整理出一份谷歌喜欢的内容框架，让写手去创作。<br>
+精选摘要（featured snippets），去学习Hubspot吧，他们网站开发了专门给谷歌看的HTML代码，很干净！<br>
+使用Google Search Console的URL Inspection去“实时”测试（24小时内，同一个页面，可以提交多次哦，直至谷歌让你明天再来尝试）。<br>
+SERP里有一半的Title都是被谷歌修改过的，越短的title（50字符左右）表现越好。<br>
+发送外链获取emails时，casual tone、精简、多次提及对方的名字等都有助于提升转化率。<br>
+周一和周五发送邮件，回复率和转化率略比其他时间高。<br>
+DR 30-50的网站更容易获得外链。<br>
+一个页面的affiliate links多少与该页面的排名表现没有相关性（意思是：commercial pages不用在意有太多的affiliate links）。</p>
+</blockquote>
+<p>原文链接：https://mp.weixin.qq.com/s?__biz=MzIwOTg3MDQwOQ==&amp;mid=2247485566&amp;idx=1&amp;sn=e73c762425b0f2b5e1222c29bb60a3bb&amp;chksm=976c0358a01b8a4e044901f3860411e08452ee0cd50f40a11dc1e6236bd3068fde68b876a581&amp;token=1083511680&amp;lang=zh_CN#rd</p>
 ]]></content>
     </entry>
     <entry>
