@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-03T18:32:26.233Z</updated>
+    <updated>2020-08-04T12:06:41.124Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,20 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[2019年清迈SEO大会笔记（Day 1）摘抄]]></title>
+        <id>https://dzkjz.github.io/post/2019-nian-qing-mai-seo-da-hui-bi-ji-day-1zhai-chao/</id>
+        <link href="https://dzkjz.github.io/post/2019-nian-qing-mai-seo-da-hui-bi-ji-day-1zhai-chao/">
+        </link>
+        <updated>2020-08-04T11:59:28.000Z</updated>
+        <content type="html"><![CDATA[<p>就是谈了个<a href="https://surferseo.com/">SurferSEO</a>，以及这个观点：</p>
+<blockquote></blockquote>
+<p>但是我比较在意的是这段话：</p>
+<blockquote>
+<p>怎么做到的呢？他首先分析了这个词排名前三的竞争页面，总结出一些特征，比如：关键词出现在哪里？重复次数多少？语义相关的词有哪些？几张图片？字数多少等等。</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[My 15 All-Time BEST SEO Tips (That Get Results)]]></title>
         <id>https://dzkjz.github.io/post/my-15-all-time-best-seo-tips-that-get-results/</id>
