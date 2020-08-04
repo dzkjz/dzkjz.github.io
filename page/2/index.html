@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596552939341">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1596560748292">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596552939341" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1596560748292" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -97,6 +97,163 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/cai-keng-ji-lu-nuxtjs-and-ant-design-vue-pei-zhi/">
+                        「踩坑记录」 Nuxt.js &amp; Ant-design-vue 配置
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-07-25</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            Nuxt.js &amp;amp; ant-design-vue
+最近开发一个带seo以及部分后台功能的项目，nuxt作为vue ssr框架可以非常好的完成这个需求，这里我选择了ant-design-vue作为UI组件库。
+以下是踩坑的一些记录 ：
+首先介绍一下项目情况和需求：
+
+Nuxt.js是一个 Vue.js 通用框架，预设了使用 Vue.js开发SSR的各种配置。项目中使用的是SSR模式，因此首屏是由服务端完成渲染。
+项目仅用到少数的UI组件，因此我们希望使用按需加载组件，以减少网络开销。
+
+1. 按需加载引入组件
+首先我们移除掉 nuxt.config.js 中
+{   css: [&#39;ant-design-vue/dist/antd.css&#39;],   // 这里会全局引入所有样式，不是我们所希望的按需加载 }
+
+参考官方文档antd-vue # 按需加载：
+// 同时参考 Nuxt-cli 创建项目时 创建的 plugin/antd-ui.js 
+import Vue from &#39;vue&#39; import Button from &#39;ant-design-vue/lib/button&#39;; 
+import &#39;ant-design-vue/lib/button/style&#39;; // 或者 ant-design-vue/lib/button/style/css 加载 css 文件  
+Vue.use(Button.name, Button)
+
+编译未通过，提示错误：
+// https://github.com/ant-design/ant-motion/issues/44 .bezierEasingMixin(); ^ Inline JavaScript is not enabled. Is it set in your options?
+
+根据报错所提供的信息，less升级到3.0 后，需要 less-loader配置一个功能，才能正常使用：
+// nuxt.config.js 
+{  
+    build: {   
+        loaders: {    
+            less: {     
+                javascriptEnabled: true    
+            }   
+        }  
+    } 
+}
+
+编译通过，打开页面，返回500，提示：
+
+image.png
+编译能通过，说明代码编译没有问题，但是server端执行时出现了错误。尝试注释掉plugin/antd-ui.js引入样式文件这行 import &#39;ant-design-vue/lib/button/style&#39;; ，server首屏渲染能够正常启动，但引入的button组件样式丢失。
+打开 ant-design-vue/lib/button/style/index.js 查看：
+&#39;use strict&#39;; 
+require(&#39;../../style/index.less&#39;); 
+require(&#39;./index.less&#39;);  
+// ant-design-vue/es/button/style/index.js 
+import &#39;../../style/index.less&#39;; 
+import &#39;./index.less&#39;;
+
+可以看到，antd-vue为生产环境提供了两种模块的代码。为了tree-shaking 我们优先选择 es 模块。
+
+补充知识：现在的webpack@4+ 支持识别项目 packge.json module字段，使用ESModule的依赖更好的支持构建中的tree-shaking。
+
+修改代码为 es/button/...，编译通过，但页面仍抛出一500服务端错误：
+
+image.png
+根据错误提示cannot use import statement和es包使用的ESModule语法，猜测服务端侧渲染页面时语法出错，Node.js 不能直接识别 .js文件内的ESModule语法。
+// .nuxt.config.js 
+{  
+    plugins: 
+    [   
+        {    
+            src: &#39;@/plugins/antd-ui&#39;,    
+            mode: &#39;client&#39; // 仅 客户端使用plugin   
+        }  
+    ] 
+}
+
+页面正常加载，但Vue.js 给出了错误提示
+
+image.png
+此时，我们再将plugin代码替换回lib以及移除mode: &#39;client ，错误又回到了最开始的 invalid or unexpected token。
+搜索Nuxt官方文档：
+
+如果要使用Babel与特定的依赖关系进行转换，你可以在build.transpile中添加它们，transpile中的选项可以是字符串或正则表达式对象，用于匹配依赖项文件名。
+
+添加配置：
+{ // nuxt.config.js  
+    build: {   
+        transpile: [/ant-design-vue/]
+    } 
+}
+
+终于，服务端渲染正常，样式也正常加载。接着引入 ant-design-vue官方推荐使用的插件babel-plugin-import
+// nuxt.config.js 
+{  
+    build: {
+        babel: {
+            plugins: [
+                [      
+                    &#39;import&#39;,      
+                    {       
+                        libraryName: &#39;ant-design-vue&#39;,       
+                        libraryDirectory: &#39;es&#39;,       
+                        // 选择子目录 例如 es 表示 ant-design-vue/es/component       
+                        // lib 表示 ant-design-vue/lib/component              
+                        style: true       
+                        // 默认不使用该选项，即不导入样式 , 注意 ant-design-vue 使用 js 文件引入样式       
+                        // true 表示 import  &#39;ant-design-vue/es/component/style&#39;      
+                        // &#39;css&#39; 表示 import &#39;ant-design-vue/es/component/style/css&#39;      
+                    }     
+                ]    
+            ]   
+        }  
+    } 
+}  // plugins/antd-ui.js 
+import Vue from &#39;vue&#39; 
+import { Button } from &#39;ant-dsign-vue&#39; // 这时，可以通过 简写的方式引入样式和组件  
+Vue.use(Button)
+
+2. pages目录内引入组件
+
+flash.gif
+上图是在pages/index.vue内引入组件，npm run build &amp;amp;&amp;amp; npm run start 执行后的线上环境，可以看到样式在刷新首屏时，会看到闪烁的现象，这里出现的问题在于入口文件并不包含组件，而是异步引入的，从编译结果上也可以看到 610kb 的包对应的chunk vendors.pages/index ，并不在entrypoint内，默认情况下Nuxt.js 路由页面已经被分配为dynamic import，同时style是通过js设置到style上的，而不是单独打包出来。经过测试，css单独打包后，UI组件仍是单独分包，即便是单独打包出来，依然会有按需加载的问题，首屏仍会闪烁。
+
+build result
+因此，如果组件被大多数页面使用，推荐在 plugin内注册，或者通过 nuxt.config.js的css相关文件直接引入对应的组件样式，同时关闭babel-import-plugin 的 style选项。 (吐槽一句，iView只能引入单一全局样式，不能按需加载样式，1.5m的大小非常恐怖)
+除此以外，可以考虑配置webpack的splitchunks配置，实现自己的需求。
+3. 解决antd-icon 过大（传统艺能
+前面生产环境的包可以发现，只使用了一个Button，却打包了600kb的依赖，检查后发现是引入了@ant-design/icon 包。
+参考： https://github.com/HeskeyBaozi/reduce-antd-icons-bundle-demo
+{ // nuxt.config.js  
+    build: 
+    {   
+        extend(config, ctx) {
+            config.resolve.alias[&#39;@ant-design/icons/lib/dist$&#39;] = path.resolve(__dirname, &#39;./assets/icon/antd-icon.js&#39;) // 引入需要的  
+        }  
+    } 
+}
+
+题外话
+“按需引入”
+
+image.png
+https://github.com/ant-design/babel-plugin-import/issues/347
+reference
+https://github.com/vueComponent/ant-design-vue/issues/234
+https://www.zhihu.com/question/265227812
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/cai-keng-ji-lu-nuxtjs-and-ant-design-vue-pei-zhi/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/zong-jie-nuxt-laravel-nginx-mysql-docker-ubuntu-bu-shu-de-liu-cheng/">
@@ -1127,7 +1284,7 @@ networks:
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1596552939341)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1596560748292)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
