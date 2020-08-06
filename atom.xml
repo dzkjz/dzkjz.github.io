@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-05T17:08:48.541Z</updated>
+    <updated>2020-08-06T05:33:23.511Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,65 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Facebook Ads Tutorial 2020 - How to Create Facebook Ads For Beginners (COMPLETE GUIDE)]]></title>
+        <id>https://dzkjz.github.io/post/facebook-ads-tutorial-2020-how-to-create-facebook-ads-for-beginners-complete-guide/</id>
+        <link href="https://dzkjz.github.io/post/facebook-ads-tutorial-2020-how-to-create-facebook-ads-for-beginners-complete-guide/">
+        </link>
+        <updated>2020-08-06T05:31:17.000Z</updated>
+        <content type="html"><![CDATA[<p>视频地址：https://www.youtube.com/watch?v=1iZl0bCyDPQ</p>
+<h3 id="创建bussines-manager账户">创建Bussines manager账户</h3>
+<p>不要使用你的personal account，也不要搞多个账户管理ad，会被ban。</p>
+<p>地址：https://business.facebook.com/</p>
+<p>注册填入的资料可以用你的网站，也可以用的你的Facebook profile 地址。</p>
+<h4 id="business-settings">business settings</h4>
+<p>添加用户</p>
+<p>添加pages【重要】</p>
+<p>Ad account</p>
+<p>Business info</p>
+<p>​	primary page需要添加。</p>
+<p><strong>新账户只能创建一个ad account</strong>，花钱越多，时间越长，账户就会增加。</p>
+<h4 id="ad-manager">ad manager</h4>
+<h5 id="添加campaigns">添加campaigns</h5>
+<p>​	<strong>用5刀起步测试。</strong></p>
+<h5 id="添加-ad-sets">添加 ad sets</h5>
+<ol>
+<li>受众自己分析设置大概条件；</li>
+<li>添加设置的Detailed targeting不要太多，如果太多，根本不晓得到底是哪个条件起的作用。</li>
+<li>audience size 不要大了【几百万人】，太大请设置must also match缩小受众。</li>
+<li>然后逐步缩小范围测试。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806130855.png" alt="" loading="lazy"></figure>
+<p>设置Edit placement【博主说最好的organic的还是Facebook news feed】他只选择了Facebook news feed</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806130941.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131013.png" alt="" loading="lazy"></figure>
+<p>选择了Link clicks，因为博主就是选择的traffic。</p>
+<h5 id="添加-ads">添加 ads</h5>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131141.png" alt="" loading="lazy"></figure>
+<p>这个就牛了，博主要做个测评视频的。<strong>推荐了个做视频的：invideo.io</strong> 20刀一个月，有点贵贵的。</p>
+<blockquote>
+<p>用invideo搜了个testimonial短视频template：</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131728.png" alt="" loading="lazy"></figure>
+</blockquote>
+<blockquote>
+<p>然后输入点文本</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131901.png" alt="" loading="lazy"></figure>
+</blockquote>
+<blockquote>
+<p>改改背景，传点自己手机录得视频做背景，改改logo啥的。一顿微操。</p>
+</blockquote>
+<p>Ad text设置，就是要求 <strong>简洁</strong></p>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806132634.png" alt="" loading="lazy"></figure>
+<p>接下来track 使用下面Event manager设置好的或者用Facebook pixel，用于追踪转化。</p>
+<p>测试广告请不要乱调整，让他运行一天。一天5刀。</p>
+<p>**请先添加billing details。**支持PP</p>
+<h4 id="event-manager">Event Manager</h4>
+<p>添加转化触发代码用于记录conversions。</p>
+<h3 id="策略">策略</h3>
+<p>请看看你的同行怎么做的</p>
+<p>解决你的产品的最容易解决的business problem，逐步向上解决。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[[一全SEO博客](https://www.yiquanseo.com/)摘抄]]></title>
         <id>https://dzkjz.github.io/post/yi-quan-seo-bo-ke-httpswwwyiquanseocomzhai-chao/</id>
@@ -1912,71 +1971,6 @@ checkout toc of that book, 这些标题小标题就是关键词呗<br>
 <p><a href="https://neilpatel.com/">Neil patel</a></p>
 <p><a href="https://smartblogger.com/">Smart Blogger</a></p>
 <p><a href="https://www.stackpath.com/">Stackpath</a> CDN加速服务。贵得很。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SEO 之 Keyword research]]></title>
-        <id>https://dzkjz.github.io/post/seo-zhi-keyword-research/</id>
-        <link href="https://dzkjz.github.io/post/seo-zhi-keyword-research/">
-        </link>
-        <updated>2020-08-01T17:50:42.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="what-is-seosearch-engine-optimization">What is SEO[search engine optimization]</h2>
-<p><a href="https://www.youtube.com/watch?v=D7UxlkwdYc0">What is SEO and How Does it Work? (2020)</a></p>
-<p>1.40%</p>
-<p>2.20%</p>
-<p>3.10%</p>
-<p>few than 10% will goto next page</p>
-<p>relavant</p>
-<p>people also ask</p>
-<h3 id="on-page-seo"><a href="https://www.youtube.com/watch?v=R0ETQVW3PbI">On-Page SEO</a></h3>
-<p>controllable</p>
-<p>是可以在写完文章后做的调整。写的时候也可以。</p>
-<ol>
-<li>标题中有你要的主题keyword，越靠前越好。</li>
-<li>url中也要有。url尽量短一点，主题鲜明一点。</li>
-<li>第一段文本甚至于第一段的第一句，要有keyword。</li>
-<li>内链，为了提高在站时长。google也会据此加分。甚至就是简单的，【建议阅读+链接】的格式。</li>
-<li>副标题，子标题可以尽量有keyword。或者关联keyword的助力keyword。</li>
-<li>避免长文本段落，可以加图片增加一点空间。图片 alt文本【描述图片用】，图片title。</li>
-<li>meta description 一般就是</li>
-</ol>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801221937.png" alt="" loading="lazy"></figure>
-<blockquote>
-<p>但是不要超过160个字符。</p>
-</blockquote>
-<ol start="8">
-<li>可以加几个出站链接。</li>
-</ol>
-<h3 id="backlinks">Backlinks</h3>
-<h2 id="keyword-research"><a href="https://www.youtube.com/watch?v=Mhk76ZvccK8">Keyword Research</a></h2>
-<h3 id="关键词动机">关键词动机</h3>
-<h4 id="品牌-amazon-netflix">品牌 amazon netflix...</h4>
-<h4 id="商品型号-cannon-5d-tesla-model-s">商品型号 cannon 5d, Tesla Model S...</h4>
-<h4 id="资料信息-what-how">资料信息 what how ...</h4>
-<h4 id="查询-best-top-coupon-deals-cheap-budget-affordable-free">查询 best top coupon deals cheap budget affordable free...</h4>
-<h3 id="方法">方法</h3>
-<blockquote>
-<p>注意，主要是用于博客类的网站</p>
-</blockquote>
-<h4 id="头脑风暴">头脑风暴</h4>
-<p>应该自己想一个topic，没人比你更清楚你要做的是什么。从这个start point出发，联想一些词，但是由于长期关注到的是这几个主题词，并不一定能清楚知道，用户平时搜索的词具体是什么，更多的是什么，比例如何，关联度如何，所以需要下面的工具。</p>
-<h4 id="工具">工具</h4>
-<h5 id="keywords-everywhere"><a href="https://keywordseverywhere.com/">keywords everywhere</a></h5>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801213305.png" alt="" loading="lazy"></figure>
-<h5 id="related-keywords">related keywords</h5>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801212122.png" alt="" loading="lazy"></figure>
-<h5 id="answerthepublic"><a href="https://answerthepublic.com/">answerthepublic</a></h5>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801213424.png" alt="" loading="lazy"></figure>
-<h5 id="semrush"><a href="https://www.semrush.com/">Semrush</a> 付费版</h5>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200801213709.png" alt="" loading="lazy"></figure>
-<h5 id="ahrefs"><a href="https://ahrefs.com/">Ahrefs</a></h5>
-<p><a href="https://www.youtube.com/watch?v=1BME8PfbulI">How to Use Ahrefs for Keyword Research</a> 视频很罗嗦，主题就是一个很简单的Ahref说明书。</p>
-<h5 id="这里"><a href="https://www.youtube.com/watch?v=0r_HMKDxpK0">这里</a>还推荐了一个工具： <a href="https://neilpatel.com/ubersuggest/">Ubersuggest</a></h5>
-<h5 id="google-trends"><a href="https://trends.google.com/trends/">Google Trends</a></h5>
-<p>介绍基本用法，其实很简单，就是输入搜索词，然后结果分析一下。<a href="https://www.youtube.com/watch?v=u75nbWDqymA">How To Use Google Trends! Market Research To Compare Keywords, Topics &amp; Niches, Fast!</a>，其他的都是废话。</p>
-<h5 id="kwfinder"><a href="https://kwfinder.com/">KWFinder</a></h5>
-<h4 id="seo-tutorial-for-beginners-step-by-step-guide-2020-yoast-seo"><a href="https://www.youtube.com/watch?v=f_n0_cxWqSs">SEO Tutorial for Beginners - Step by Step Guide 2020! (+YOAST SEO)</a></h4>
-<h5 id="keyword"><a href="https://keyword.com/">Keyword</a></h5>
 ]]></content>
     </entry>
 </feed>
