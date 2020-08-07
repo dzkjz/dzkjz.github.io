@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-07T15:47:28.709Z</updated>
+    <updated>2020-08-07T15:58:36.959Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,27 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[几个SEO的百科站]]></title>
+        <id>https://dzkjz.github.io/post/ji-ge-seo-de-bai-ke-zhan/</id>
+        <link href="https://dzkjz.github.io/post/ji-ge-seo-de-bai-ke-zhan/">
+        </link>
+        <updated>2020-08-07T15:55:20.000Z</updated>
+        <content type="html"><![CDATA[<p>https://www.matthewwoodward.co.uk/seo/ 建议</p>
+<p>https://backlinko.com/hub/seo 建议</p>
+<p>https://moz.com/learn/seo 初学者建议看这个先。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Surfer SEO]]></title>
+        <id>https://dzkjz.github.io/post/surfer-seo/</id>
+        <link href="https://dzkjz.github.io/post/surfer-seo/">
+        </link>
+        <updated>2020-08-07T15:52:56.000Z</updated>
+        <content type="html"><![CDATA[<p>就是文章检测，帮你优化文章SEO效果的。有几个技术性指标，这个软件会检测，然后提供建议，建议直接按这个技术指标写一个app，就懒得付费了。<br>
+https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[guest post 或者 买外链 结论]]></title>
         <id>https://dzkjz.github.io/post/guest-post-huo-zhe-mai-wai-lian-jie-lun/</id>
@@ -1968,381 +1989,6 @@ Quora出了付费广告，价格比较低，所以是有很大机会的。你看
 <p>为什么我喜欢Email Outreach？<br>
 如果把SEO分成三大块：内容 + 外链 + 技术端优化，我认为外链是SEO的精髓，也是最具挑战的一部分。</p>
 <p>拿到一条外链，不仅仅证明你创建的内容质量达标，更增长了你做好SEO的信心，最重要的是，在这个过程中，你可以学到很多，这是我最enjoy的。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[新站有哪些快捷高效的外链获取策略？]]></title>
-        <id>https://dzkjz.github.io/post/xin-zhan-you-na-xie-kuai-jie-gao-xiao-de-wai-lian-huo-qu-ce-lue/</id>
-        <link href="https://dzkjz.github.io/post/xin-zhan-you-na-xie-kuai-jie-gao-xiao-de-wai-lian-huo-qu-ce-lue/">
-        </link>
-        <updated>2020-08-04T17:47:16.000Z</updated>
-        <content type="html"><![CDATA[<p>SEO，按我一贯的划分办法，包括三部分：内容（content）+ 外链（links）+ 技术端优化（technical SEO）。</p>
-<p>有一点年龄的老站，一般情况下，发布或更新内容，就能获得不错的排名。</p>
-<p>但新站？你会发现，任凭你怎么折腾内容，一般很难排到前几，除非是超级长尾词。</p>
-<p>这时候，外链的作用就变得尤其突出，就像老外同行经常说的：</p>
-<p>You need links to move the needle.</p>
-<p>那么，一个新的英文内容站（或者其他类型的网站），该怎么获得第一批高质外链呢？</p>
-<p>今天就来聊聊我所认为（并尝试过）的那些快捷高效的外链获取策略。</p>
-<p>首先声明一下，我只谈白帽。</p>
-<p>因为外链获取无非以下三种办法：</p>
-<p>自己建（build links）：几乎所有类型的提交、博客评论、群发，都属于这个，外链质量差，有些还比较耗时。<br>
-去买（buy links）：违反谷歌的外链政策，容易被惩罚，高风险，而且你得花$$$。<br>
-吸引（earn links）：这便是我一贯推崇的高质白帽外链，别人愿意给你外链，因为你的网站对他（或他的受众）有价值。</p>
-<p>以下聊的便是第三种，也是最有挑战和最有意思的一种，我认为这也是SEO的精髓所在。</p>
-<ol>
-<li>HARO（美国一个知名的连接媒体和线人的平台）<br>
-适合推广你的主页，运气好的话，能从大媒体站拿到外链，而且你的网站不需要有太多的内容，因为对方要的是你的quote，顺便给你的网站一条外链。</li>
-</ol>
-<p>比如，这个月初，我的一个新站，就从Washington Post (DR 93)拿到一条。</p>
-<p>怎么操作，看这里：</p>
-<p>https://ahrefs.com/blog/haro-link-building/</p>
-<p>顺便说一下，因为语言和文化差异，最好让你的写手或者专门招美国人兼职来做这个，可以按结果或时间付费，我是让我的写手们兼职做，按小时付费。</p>
-<p>转化率：5%-25%，大概在这个区间，像Matt Diggity这样的高手亲自做能达到25%左右（某次他在Facebook提到），我的写手里最好的能达到10-15%的转化率，也就是说，每回答八九个问题，能有一条被媒体引用，当然，不同的niche，转化率肯定不一样。</p>
-<ol start="2">
-<li>Resource Page Link Building（资源类页面）<br>
-适合于推广首页或链接资产（linkable assets），网站最好有一定数量的高质内容，还有好的about page。</li>
-</ol>
-<p>转化率，我的感觉是1%-5%，当然，取决于你是手工还是自动化，手工挡的话转化率肯定会高些，但代价就是耗时。</p>
-<p>怎么操作，看这里：</p>
-<p>https://backlinko.com/hub/seo/resource-pages</p>
-<p>注：手工推广的话，可以结合下面的broken link building策略一起使用，转化率会更好，因为一般情况下对方站长resource page里或多或少会有过时或失效的链接。</p>
-<ol start="3">
-<li>Broken Link Building（失效链接）<br>
-适合推广某个具体的页面。</li>
-</ol>
-<p>常用的做法，先找到你行业里一篇拥有很多外链的文章，但现在文章已经不存在，可能被删、域名没有续费等，然后你撰写一篇类似主题的文章发布到你的网站，再联系所有给失效文章外链的站长们请求外链。</p>
-<p>转化率：1%-5%，我感觉跟resource page link building差不多。</p>
-<p>怎么操作，看这里：</p>
-<p>https://ahrefs.com/blog/broken-link-building/</p>
-<p>注：别小看broken link building，可以有更多高级的玩法，取决于你是否足够creative，我最近在跟一个美国的link building agency合作，他就只用这一招，而且你不得不佩服他的执行力。</p>
-<ol start="4">
-<li>Skyscraper &amp; Shotgun Skyscraper（摩天大楼法）<br>
-适合推广链接资产。</li>
-</ol>
-<p>怎么操作，看我之前写的这篇文章。</p>
-<p>转化率：Skyscraper （5%-15%），Shotgun Skyscraper（1%-3%）</p>
-<p>注：传统的Skyscraper最早由Brian Dean提出，手工操作居多；Shotgun Skyscraper由Authority Hacker团队提出，自动化居多。</p>
-<ol start="5">
-<li>The Moving Man Method（“移动人”策略）<br>
-适合推广：主页和具体的文章页面。</li>
-</ol>
-<p>任何一个行业，总会有竞争对手倒闭或退出，总会有产品停产或更名，他们的网站和产品页面肯定会有一定数量的外链，能不能拿到这些外链，就看你的本事了。</p>
-<p>怎么操作，看这里：</p>
-<p>https://www.theseoproject.org/the-moving-man-method/</p>
-<p>转化率：不定。这个策略我使用的少，转化率没有特别关注。</p>
-<ol start="6">
-<li>Link Roundups（行业资讯类）<br>
-适合推广：具体的文章页面。</li>
-</ol>
-<p>每个行业总会有一些新闻评论者，这些人里面很多有自己的博客（或者是某个杂志版块的编辑），他们会定期的为他们的读者提供过去一天、一周、或者一个月的新闻，而且简短的点评几句。</p>
-<p>你的文章能否出现在那里，取决于你能否及时的将你的文章呈现在评论者的眼前。</p>
-<p>怎么操作，看这里：</p>
-<p>https://www.quicksprout.com/how-to-build-links-and-traffic-from-link-roundups/</p>
-<p>转化率：~10%，但这样的机会一般不多，请珍惜去开发。</p>
-<ol start="7">
-<li>Guest Posting（客座博客）<br>
-适合推广：首页、产品页面、或者具体的文章页。</li>
-</ol>
-<p>这里就不多介绍了，想必你也知道，我个人不太喜欢也不常用到这个策略，虽然过去也弄到过不少guest posting的外链，因为过程相对比较冗长，涉及的环节比较多。</p>
-<p>怎么操作，看这里：</p>
-<p>https://ahrefs.com/blog/guest-blogging/</p>
-<p>转化率：因人而异。</p>
-<ol start="8">
-<li>创建信息类文章（Informational Articles）<br>
-你没看错，这也是一种外链获取策略，而且，是我最喜欢的策略之一。</li>
-</ol>
-<p>做好关键词研究是关键，选择那些有搜索量而且是Info类型的词（比如：what is, how to, meaning, etc.），这些词一般是长尾，就算你的网站是新站，自动排上去也不是没可能。</p>
-<p>有好的排名后，就会有流量，最重要的是，这些流量里藏着link creators（给你外链的人），他们搜索这个不是为了学习，就是为了找到一个相关的链接加到他们的文章里。</p>
-<p>就像我在写作这篇文章时，给了Ahrefs和Backlinko好几个外链，同样的道理。</p>
-<p>转化率：没数据。</p>
-<p>最后几句<br>
-世界上没有最神奇的SEO外链获取策略，一切在于执行和变通，看你是否足够creative，看你是否足够有耐心。</p>
-<p>执行的过程中，你肯定会遇到这样或那样的问题和挑战，但，持之以恒，你肯定会有不错的收获。</p>
-<p>还有，以上介绍的每一种外链获取策略并非相互排斥，你完全可以融合着使用，比如：当别人拒绝了你的外链请求后，转向Guest Posting，未尝不可。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[博文写手访谈记 及找写手的经验记]]></title>
-        <id>https://dzkjz.github.io/post/bo-wen-xie-shou-fang-tan-ji-ji-zhao-xie-shou-de-jing-yan-ji/</id>
-        <link href="https://dzkjz.github.io/post/bo-wen-xie-shou-fang-tan-ji-ji-zhao-xie-shou-de-jing-yan-ji/">
-        </link>
-        <updated>2020-08-04T15:56:29.000Z</updated>
-        <content type="html"><![CDATA[<p>Source：</p>
-<blockquote>
-<p>https://www.seoactionblog.com/good-writers/<br>
-https://www.seoactionblog.com/hire-writers-outsource-content/<br>
-https://www.seoactionblog.com/outsourcing/</p>
-</blockquote>
-<p>几个写手提到的网站：</p>
-<ol>
-<li>https://problogger.com/</li>
-<li>https://www.reddit.com/r/HireaWriter/</li>
-<li>https://www.reddit.com/r/freelanceWriters/</li>
-<li>https://www.verblio.com/</li>
-</ol>
-<p>另注：</p>
-<blockquote>
-<p>我没用请外国写手写过文章，不知道怎么定价，如果是按字数收费，一般1000字左右的文章多少钱合适呢？<br>
-这个因人而异，1000字的文章，我的付费范围一般在40-120刀之间。</p>
-</blockquote>
-<h3 id="如何通过互联网招聘优质国外写手及外包内容开篇">如何通过互联网招聘优质国外写手及外包内容（开篇）</h3>
-<p>摘：</p>
-<blockquote>
-<p>关于写手的故事，说个最近发生的。</p>
-<p>一直以来，我在亚洲没招到过满意的写手，可能是我比较挑剔，对内容质量要求太高。。每每看到印度和巴基斯坦等国家写手码的那些字，看得有点让我呕吐的感觉。</p>
-<p>真的，他们是“码”英文字符，而不是写英文博客。。质量简直堪比我们中学生的英语作文（呃，这个比喻可能不太合适）</p>
-<p>这不是最要命的，更让人崩溃的是他们的工作态度。</p>
-<p>怎么讲？</p>
-<p>比如：说好三天交稿，结果截止日期到了，他给你一大推理由推迟。。我家断电了，没网了，电脑坏了，房子被淹了，地震了，连海啸都搬出来了，OMG</p>
-<p>所以，后来我对东南亚的写手有天生的偏见，也不怪我，因为那边的优质写手真的太少了。</p>
-<p>不过，去年好不容易招了个菲律宾的，貌似还不错，价格和态度看起来都还OK，结果某天突然失联，任凭我followup邮件都不回，还有两篇文章在pipeline呢。</p>
-<p>我也没理他，结果你猜怎么了？</p>
-<p>三个月后，他又出现了。。让我震惊的是：他的两篇文章保质保量完成！</p>
-<p>我也没食言，直接打款给他了，这是我给他的邮件：</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/email-writer.png" alt="" loading="lazy"></figure>
-<p>这是他的回复：</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/writer-response.png" alt="" loading="lazy"></figure>
-<p>看得出来，他挺幽默的。</p>
-<p>其实，我也不知道他是真结婚还是假的，或许遭遇了什么life event，比如抑郁了啥事都不想干。。Anyway，我更看中的是结果，所以pay了他$200（没加bonus）。</p>
-<p>说到这里，如果Victor真的再次无理由失联，我会马上fire掉他，理由很简单：Good writers don’t make mistakes twice!<br>
-另注：<br>
-Hello 博主<br>
-现在正在寻找写手，要价高的都要到0.3美金/词了， 是我找错人了吗，还是现在价格涨了。</p>
-<p>回复</p>
-<p>John<br>
-2019-12-13 at 20:41<br>
-找错人了，一般4-10美分一个字。</p>
-<p>回复</p>
-</blockquote>
-<h3 id="如何通过互联网招聘优质国外写手及外包内容外包篇">如何通过互联网招聘优质国外写手及外包内容（外包篇）</h3>
-<blockquote>
-<p>还有，做SEO的，我们都知道，内容（content）决定成败，不管是你写的文章，还是外包给写手，都应达到Google质量评估指南里的E-A-T标准，否则就有风险。<br>
-如果你（或你公司）需要一个人，完成一件简单、可考核、而且你做过的非重要事情，最好选择外包。<br>
-如果你（或你公司）需要一个人，完成一件复杂、很难考核、需头脑风暴、内部讨论、汇报决策等重要的事情，最好选择内招。<br>
-值得外包的一般都是那些非重要的事情，这些事你可以做，但很伤脑细胞，或受限于精力没法完成。而且这些事，基本可以通过邮件沟通完成，无需电话或线下讨论。<br>
-而内招，正好相反，需要你跟他/她沟通决策的时候，直接办公椅一挪。。就可以跟此人交流，快速高效。</p>
-</blockquote>
-<p>我们分解一下SEO，然后谈谈哪些适合外包，简单用一个公式：</p>
-<p><strong>SEO = 内容 x 外链 x 用户体验</strong></p>
-<p>先说我的个人判断，再谈理由。</p>
-<h5 id="内容">内容：</h5>
-<ul>
-<li>Content Planning（内容策划） — 不可外包</li>
-<li>Article Writing（文章写作） — 可外包</li>
-<li>On-page SEO（文章页面优化） — 最好不外包</li>
-<li>Article Uploading（文章上传发布） — 可外包</li>
-</ul>
-<h5 id="外链">外链：</h5>
-<ul>
-<li>Prospecting（寻找可外联的资源） — 最好不外包</li>
-<li>Email collecting（查找邮件地址）— 可外包</li>
-<li>Outreaching（发送邮件） — 可外包</li>
-<li>Handling replies（回复邮件）— 最好不外包</li>
-</ul>
-<h5 id="用户体验">用户体验：</h5>
-<ul>
-<li>Logo Design （网站或品牌Logo设计）— 可外包</li>
-<li>UI/UX Audit（网站用户体验审查）— 可外包</li>
-<li>Web Design（站内导航排版布局）— 可外包</li>
-<li>Infographic Design（信息图制作）— 可外包</li>
-</ul>
-<h5 id="content-planning内容策划">Content Planning（内容策划）:</h5>
-<p>我标注的是不可外包，因为它太重要了，可能需要多次头脑风暴、竞争分析、收益预估等等。</p>
-<p>通常是一个很长的流程，而且很难标准化，更别提KPI了（虽然也行，但我认为超难而且耗时）。。你要外包给美国人，他们肯定也很confusing，再加上他们一般不是你行业的专家，对你所在的细分市场理解肯定不如你。</p>
-<p>所以，这个你自己做最合适。</p>
-<p>P.S. 做内容策划，我一般只做3-6个月的，时间跨度太长的话，数据可能不准，而且实施起来有motivation挑战。</p>
-<h5 id="email-collecting查找邮件地址">Email collecting（查找邮件地址）：</h5>
-<p>我标注的是可外包，而且如果你是用email sending工具群发outreach邮件时，强烈建议你外包邮件查找这个环节。</p>
-<p>想想看，给你一批外联机会站点，你一小时可能就能找10个左右（我试过的），一天8小时顶多找100个站点邮箱地址，而且估计把你累趴下。</p>
-<p>我以前有位同事是管理这方面的高手，他从Upwork招了一批来自东南亚的人专门查找邮件，汇报的Excel表格绝对让人叹服，比如：某位data entry analyst这个月找了多少邮件、花了多长时间、付了多少钱，甚至精确计算出了这些人的能力值，谁高谁低一目了然。</p>
-<p>P.S. 我现在是手工档，Outreach时从来不群发邮件。</p>
-<h4 id="外包的原则及建议">外包的原则及建议</h4>
-<ol>
-<li>没做过的事情最好别外包。</li>
-</ol>
-<p>这是我给所有寻找外包的SEO人的第一条建议。</p>
-<p>没错，没做过的事情我基本上不外包，除非我不会做，比如：Design一个Logo或Infographic（呃，其实我也干过），这个是非常烧脑的事，还是交给专业的设计师做比较好。</p>
-<p>再比如，写英语文章，这个我更加确信你要自己先写，然后再考虑是否外包，原因：</p>
-<ul>
-<li>只有你写过了，才知道写作的挑战，需要多长时间完成，有哪些细节需要注意。</li>
-<li>只有你写过优质的文章，招聘的写手才会服你，更愿意跟你合作，真的。</li>
-<li>只有你写过了，才知道哪个写手好，哪个写手差，付多少钱更合适。</li>
-<li>还有一点，你写过的文章可以就是模板，是最好的content briefing（给写手的内容简报），也是最好的质量标杆，无形之中给写手施压。。看，这是我写的，你写的最好别比我差就行，哈哈。</li>
-</ul>
-<p>写手也是人啊，你花时间把他们要做的事情变得更简单，他们也会更加appreciate你。。以后长期合作才有可能嘛。</p>
-<p>P.S. 别不自信，英文写作一样熟能生巧，不过文章发表前，最好招个美国编辑Editor把文字磨光一遍。</p>
-<ol start="2">
-<li>外包的事情要流程化。</li>
-</ol>
-<p>什么是流程？简单的将，就是什么人在什么时候做什么事情。</p>
-<p>一篇文章的外包，大概需要经历以下环节：</p>
-<ul>
-<li>选择主题写Content Briefing（执行人：你 | 耗时：15-30分钟）</li>
-<li>研究主题、撰写初稿（执行人：写手 | 耗时：5-10小时）</li>
-<li>审阅写手的初稿、并提交修改建议（执行人：你 | 耗时：1-2小时）</li>
-<li>完成修改（执行人：写手 | 耗时：30分钟）</li>
-<li>付款（执行人：你 | 耗时：10分钟）<br>
-这个流程是我和我招聘的写手之间的，耗时也是根据我的项目预估的，不一定适合你，但本质相通。</li>
-</ul>
-<p>将一件事情流程化，有很多好处，其中最大的就是：取得写手的信任！</p>
-<p>当你把这个流程展示给他们的时候，一方面让他们知道要干哪些活，另一方面他们会更有理由相信跟你合作是最轻松的，这个在下面的求职者心理部分也会提到。</p>
-<ol start="3">
-<li>外包的东西最好有考核的标准。</li>
-</ol>
-<p>这个很好理解，就像企业里常用的KPI（Key Performance Indicator），你需要知道哪些写手在over-delivering，哪些在under-delivering，还有哪些是freeriders瞎糊弄。</p>
-<p>这些通过比较，就一目了然。当然，前提是同一份工作，多个求职者。</p>
-<p>这也是为什么在招聘的筛选阶段，有时你可以选择多招几个人同时进行一个test project，多花一点钱，目的是为了找到那些over-delivering的申请者。</p>
-<p>比如：给5个申请者发送这样一个任务，完成一篇关于某某主题的文章，3日内交稿，2000字（可上下浮动300字）。</p>
-<p>3天后，比较5个申请者提交的初稿，孰好孰坏，一阅便知，参考的标准可以是：</p>
-<ul>
-<li>提交时间</li>
-<li>提交方式</li>
-<li>文章质量</li>
-<li>文章字数</li>
-<li>没有没问你问题<br>
-注：有时我会故意在content briefing里说到提交方式为Google Doc，Pass掉那些发送Word文档的，因为他们不仔细看briefing，很难让人信服他们有attention to details的品质；</li>
-</ul>
-<p>还有，有没有问你问题也很重要，我会给问我问题的申请者加分，因为他们care这份外包工作，所以想确保写的东西符合我的预期。</p>
-<h4 id="为什么了解求职者心理很重要">为什么了解求职者心理很重要</h4>
-<p>看到没有，虽然你提供的报酬很重要（也必须有诱惑力），但是还有两个其他的东西对优质写手很有杀伤力。</p>
-<p>一是：你是否愿意给写手适当的自由发挥空间；二是：你要他写的文章是否会很无聊（boring）。</p>
-<p>第一，优质写手选择跟你合作前，还会check你的背景。这是我招聘的加拿大写手亲自告诉我的，如果他们发现你的动机不对，很有可能就不会申请了。注意：优质写手很聪明的，关于SEO，他们或许比你更懂。</p>
-<p>第二，每个优质写手的风格不一。有的像Joshua说的喜欢你给点自由空间，但有的不是，比如：我招的一个美国大学生，程序媛一枚，就喜欢你给她布置作业一样，说deadline是什么时候就啥时候提交，是不是勾起你大学时的记忆呢？呵呵。</p>
-<p>第三，优质写手不太可能只为你一家做事。我所了解的，欧美有经验的freelancing writers一般会take 2-3份兼职写作任务，不然很难维持生活，所以，如果你遇到这样的写手时，提供creative freedom对他们通常很有吸引力。</p>
-<p>第四，优质写手喜欢跟有条理的雇主共事。因为，有条理的雇主会make their work easier，上面说到，你让他们知道合作的流程，什么时候谁负责哪部分事情，团队合作就应该这样，还有，任何时候有变故，比如：无法按时审阅稿子时，发封邮件跟他们说一下，别等到最后一刻。</p>
-<p>第五，优质写手也渴望有学习的机会。他们申请你的工作是选择一种lifestyle（生活方式），但跟我们一样，也渴望不断学习、提高自己，这样生活和工作才有意义，对不对。。所以，在招聘时可以适当展示一下你自己或你的公司，但要保持谦卑，不可过度。</p>
-<p>注：</p>
-<blockquote>
-<p>支付手续费一般不超过3%吧，和文章的bonus相比（我一般加付10%-20%），手续费是小头。<br>
-遇到好的写手，在经济上不要拮据，要知道你花在招聘上的时间和精力也是成本啊。<br>
-平台很多，我最喜欢Upwork和Problogger。</p>
-</blockquote>
-<h3 id="如何通过互联网招聘优质国外写手及外包内容招聘篇"><a href="https://www.seoactionblog.com/hiring/">如何通过互联网招聘优质国外写手及外包内容(招聘篇)</a></h3>
-<ol>
-<li>大众系<br>
-特点：这类招聘平台你可以发布几乎任何招聘需求（文案写作、翻译、设计、coding、数据录入等），只要能依靠互联网远程完成，你无需线下去招聘员工。<br>
-比如：Upwork, Fiverr, Craigslist, Freelancer, PeoplePerHour等。<br>
-注：Craigslist在国外是一个很知名的找工作找房子买卖二手家具的平台，它也包含有招聘的版块，有点像我们的58同城，啥都有，据说在某些国家能招到不错的写手；Freelancer.com和PPH我只听说过但没试过。</li>
-</ol>
-<blockquote>
-<p>简单来讲，在Upwork上招聘写手包含以下几个步骤：</p>
-<p>Step 1: 发布招聘需求广告;<br>
-Step 2: 面试应聘者；<br>
-Step 3: 确定雇佣对象并开始项目合作。<br>
-Fiverr也是一个不错的freelancing平台，但它更适合one-time projects（一次性的外包需求），而Upwork恰好相反，适合ongoing projects（持续性的内容外包）。</p>
-<p>比如：你要设计网站Logo，可以通过Fiverr找一个rating较高的设计师，付给她20刀，在白纸上花个草图，拍张照片发给她，三天左右你就可以收到满意的JPEG/PNG原图。</p>
-<p>对，以前我就是这么干的，专业的事交给专业的人，别为了个Logo去自学Photoshop，不划算，而且真的烧脑。</p>
-<p>再举个例子，不都说Video效果比文字好么。。a video is worth a thousand words!</p>
-<p>你制作视频的时候，可能需要用标准的美式英语作为背景配音，那么你也可以通过Fivver完成，我之前在美国工作的时候就在Fiverr上和一个freelancer合作过。</p>
-<p>你给他一段script，定义好朗读风格，他照着script读并录下来，给你的mp3音频文件，播放出来的效果跟我们广播学院毕业的播音员有的一拼。。当然，别人念的是英文，我们的播音员是中文。</p>
-<p>价格也不贵，按照script长短付费，当时好像是每100个英文单词收50刀，性价比绝对比你在国内找的英语专八高。</p>
-<p>说到这里，容我再啰嗦几句，。我发现，国内很多做海外营销的伙伴们把很多问题归根于自己英语不好，比如：发音不标准，单词量不够等等，好像学好英语就像是升职加薪的唯一通道，于是不惜代价恶补英语，刚毕业的大学生喜欢自学，有点积蓄的会报班上课。</p>
-<p>见到这样的现象，我只想说：精神可嘉，但不一定值得！</p>
-<p>并非说英语不重要，但语言毕竟是语言，只是沟通的工具而已，老外选择跟你做生意不是因为你们公司业务员英语说得有多溜，而是认为你们的产品靠谱、人可信。</p>
-<p>信任，这东西看不见摸不着，但真的是一切business的根基。</p>
-<p>同样的，下面我会介绍怎么撰写招聘广告，别以为一则完美的广告就能吸引到优质写手，他们很聪明的，选择跟你合作通常不是因为你的offer给得有多丰厚，而是你（或你公司）的人品如何，值不值得信任并长期合作下去。</p>
-<p>好了，回来，接着介绍freelancing平台。</p>
-</blockquote>
-<ol start="2">
-<li>纯内容系<br>
-特点：中介、流程简单、专一（只跟writing有关）<br>
-比如：TextBroker, iWriter, WordAgents, Constant Content<br>
-通过大众系进行网络招聘，用圈内的话说：it’s a hit or miss（命中或错过），言下之意，招到好写手有些运气的成分，而且招聘的过程非常耗时。<br>
-比如：你要写得到一篇博客文章，通过Textbroker按照它的流程提交好需求后，可能一两天就能得到草稿；通过WordAgents这样的内容中介，付款后，一周左右也可以拿到草稿；Constant Content更快，如果你想要的主题已经在它的内容库里，付款后就可以直接拿走使用。</li>
-</ol>
-<p>内容质量，我的感觉是良莠不齐，个人使用过TextBroker和iWriter，说实话，很失望；但又同行反应还不错，可能跟个人的内容预期有关。</p>
-<p>至于内容中介，可以看看AuthorityHacker写的<a href="https://www.authorityhacker.com/best-content-creation-services/">这篇文章</a>。</p>
-<ol start="3">
-<li><strong>其他系</strong><br>
-特点：懂行 or 会写 or both的写手相对多、但招到他们不那么容易<br>
-比如：<strong>ProBlogger、写手个人博客、写手聚集的Facebook社区、Reddit子版块的那些细分行业的专家等这些地方是我最喜欢的，我的好写手大部分也是通过Problogger招到的</strong>，虽然在大众系里也招到过一些（通过Upwork），但，不得不说，你想找到既会写作、也懂行的优质写手，来这里的概率相对会高。</li>
-</ol>
-<p>还是那句话：去会写的地方找懂行的，去懂行的地方找会写的。</p>
-<p><strong>Problogger和写手聚集的网络社区，便是前者；Reddit子版块、垂直行业论坛等地方便属于后者</strong>，这里就不花时间一一介绍了。</p>
-<h4 id="如何写出吸引写手眼球的招聘广告">如何写出吸引写手眼球的招聘广告</h4>
-<p>上面提到了招聘广告，优质写手选择跟你合作，通常不会因为你的广告写得有多完美，或offer有多丰厚。</p>
-<p>他们回复你之前一定会做尽职调查（due diligence），如果你是niche site个人站长，他们会去你的网站看，而且查看的第一个页面是about page，然后再瞧瞧你网站的其他内容；如果你是公司，他们一定会research你公司的资历，了解你们的产品和团队。</p>
-<p>如果你有任何一点让他们不太满意的地方，比如：about页面就敷衍的几句官话，文章写的超烂，不用想，他们绝对会pass你的offer。</p>
-<p>注意：我所说的他们指的是“优质写手”，而非mediocre or bad writers。</p>
-<p>为什么我会如此确定？因为跟我合作一年之久的加拿大写手亲口跟我说的，记得我之前的某篇文章也提到过，这里就不赘述了。</p>
-<p>总之，一句话：good writers know much more about you than you know about them（读起来是不是很拗口，哈哈）</p>
-<p>不过，话说回来，怎么成功招聘到优质写手，一切都得从招聘广告开始。正如标准的marketing funnel一样（如下图）。<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/hiring1-1024x654.png" alt="" loading="lazy"></p>
-<p>（图片来源：LinkedIn）<br>
-金字塔最上端的Loyalty/Advocacy，就好比是优质写手被招到并成功留下，对你忠诚，要实现这一步，你得从金字塔最下面的Awereness开始。</p>
-<p>怎么Create Awareness？就是通过招聘平台发布招聘广告帖了，因此，怎么撰写吸引眼球的招聘广告就非常重要了。</p>
-<p>当然，招聘广告的写法也很讲究，我不会给你模板（也不建议你直接拿网上能找到的template），但会跟你分享我认为一则好的job posting需要包含哪些因素。</p>
-<p>在我看来，一则标准的广告贴应该包含以下几点：</p>
-<ul>
-<li>你要招聘的对象是谁？比如：copywriter, blogger, editor, etc.</li>
-<li>你是谁？个人站长的话，建议多展示你的personality，如果你代表公司，就boast一下你们的核心竞争力，但别过度。。不管是个人还是公司，你要突出两点：第一、我们跟其他的网站（或竞争对手）不一样；第二、我有一颗改变世界颠覆行业的心。</li>
-<li>你为什么要招聘？一句话，你的表述要突出scale up这个需求，因为growth太快人手不够。创建一个新的网站就像创业一样，你的business idea已经validate了，需要扩张。</li>
-<li>你期望申请者具备哪些特质？比如：热爱你所在的细分市场、使用过或正在使用市场上的一些产品（方便写测评类文章）、沟通、英语是母语等等。</li>
-<li>你的offerings是什么？除了基本的薪酬，你还会为写手提供什么福利。</li>
-<li>求职者能获得什么？除了报酬，他们能获得什么（What’s in It for Them），比如：基于Performance的月度和年度奖金、新写手的话提供写作培训以提高他们的写作技能等。</li>
-<li>申请流程是怎样的，及怎么联系你？这个最好在你撰写招聘广告之前就设置好，以便后续好管理，比如：你要写手回答什么问题；求职者也喜欢雇主完善的申请流程，优质写手会觉得你很organized。<br>
-==== 以下部分是今天（2020年6月30日）写的 ====</li>
-</ul>
-<p>好的招聘广告是吸引优质写手的第一步，建议在撰写之前多想想，同时还建议，花点时间去研究一下招聘平台的规则。</p>
-<p>比如：Upwork比较排斥你在招聘广告里放置邮件地址，它不喜欢你把他们的applicants拉着离开平台；Problogger有帖子置顶服务，只需多花点$$，就能让你的广告贴让更多人看到。</p>
-<p>另外，为了感谢大家对本外包招聘系列篇的关注，请将你的招聘广告发送至我的邮件给你反馈。</p>
-<h4 id="怎么筛选合格的申请者">怎么筛选合格的申请者</h4>
-<p>我通常喜欢在招聘广告的结尾设置一个小trick，让他们邮件联系我，并注明邮件的主题（subject line）应该是怎样的，邮件内容要包含什么。</p>
-<p>为什么放在邮件尾部？就是为了快速排除那些不看招聘广告就瞎投简历的不合格申请者。</p>
-<ul>
-<li>第一步，没有通过指定邮件给我联系的所有申请者，一律不考虑。</li>
-</ul>
-<p>因为他们没有仔细看我的招聘广告内容；如果他们连这个都不屑于看，你怎么能期望他们以后仔细看你的写作概要（writing guideline）呢，对吧。</p>
-<ul>
-<li>第二步，邮件主题（subject line）没有按照要求写的申请者，也直接pass掉。</li>
-</ul>
-<p>有时候，当你的广告发出后的两三天里，会有几百人来申请，我是没有时间一个一个点开看的，于是，Gmail的邮件搜索功能就发挥作用了，我会在搜索框里输入一个关键词，然后按时间将未读邮件排序，那些没有包含这个关键词的申请者就自动排除了。</p>
-<ul>
-<li>第三步，邮件内容文不对题、敷衍回答、有语法错误的，也不纳入考虑范畴。</li>
-</ul>
-<p>有时候，只需要一两秒，你就知道申请者是否是认真的，比如：你在招聘广告帖子里特别提到，不要附上任何简历和PDF文档，但有的人还是这么干。</p>
-<p>我说明了native English speakers only，还有欧洲和亚洲的以英语为第N语言的人来申请，我也是醉了。</p>
-<p>邮件以 Dear sir, Hello sir, Hi there等诸如此类的，我也基本是秒删，因为他们连我的名字都不屑一顾（我一般在招聘帖子的介绍部分提到我的first name），我也不care他们了。</p>
-<p>总之，多看一些申请者的邮件后，稍稍比较一下，你就会明白好的和一般的区别。</p>
-<ul>
-<li>第四步，我一般喜欢把好的申请邮件标星（Starred），以便下一步回复邀请他们写作测试文章。</li>
-</ul>
-<p>同时，将他们的基本信息录入到一张spreadsheet里，以便后续进行对比，如图。<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/hiring2.png" alt="" loading="lazy"></p>
-<h4 id="如何通过test-article确定最后的合作对象">如何通过Test Article确定最后的合作对象</h4>
-<ul>
-<li>首先，你得准备好test article的topics。</li>
-</ul>
-<p>我是一名内容站长，一般的内容包含两种类型：commercial reviews + information articles，所以，测试文章我也喜欢让他们写两种。</p>
-<p>还有一个原因，就是这两种文章类型可以考察写手不能的能力，怎么讲？</p>
-<p>我的话，喜欢把reviews的规则（writing outlines）定的超详细，每个部分怎么写、写多少字、review的风格等等，这个writing outline消化完，估计都要花他们半个小时。</p>
-<p>但information articles的规则就截然不同，我几乎只定个字数范围，然后让他们尽情发挥。</p>
-<p>Reviews考察写手的“照抄”能力，Info articles考察他们的“创新”能力。</p>
-<p>以我的经验，很少有写手能同时具备这两种能力，如果有，立即高价拿下。</p>
-<ul>
-<li>然后，邮件回复合格的申请者、邀请他们选择两个article topics进行测试，并说明是paid test articles。</li>
-</ul>
-<p>这一步，我会在邮件里根他们share一个Google sheet，里面有相当数量的article topics，以便他们挑选自己可以写作的。</p>
-<p>通常，他们只需花几分钟的时间，选择好即可。</p>
-<ul>
-<li>下一步，待写手选择好测试文章主题后，你发送writing guidelines给他们，并注明初稿的提交截止日期。</li>
-</ul>
-<p>特别强调，一定要设置截止日期，而且标注时区（我一般以美东或美西时间定）！</p>
-<p>没有在截止日期前提交初稿、或者延期提交但又没有好的理由的candidates，直接pass掉。</p>
-<p>你会发现，有部分申请者在这一关掉链子了，挺好的，早发现早好，免得你招聘后失望。</p>
-<ul>
-<li>再下一步，审核申请者的测试文章，给他们的稿子评分。</li>
-</ul>
-<p>记得在spreadsheet里更新，不然申请者一多，你就忘了，还是这张图。</p>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/hiring2.png" alt="" loading="lazy"></figure>
-<p>高分的申请者，我喜欢标颜色，更醒目。</p>
-<p>最后，确定长期合作的写手，商谈好价格，然后开始持续的内容产出。</p>
-<p>招多少人，出多少价，看你的Budget有多少。</p>
-<p>一个小tip：建议这个阶段多招聘几个，以免有个别写手因为各种原因，没法持续写作。</p>
-<p>比如：去年的那次招聘，我留下了11名写手，但你猜，现在还剩下几个？</p>
-<p>5！</p>
-<p>有的是被我fire掉（看走眼了），有的是因为个人原因没法继续，毕竟这个属于freelance writing（兼职写作）。</p>
-<p>好了，招到写手后，也不是万事大吉了，怎么成功留住他们，其实也蛮有挑战的，这也是锻炼你管理能力（并且是远程管理）的机会。</p>
 ]]></content>
     </entry>
 </feed>
