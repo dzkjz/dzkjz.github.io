@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-07T14:49:36.613Z</updated>
+    <updated>2020-08-07T15:47:28.709Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,56 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[guest post 或者 买外链 结论]]></title>
+        <id>https://dzkjz.github.io/post/guest-post-huo-zhe-mai-wai-lian-jie-lun/</id>
+        <link href="https://dzkjz.github.io/post/guest-post-huo-zhe-mai-wai-lian-jie-lun/">
+        </link>
+        <updated>2020-08-07T15:47:09.000Z</updated>
+        <content type="html"><![CDATA[<p>source https://ahrefs.com/blog/buy-backlinks/</p>
+<blockquote>
+<p>谷歌搜buy guest posts 可以看到很多结果</p>
+<blockquote>
+<p>​	All of these services fall into one of three categories:</p>
+<ol>
+<li><strong>Genuine guest posting services:</strong> They conduct <em>real</em> outreach to <em>real</em> blogs and secure guest post placements on your behalf.</li>
+<li><strong>Disguised PBNs:</strong> They sell their service as real outreach, but they actually use PBNs. You can usually tell these services a mile off, as they’re <em>very</em> cheap (&lt;$100 per post). We don’t recommend using them unless you’re aware of, and accept, the risks associated with PBNs.</li>
+<li><strong>Intermediary link buyers/sellers:</strong> They pay sites for inclusion on behalf of their clients, markup the price, then pocket the difference. Essentially, they’re middlemen (or women) in the link buying/selling process.</li>
+</ol>
+<p>I’d say #3 is the most common.</p>
+</blockquote>
+<p>博主测试给blogger直接发邮件</p>
+<ol>
+<li>直接说我要买guest post 价格平均361.44刀，</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/outreach-email-1.jpg" alt="" loading="lazy"></figure>
+<ol start="2">
+<li>说能不能发一篇guestpost不说给钱，要价均价77.8刀</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/guest-post-outreach-email.png" alt="" loading="lazy"></figure>
+<p>DA越高，要价越高</p>
+<p>结论</p>
+<h3 id="paid-links-can-be-very-low-quality">Paid Links Can Be Very Low-quality</h3>
+</blockquote>
+<p>source https://www.authorityhacker.com/link-building-services/</p>
+<p>测试了几个</p>
+<blockquote>
+<p>Fiverr<br>
+Love to Link<br>
+SERP Logic<br>
+The Hoth<br>
+FatJoe</p>
+</blockquote>
+<p><strong>都是垃圾，不值钱；</strong></p>
+<p>fiverr几刀的就不说了，100刀的就是很普通的站点的外链。而且出站链接超多的站。</p>
+<p>最低起价都是100+刀</p>
+<blockquote>
+<p>So should you buy them?</p>
+<p>Nope, those services deliver low quality links that most of the time break Google’s terms of service, you are better off building a team that does the real thing.</p>
+</blockquote>
+<p>具体每一个商家的购买记录和评价看原文。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SEO 系列摘要【backlinko.com】]]></title>
         <id>https://dzkjz.github.io/post/seo-xi-lie-zhai-yao-backlinkocom/</id>
@@ -2293,25 +2343,6 @@ Fiverr也是一个不错的freelancing平台，但它更适合one-time projects�
 <p>5！</p>
 <p>有的是被我fire掉（看走眼了），有的是因为个人原因没法继续，毕竟这个属于freelance writing（兼职写作）。</p>
 <p>好了，招到写手后，也不是万事大吉了，怎么成功留住他们，其实也蛮有挑战的，这也是锻炼你管理能力（并且是远程管理）的机会。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[怎么估算一个网站的收入？]]></title>
-        <id>https://dzkjz.github.io/post/zen-me-gu-suan-yi-ge-wang-zhan-de-shou-ru/</id>
-        <link href="https://dzkjz.github.io/post/zen-me-gu-suan-yi-ge-wang-zhan-de-shou-ru/">
-        </link>
-        <updated>2020-08-04T14:46:52.000Z</updated>
-        <content type="html"><![CDATA[<p>这个可以直接去 <a href="https://flippa.com/">flippa</a><br>
-或者 <a href="https://empireflippers.com/">empireflippers</a><br>
-或者 <a href="https://feinternational.com/">FE International</a> 这种网站交易平台，<br>
-看卖的网站价格，出售方会注明当前月收益还有流量数据：<br>
-比如这个网站<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804225000.png" alt="" loading="lazy"><br>
-然后<br>
-流量数据可以去<a href="https://www.similarweb.com/">SimiliarWeb</a>搜：<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804225050.png" alt="" loading="lazy"><br>
-当然有人会虚报，不过看的数据越多，也就越来越有数。<br>
-这些网站的卖价倍数一般成交都在26-40之间。net profit*(26~40)=final price</p>
 ]]></content>
     </entry>
 </feed>
