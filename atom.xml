@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-07T15:58:36.959Z</updated>
+    <updated>2020-08-08T16:02:02.780Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,567 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Vue 源码学习之main.js代码解析]]></title>
+        <id>https://dzkjz.github.io/post/vue-yuan-ma-xue-xi-zhi-mainjs-dai-ma-jie-xi/</id>
+        <link href="https://dzkjz.github.io/post/vue-yuan-ma-xue-xi-zhi-mainjs-dai-ma-jie-xi/">
+        </link>
+        <updated>2020-08-08T16:00:18.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-js">//main.js
+import Vue from 'vue'
+import App from './App.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h =&gt; h(App),
+}).$mount('#app')
+
+</code></pre>
+<h4 id="vmmount"><a href="https://cn.vuejs.org/v2/api/index.html#vm-mount">vm.$mount</a></h4>
+<blockquote>
+<p>​	[vm.$mount( [elementOrSelector] )]</p>
+<ul>
+<li>
+<p><strong>参数</strong>：</p>
+<ul>
+<li><code>{Element | string} [elementOrSelector]</code></li>
+<li><code>{boolean} [hydrating]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>返回值</strong>：<code>vm</code> - 实例自身</p>
+</li>
+<li>
+<p><strong>用法</strong>：</p>
+<p>如果 Vue 实例在实例化时没有收到 el 选项，则它处于“未挂载”状态，没有关联的 DOM 元素。可以使用 <code>vm.$mount()</code> 手动地挂载一个未挂载的实例。</p>
+<p>如下：</p>
+<pre><code class="language-js">new Vue({el:'#app'})
+或者
+new Vue().$mount('#app')
+</code></pre>
+<p>拓展一下 这个<a href="https://cn.vuejs.org/v2/api/index.html#el">el</a>选项</p>
+<blockquote>
+<ul>
+<li><strong>类型</strong>：<code>string | Element</code></li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>
+<p><strong>限制</strong>：只在用 <code>new</code> 创建实例时生效。</p>
+</li>
+<li>
+<p><strong>详细</strong>：</p>
+<p>提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。</p>
+<p>在实例挂载之后，元素可以用<a href="#vm.$el"><code>vm.$el</code></a>访问。</p>
+<p>如果在实例化时存在这个选项，实例将立即进入编译过程，否则，需要显式调用 <a href="#vm.$mount"><code>vm.$mount()</code></a> 手动开启编译。</p>
+<p>提供的元素只能作为挂载点。不同于 Vue 1.x，所有的挂载元素会被 Vue 生成的 DOM 替换。<strong>因此不推荐挂载 root 实例到 <code>&lt;html&gt;</code> 或者 <code>&lt;body&gt;</code> 上</strong>。</p>
+<p>如果 <code>render</code> 函数和 <code>template</code> property 都不存在，挂载 DOM 元素的 HTML 会被提取出来用作模板，此时，必须使用 Runtime + Compiler 构建的 Vue 库。</p>
+</li>
+</ul>
+</blockquote>
+<p>如果没有提供 <code>elementOrSelector</code> 参数，模板将被渲染为文档之外的的元素，并且你必须使用原生 DOM API 把它插入文档中。</p>
+<p>如下：</p>
+<pre><code class="language-js">var v = new Vue().$mount();
+document.getElementById('app').appendChild(v.$el);
+</code></pre>
+<p>其中v.$el解释：</p>
+<blockquote>
+<h4 id="vmel"><a href="https://cn.vuejs.org/v2/api/index.html#vm-el">vm.$el</a></h4>
+<ul>
+<li>
+<p><strong>类型</strong>：<code>Element</code></p>
+</li>
+<li>
+<p><strong>只读</strong></p>
+</li>
+<li>
+<p><strong>详细</strong>：</p>
+<p>Vue 实例使用的根 DOM 元素。</p>
+</li>
+</ul>
+</blockquote>
+<p>这个方法返回实例自身，因而可以链式调用其它实例方法。</p>
+</blockquote>
+<h4 id="productiontip"><a href="https://cn.vuejs.org/v2/api/index.html#productionTip">productionTip</a></h4>
+<blockquote>
+<blockquote>
+<p>2.2.0 新增</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>类型</strong>：<code>boolean</code></p>
+</li>
+<li>
+<p><strong>默认值</strong>：<code>true</code></p>
+</li>
+<li>
+<p><strong>用法</strong>：</p>
+<p>设置为 <code>false</code> 以阻止 vue 在启动时生成生产提示。</p>
+</li>
+</ul>
+</blockquote>
+<p>实例化vue的选项这里只用到了render，在介绍render之前，先介绍template选项：</p>
+<h4 id="template"><a href="https://cn.vuejs.org/v2/api/index.html#template">template</a></h4>
+<blockquote>
+<p>​	<strong>类型</strong>：<code>string</code></p>
+<ul>
+<li>
+<p><strong>详细</strong>：</p>
+<p>一个字符串模板作为 Vue 实例的标识使用。模板将会<strong>替换</strong>挂载的元素。挂载元素的内容都将被忽略，除非模板的内容有分发插槽（slot）。</p>
+<p>如果值以 <code>#</code> 开始，则它将被用作选择符，并使用匹配元素的 innerHTML 作为模板。常用的技巧是用 <code>&lt;script type=&quot;x-template&quot;&gt;</code> 包含模板。</p>
+<p>参考<a href="https://vuejsdevelopers.com/2017/03/24/vue-js-component-templates/"><em>7 Ways to Define a Component Template in Vue.js</em></a></p>
+</li>
+</ul>
+<blockquote>
+<p>这种用法一般就是示例才用：</p>
+<pre><code class="language-js">Vue.component('alert-box', {
+template: `
+ &lt;div class=&quot;demo-alert-box&quot;&gt;
+   &lt;strong&gt;Error!&lt;/strong&gt;
+   &lt;slot&gt;&lt;/slot&gt;
+ &lt;/div&gt;
+`
+})
+</code></pre>
+<p>更多的就是X-templates</p>
+<blockquote>
+<pre><code class="language-js">//app.js
+Vue.component('my-checkbox', {
+  template: '#checkbox-template',
+  data() {
+    return { checked: false, title: 'Check me' }
+  },
+  methods: {
+    check() { this.checked = !this.checked; }
+  }
+});
+</code></pre>
+<pre><code class="language-html">&lt;!--index.html--&gt;
+&lt;div id=&quot;app&quot;&gt;...&lt;/div&gt;
+&lt;script type=&quot;text/x-template&quot; id=&quot;checkbox-template&quot;&gt;
+  &lt;div class=&quot;checkbox-wrapper&quot; @click=&quot;check&quot;&gt;
+    &lt;div :class=&quot;{ checkbox: true, checked: checked }&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;title&quot;&gt;{{ title }}&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+<p>即：在index.html中定义一个type为text/x-template的sctipt标签，给一个id：checkbox-template，组件中template选项就不用再写字符串，而是直接就用这个id引用script上的模板了。</p>
+</blockquote>
+</blockquote>
+<ol>
+<li>
+<p>出于安全考虑，你应该只使用你信任的 Vue 模板。避免使用其他人生成的内容作为你的模板。</p>
+</li>
+<li>
+<p>如果 Vue 选项中包含<a href="#render">渲染函数</a>，该模板将被忽略。</p>
+</li>
+</ol>
+</blockquote>
+<p>介绍了template，现在介绍render选项。</p>
+<h4 id="render"><a href="https://cn.vuejs.org/v2/api/index.html#render">render</a></h4>
+<blockquote>
+<ul>
+<li>
+<p><strong>类型</strong>：<code>(createElement: () =&gt; VNode) =&gt; VNode</code></p>
+</li>
+<li>
+<p><strong>详细</strong>：</p>
+<p>字符串模板<a href="#template">template</a>的代替方案，允许你发挥 JavaScript 最大的编程能力。该渲染函数接收一个 <code>createElement</code> 方法作为第一个参数用来创建 <code>VNode</code>。</p>
+<p>如果组件是一个函数组件，渲染函数还会接收一个额外的 <code>context</code> 参数，为没有实例的函数组件提供上下文信息。</p>
+<p>Vue 选项中的 <code>render</code> 函数若存在，则 Vue 构造函数不会从 <code>template</code> 选项或通过 <code>el</code> 选项指定的挂载元素中提取出的 HTML 模板编译渲染函数。</p>
+</li>
+</ul>
+<p>这个解释太理论了。直接从<a href="https://vuejs.org/v2/guide/render-function.html">render-function</a>摘一段</p>
+<pre><code class="language-js">Vue.component('anchored-heading', {
+  render: function (createElement) {
+    return createElement(
+      'h' + this.level,   // tag name
+      this.$slots.default // array of children
+    )
+  },
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})
+</code></pre>
+<p>再看看<a href="https://www.tutorialspoint.com/vuejs/vuejs_render_function.htm">vuejs render function</a>的示例：</p>
+<blockquote>
+<p>将这个</p>
+<pre><code class="language-html">&lt;html&gt;
+   &lt;head&gt;
+      &lt;title&gt;VueJs Instance&lt;/title&gt;
+      &lt;script type = &quot;text/javascript&quot; src = &quot;js/vue.js&quot;&gt;&lt;/script&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+      &lt;div id = &quot;component_test&quot;&gt;
+         &lt;testcomponent&gt;Hello Jai&lt;/testcomponent&gt;
+         &lt;testcomponent&gt;Hello Roy&lt;/testcomponent&gt;
+         &lt;testcomponent&gt;Hello Ria&lt;/testcomponent&gt;
+         &lt;testcomponent&gt;Hello Ben&lt;/testcomponent&gt;
+      &lt;/div&gt;
+      &lt;script type = &quot;text/javascript&quot;&gt;
+         Vue.component('testcomponent',{
+            template : '&lt;h1&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/h1&gt;',
+            data: function() {
+            },
+            methods:{
+            }
+         });
+         var vm = new Vue({
+            el: '#component_test'
+         });
+      &lt;/script&gt;
+   &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>通过使用render function 优化成：</p>
+<pre><code class="language-html">&lt;html&gt;
+   &lt;head&gt;
+      &lt;title&gt;VueJs Instance&lt;/title&gt;
+      &lt;script type = &quot;text/javascript&quot; src = &quot;js/vue.js&quot;&gt;&lt;/script&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+      &lt;div id = &quot;component_test&quot;&gt;
+         &lt;testcomponent :elementtype = &quot;'div,red,25,div1'&quot;&gt;Hello Jai&lt;/testcomponent&gt;
+         &lt;testcomponent :elementtype = &quot;'h3,green,25,h3tag'&quot;&gt;Hello Roy&lt;/testcomponent&gt;
+         &lt;testcomponent :elementtype = &quot;'p,blue,25,ptag'&quot;&gt;Hello Ria&lt;/testcomponent&gt;
+         &lt;testcomponent :elementtype = &quot;'div,green,25,divtag'&quot;&gt;Hello Ben&lt;/testcomponent&gt;
+      &lt;/div&gt;
+      &lt;script type = &quot;text/javascript&quot;&gt;
+         Vue.component('testcomponent',{
+            render :function(createElement){
+               var a = this.elementtype.split(&quot;,&quot;);
+               return createElement(a[0],{
+                  attrs:{
+                     id:a[3],
+                     style:&quot;color:&quot;+a[1]+&quot;;font-size:&quot;+a[2]+&quot;;&quot;
+                  }
+               },
+               this.$slots.default
+               )
+            },
+            props:{
+               elementtype:{
+                  attributes:String,
+                  required:true
+               }
+            }
+         });
+         var vm = new Vue({
+            el: '#component_test'
+         });
+      &lt;/script&gt;
+   &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</blockquote>
+<p>不过我觉得解释比较通顺的应该是：</p>
+<p><a href="https://snipcart.com/blog/vue-render-functions">Vue render functions</a>中的：</p>
+<blockquote>
+<p>Each <a href="https://snipcart.com/blog/vue-component-example-tutorial"><strong>Vue component</strong></a> implements a render function. Most of the time, the function will be created by the Vue compiler. When you specify a <code>template</code> on your component, the content of this template will be processed by the Vue compiler that will return a render function. The render function essentially returns a virtual DOM node which will be rendered by Vue in your browser DOM.</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/renderingprocess.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>同时本文指出，虚拟DOM可以在更新浏览器前渲染组件，正是因为与浏览器的直接接触较少，所以速度更快。</p>
+<blockquote>
+<p>摘一段 https://blog.logrocket.com/using-jsx-with-vue/</p>
+<p>Vue creates a Virtual DOM that keeps track of all the changes made to the real DOM and on every data change Vue returns a new Virtual DOM, it then compares the old virtual DOM to the new one and checks for specific changes and makes adjustments in the real DOM.</p>
+<p>The process of comparing and checking changes between the old and the new Virtual DOM is referred to as <a href="https://en.wikipedia.org/wiki/Diff">diffing</a>.</p>
+<p>This <a href="https://template-explorer.vuejs.org/">mini-app</a> helps explore the Vue templates and render functions, you can learn more about render functions in Vue and the Virtual DOM <a href="https://blog.logrocket.com/accessing-the-virtual-dom-using-render-functions-in-vue-js/">here</a>.</p>
+</blockquote>
+<p>这样更新的元素就更少，提高了效率，render function返回的就是虚拟DOM节点【通常叫VNode】，which is an interface that allows Vue to write these objects in your browser DOM。</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/vuegraph.jpg" alt="" loading="lazy"></figure>
+</blockquote>
+<blockquote>
+<p>组件中都可以用这个render function，一旦组件的属性更新了，这个render function就会被调用。</p>
+<p>多数时候，这个render function是直接在build项目的时候，直接被vue 打包好的，你可以不用每个组件都写一遍这个render function。</p>
+</blockquote>
+<p>其余的部分不摘抄了，有很多高级的内容。</p>
+<blockquote>
+<p>这个传入的createElement方法，是vue自带的，可以用于创建element。</p>
+</blockquote>
+<p>《vue.js》书的作者有一个视频讲解：<a href="https://www.youtube.com/watch?v=l0eZCvJcYZ8">Create A Vue App With Render Functions Tutorial! What Is it?</a></p>
+<blockquote>
+<p>​	一般情况下我们是用的比如</p>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;div class=&quot;home&quot; @click=&quot;()=&gt;alert('test')&quot;&gt;
+    &lt;p&gt;
+       no class
+    &lt;/p&gt;
+      &lt;p class=&quot;textp&quot;&gt;
+        what a world
+    &lt;/p&gt;
+      &lt;HelloWorld msg=&quot;Welcome to Your Vue.js App&quot;/&gt;
+      
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'hello',
+  components: {
+    HelloWorld
+  }
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+
+&lt;/style&gt;
+</code></pre>
+<p>这样的vue文件</p>
+<p>就是 template 然后 script 然后 style</p>
+<p>如果使用render可以直接不用template，也不用</p>
+<pre><code class="language-vue">components: {
+    HelloWorld
+  }
+</code></pre>
+<p>直接</p>
+<pre><code class="language-vue">&lt;script&gt;
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'hello',
+ render(createElement){
+     return createElement(&quot;div&quot;,{
+         attr:{
+             class:&quot;home&quot;
+         },
+         on:{
+             click:()=&gt;alert(&quot;test&quot;)
+         }
+     },
+      [
+         createElement(&quot;p&quot;,{},&quot;no class&quot;),
+         createElement(&quot;p&quot;,{
+             attr:{
+                 class:&quot;textp&quot;
+             }
+         },&quot;what a world&quot;),
+         createElement(HelloWorld,{
+             props:{
+                 msg:&quot;created!&quot;
+             }
+         })
+     ])
+ }
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+&lt;/style&gt;
+
+</code></pre>
+<p>一般还是用的template，因为比较直观，但是如果代码重复太多，那还是不要重复造轮，直接用这种createElement方式，反正两种方式，哪种方便用哪种。</p>
+</blockquote>
+</blockquote>
+<p>render介绍完，那么<code>render: h =&gt; h(App),</code>中<code>h</code>是什么，为什么<code>h(APP)</code>这样使用</p>
+<p>这里参考<a href="https://css-tricks.com/what-does-the-h-stand-for-in-vues-render-method/">What does the ‘h’ stand for in Vue’s render method?</a>:</p>
+<blockquote>
+<p>The <code>h</code> stands for <strong>hyperscript</strong>, hyperscript is actually <a href="https://github.com/hyperhype/hyperscript">the name of a library</a> (what isn’t updated these days) and it actually has a <a href="https://github.com/hyperhype/hyperscript#ecosystem">small ecosystem</a>,</p>
+<blockquote>
+<p><a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx/issues/6#issuecomment-232994673">尤雨溪注</a>：</p>
+<p><em>Hyperscript itself stands for “script that generates HTML structures</em>,</p>
+</blockquote>
+<p>Really, you can think of it as being short for <code>createElement</code>. Here would be the long form:</p>
+<pre><code class="language-js">render: function (createElement) {
+return createElement(App);
+}
+</code></pre>
+<p>If we replace that with an <code>h</code>, then we first arrive at:</p>
+<pre><code class="language-javascript">render: function (h) {
+return h(App);
+}
+</code></pre>
+<p>…which can then be shortened with the use of ES6 to:</p>
+<pre><code class="language-js">render: h =&gt; h (App)
+</code></pre>
+<p>The Vue version takes up to three arguments:</p>
+<pre><code class="language-js">render(h) {
+  return h('div', {}, [...])
+}
+</code></pre>
+<ol>
+<li>The first is type of the element (here shown as <code>div</code>).</li>
+<li>The second is the data object. We nest some fields here, including: props, attrs, dom props, class and style.</li>
+<li>The third is an array of child nodes. We’ll then have nested calls and eventually return a tree of virtual DOM nodes.</li>
+</ol>
+<p>There’s more in-depth information in the <a href="https://vuejs.org/v2/guide/render-function.html#createElement-Arguments">Vue Guide here</a>.</p>
+</blockquote>
+<p>这里还提到了JSX，那么JSX是什么，有什么优势，为什么用它？</p>
+<blockquote>
+<pre><code class="language-js">Vue.component('jsx-example', {
+  render (h) {
+    return &lt;div id=&quot;foo&quot;&gt;bar&lt;/div&gt;
+  }
+})
+</code></pre>
+</blockquote>
+<blockquote>
+<p>摘<a href="https://blog.logrocket.com/using-jsx-with-vue/">Using JSX with Vue</a></p>
+<p>首先，JSX是类似XML文本的语法扩展，用来写js代码，是render function的抽象版本。最开始是Facebook工程师发明，用来写React的。</p>
+</blockquote>
+<blockquote>
+<p>摘官方文档<a href="https://vuejs.org/v2/guide/render-function.html#JSX">JSX</a></p>
+<p>If you’re writing a lot of <code>render</code> functions, it might feel painful to write something like this:</p>
+<blockquote>
+<pre><code class="language-js">createElement(
+  'anchored-heading', {
+    props: {
+      level: 1
+    }
+  }, [
+    createElement('span', 'Hello'),
+    ' world!'
+  ]
+)
+</code></pre>
+</blockquote>
+<p>Especially when the template version is so simple in comparison:</p>
+<blockquote>
+<pre><code class="language-html">&lt;anchored-heading :level=&quot;1&quot;&gt;
+  &lt;span&gt;Hello&lt;/span&gt; world!
+&lt;/anchored-heading&gt;
+</code></pre>
+</blockquote>
+<p>That’s why there’s a <a href="https://github.com/vuejs/jsx">Babel plugin</a> to use JSX with Vue, getting us back to a syntax that’s closer to templates:</p>
+<blockquote>
+<pre><code class="language-vue">import AnchoredHeading from './AnchoredHeading.vue'
+
+new Vue({
+  el: '#demo',
+  render: function (h) {
+    return (
+      &lt;AnchoredHeading level={1}&gt;
+        &lt;span&gt;Hello&lt;/span&gt; world!
+      &lt;/AnchoredHeading&gt;
+    )
+  }
+})
+</code></pre>
+<p>注意，Vue中通常都是用<code>h</code>来简写代表<code>createElement</code>，<strong>在JSX中是必须用<code>h</code>的，但是babel3.4版本之后的，已经自动注入了<code>const h = this.$createElement</code>到方法和设置器中，所以(h)参数可以省略，之前的版本没有<code>h</code>参数会抛<code>h</code> not available异常</strong></p>
+</blockquote>
+<p>参考[JSX Implementation](https://blog.logrocket.com/using-jsx-with-vue/Using JSX with Vue)还可以这样：</p>
+<p>原先的：</p>
+<blockquote>
+<pre><code class="language-js">&lt;template&gt;
+   &lt;div v-if=&quot;user.age &gt; 18&quot;&gt;
+      Welcome, {{user.name}}
+    &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+</blockquote>
+<p>可以改为：</p>
+<blockquote>
+<pre><code class="language-js">export default {
+....
+  methods: {
+      checkStatement(){
+        if (this.user.age &gt; 18) {
+           return &lt;div&gt; Welcome, { this.user.name }&lt;/div&gt;;
+        }
+      }
+    },
+    render(){
+      return(
+        {this.checkStatement()}
+      )
+    }
+}
+</code></pre>
+</blockquote>
+<p>render会调用这个checkStatement方法。</p>
+<p>[Using JSX with Vue]([https://blog.logrocket.com/using-jsx-with-vue/Using%20JSX%20with%20Vue](https://blog.logrocket.com/using-jsx-with-vue/Using JSX with Vue))还有Loops (v-for),Events(v-on),Interpolation (v-html),Importing components几个的具体修改方法，就不摘抄了。</p>
+<p>还有几个要注意的</p>
+<h5 id="vues-jsx-syntax-gotchas"><a href="https://scotch.io/tutorials/using-jsx-with-vue-and-why-you-should-care#toc-vue-s-jsx-syntax-gotchas">Vue's JSX syntax gotchas</a></h5>
+<blockquote>
+<p>First, you can no longer use the <code>:</code> and <code>@</code> shortcuts for binding and listening to events. They are invalid JSX syntax and your code won't compile.</p>
+<p>To listen for events in JSX, we need the &quot;<em>on</em>&quot; prefix. For example, use <code>onClick</code> for click events.</p>
+<pre><code class="language-js">render (createElement) {
+     return (
+         &lt;button onClick={this.handleClick}&gt;&lt;/button&gt;
+     )
+ }
+</code></pre>
+<p>To modify events, use:</p>
+<pre><code class="language-js"> render (createElement) {
+     return (
+         &lt;button onClick:prevent={this.handleClick}&gt;&lt;/button&gt;
+     )
+ }
+</code></pre>
+<p>To bind a variable, instead of <code>:</code> use: 以前就是<code>:content=&quot;generatedText&quot;</code></p>
+<pre><code class="language-js"> render (createElement) {
+     return (
+         &lt;button content={this.generatedText}&gt;&lt;/button&gt;
+     )
+ }
+</code></pre>
+<p>To set HTML string as the content of an element, instead of <code>v-html</code> use:</p>
+<pre><code class="language-js"> render (createElement) {
+     return (
+         &lt;button domPropsInnerHTML={htmlContent}&gt;&lt;/button&gt;
+     )
+ }
+</code></pre>
+<p>We can also spread a large object.</p>
+<pre><code class="language-js"> render (createElement) {
+     return (
+         &lt;button {...this.largeProps}&gt;&lt;/button&gt;
+     )
+ }
+</code></pre>
+<h6 id="how-to-make-jsx-work-with-typescript"><a href="https://scotch.io/tutorials/using-jsx-with-vue-and-why-you-should-care#toc-how-to-make-jsx-work-with-typescript">How to make JSX work with TypeScript</a></h6>
+</blockquote>
+<h5 id="using-jsx-in-render"><a href="https://scotch.io/tutorials/using-jsx-with-vue-and-why-you-should-care#toc-using-jsx-in-render">Using JSX in render</a></h5>
+<p>最后建议：template适合在模板比较复杂的情况下使用，JSX适合重复造轮，代码却不复杂的情况下使用。</p>
+<blockquote>
+<p>I’m working on a project that has quite an amount of low-level components. They contain lots of scripting with small amounts of templating. JSX feels like a breath of fresh air in this scenario.</p>
+<p>On the other hand, when building large views that consist of large chunks of html with some custom components and directives, Vue templates are a better fit.</p>
+<p>Luckily, we don’t need to pick one, we can use both! I’ll be my low-level components with JSX, and the “views”, which will be written by other developers, will be writting with familiar Vue templates.</p>
+<p>I suppose I’ll see how this all goes, only one way to find out! If I encounter a bunch tradeoffs in the coming months, expect a follow-up post about why I reverted back to <code>.vue</code> files.</p>
+</blockquote>
+</blockquote>
+<p>这里再介绍一个vue选项里的</p>
+<h4 id="rendererror"><a href="https://cn.vuejs.org/v2/api/index.html#renderError">renderError</a></h4>
+<blockquote>
+<blockquote>
+<p>2.2.0 新增</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>类型</strong>：<code>(createElement: () =&gt; VNode, error: Error) =&gt; VNode</code></p>
+</li>
+<li>
+<p><strong>详细</strong>：</p>
+<p><strong>只在开发者环境下工作。</strong></p>
+<p>当 <code>render</code> 函数遭遇错误时，提供另外一种渲染输出。其错误将会作为第二个参数传递到 <code>renderError</code>。这个功能配合 hot-reload 非常实用。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+<pre><code class="language-js">new Vue({
+  render (h) {
+    throw new Error('oops')
+  },
+  renderError (h, err) {
+    return h('pre', { style: { color: 'red' }}, err.stack)
+  }
+}).$mount('#app')
+</code></pre>
+</li>
+</ul>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[几个SEO的百科站]]></title>
         <id>https://dzkjz.github.io/post/ji-ge-seo-de-bai-ke-zhan/</id>
@@ -1941,54 +2502,6 @@ Quora出了付费广告，价格比较低，所以是有很大机会的。你看
 <p>进入之后，新建账户。就可以进入推广主页面了。这是一个非常简单的广告系统。你可以自己去摸索一下。</p>
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/image-40.png" alt="" loading="lazy"></figure>
 <p>总结：Quora推广引流严重被外贸独立站站长低估。我自己使用过，产生的价值是非常高的。不管是免费还是付费流量，对网站有价值就是好流量。如果你之前没有注意到Quora，你可以尝试一下。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Skyscraper Technique（“摩天大楼”外链获取技巧）]]></title>
-        <id>https://dzkjz.github.io/post/the-skyscraper-techniquemo-tian-da-lou-wai-lian-huo-qu-ji-qiao/</id>
-        <link href="https://dzkjz.github.io/post/the-skyscraper-techniquemo-tian-da-lou-wai-lian-huo-qu-ji-qiao/">
-        </link>
-        <updated>2020-08-04T17:53:04.000Z</updated>
-        <content type="html"><![CDATA[<p>原文在这里：https://backlinko.com/skyscraper-technique</p>
-<h3 id="skyscraper技巧的精髓和操作步骤">Skyscraper技巧的精髓和操作步骤：</h3>
-<p>第一步：在互联网上找到一篇拥有大量外链的文章A；</p>
-<p>第二步：分析文章A的弱点，并撰写一篇质量比它更好的文章B，发布在你的网站上；</p>
-<p>第三步：找到所有给文章A外链的页面，（手工）找出其邮件联系方式，并发送一封邮件请求对方给你的文章B一条外链。</p>
-<p>需要指出的是：Brian Dean推崇手工联系（personalized email outreach），去除不合适的外链机会或者找不到邮件地址的，然后一封封发送，邮件的个性化程度极高。</p>
-<p>而且，他通常还把outreach的过程分成两步，第一步先（礼貌地）询问对方站长是否有意向阅读自己的文章B，待对方邮件回复同意后再发送链接URL并（委婉地）说出自己的终极请求：要外链！</p>
-<p>转化率一般较高，Brian Dean在文中提到，他的一个campaign（外联活动）发送了160封邮件，获得了17条外链，转化率11%。</p>
-<p>你要尝试过通过邮件外联去获取外链的话，就知道这转化率是相当可观的。</p>
-<h3 id="shotgun-skyscraper-technique散弹枪摩天大楼外链获取技巧">Shotgun Skyscraper Technique（“散弹枪摩天大楼”外链获取技巧）</h3>
-<p>原文：https://www.authorityhacker.com/link-building-techniques/</p>
-<p>为什么叫Shotgun（散弹枪）？</p>
-<p>因为传统的由Brian Dean提出的The Skyscraper Technique有点像Sniper（狙击枪），邮件一封一封的发送。</p>
-<p>而，Shotgun（散弹枪）可以一次发送很多邮件。</p>
-<p>两者之间最大的区别就是：手工 vs 自动化。</p>
-<p>不能说那个比那个好，也不要认为Shotgun Skyscraper比传统的Skyscraper更高级。</p>
-<p>说实话，一直以来，我就是个“手工”挡的推崇者，因为我追求更好的转化率，记得以前跟读者们说过，我一天最多能手工发送30-40封outeach email，最好的campaign转化率（外链数量 / 发送邮件数量）高达15%。</p>
-<p>第一步：通过Ahrefs找出你niche KD（keyword difficulty）较高的那些关键词，挖掘可制作链接资产（linkable assets）的目标话题。</p>
-<p>注：KD越高，代表SERP首页的排序结果拥有越多的外链（即我们有越多的outreach机会），参看 https://help.ahrefs.com/en/articles/72265-what-does-kd-stand-for-in-keywords-explorer</p>
-<p>第二步：针对目标话题，创建一篇比目前排在首页的竞争对手页面质量更好的文章（或其它格式）。</p>
-<p>第三步：使用Ahrefs自动导出所有链接给竞争对手页面的那些网站（我们称之为prospects，即潜在外链机会）。</p>
-<p>第四步：使用Hunter（或其他类似的邮件自动查收工具）自动找出prospects的邮件地址，并进行list cleanup（去除不存在或无法送达的那些prospects）。</p>
-<p>第五步：通过Mailshake（或其他邮件发送工具）撰写outreach email，并设置自动发送等细节。</p>
-<p>几个Tips</p>
-<ol>
-<li>Shotgun Skyscraper外链技巧成功的核心在于你文章B是否足够优秀，这也是对方站长决定是否接受你外链请求的根本。</li>
-</ol>
-<p>怎么判断是否足够优秀呢？最快的办法就是自己扪心自问，让同事看，拿自己的文章跟目前排在谷歌前几的竞争对手比。</p>
-<ol start="2">
-<li>
-<p>Shotgun Skyscraper外链技巧重视效率，力争用20%的成本拿到80%的回报，所以不会拘泥于一些小细节，比如：outreach邮件不会（也不可能）很个性化，无法送达的邮件地址也不会再去管它直接忽视。</p>
-</li>
-<li>
-<p>除了推广信息类文章（information articles），也可以用来推广其他页面，比如：我的几个转化率高达5%的campaigns就是推广的商业性文章（commercial articles），我还用它推广过网站首页，依然拿到过外链。</p>
-</li>
-</ol>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/shotgun-skyscraper1.png" alt="" loading="lazy"></figure>
-<p>为什么我喜欢Email Outreach？<br>
-如果把SEO分成三大块：内容 + 外链 + 技术端优化，我认为外链是SEO的精髓，也是最具挑战的一部分。</p>
-<p>拿到一条外链，不仅仅证明你创建的内容质量达标，更增长了你做好SEO的信心，最重要的是，在这个过程中，你可以学到很多，这是我最enjoy的。</p>
 ]]></content>
     </entry>
 </feed>
