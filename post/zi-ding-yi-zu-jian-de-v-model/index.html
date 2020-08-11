@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Surfer SEO | JojoLegend
+    自定义组件的 v-model | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1597162430555">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,16 +114,120 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Surfer SEO
+                            自定义组件的 v-model
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-08-07</time>
+                            <time class="post-time">2020-08-11</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>就是文章检测，帮你优化文章SEO效果的。有几个技术性指标，这个软件会检测，然后提供建议，建议直接按这个技术指标写一个app，就懒得付费了。<br>
-https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
+                                    <h1 id="自定义组件的"><a href="https://cn.vuejs.org/v2/guide/components-custom-events.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84-v-model">自定义组件的 <code>v-model</code></a></h1>
+<p>一个组件上的 <code>v-model</code> 默认会利用名为 <code>value</code> 的 prop 和名为 <code>input</code> 的事件，但是像单选框、复选框等类型的输入控件可能会将 <code>value</code> attribute 用于<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#Value">不同的目的</a>。<code>model</code> 选项可以用来避免这样的冲突：</p>
+<pre><code>Vue.component('base-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    checked: Boolean
+  },
+  template: `
+    &lt;input
+      type=&quot;checkbox&quot;
+      v-bind:checked=&quot;checked&quot;
+      v-on:change=&quot;$emit('change', $event.target.checked)&quot;
+    &gt;
+  `
+})
+</code></pre>
+<p>现在在这个组件上使用 <code>v-model</code> 的时候：</p>
+<pre><code>&lt;base-checkbox v-model=&quot;lovingVue&quot;&gt;&lt;/base-checkbox&gt;
+</code></pre>
+<p>这里的 <code>lovingVue</code> 的值将会传入这个名为 <code>checked</code> 的 prop。同时当 <code>&lt;base-checkbox&gt;</code> 触发一个 <code>change</code> 事件并附带一个新的值的时候，这个 <code>lovingVue</code> 的 property 将会被更新。</p>
+<p>注意你仍然需要在组件的 <code>props</code> 选项里声明 <code>checked</code> 这个 prop。</p>
+<p>就是说：</p>
+<p>默认情况下：</p>
+<p><code>&lt;base-checkbox v-model=&quot;lovingVue&quot;&gt;&lt;/base-checkbox&gt;</code></p>
+<p>lovingVue会对应到<code>base-checkbox</code>里面的value值，但是如果外层component需要的是使用这个<code>base-checkbox</code>component的其他属性，那就用</p>
+<pre><code>  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+</code></pre>
+<p>这种方式；</p>
+<p><code>v-model=&quot;lovingVue&quot;</code>对应到的就是<code>base-checkbox</code>component里面的<code>checked</code>属性，这个属性必须在该组件props里声明，</p>
+<p>且</p>
+<pre><code>v-on:change=&quot;$emit('change', $event.target.checked)&quot;
+</code></pre>
+<p>以及</p>
+<pre><code> model: {
+    prop: 'checked',
+    event: 'change'
+  },
+</code></pre>
+<p>中的<code>event: 'change'</code>都不可省略，还必须对应，抛出的事件和model里的事件必须一样。</p>
+<p>拓展分析：</p>
+<p>有这样一个组件</p>
+<pre><code class="language-vue">//BaseInput.vue
+&lt;template&gt;
+    &lt;label class=&quot;inner base&quot;&gt;
+        {{ label }} : {{value}}
+        &lt;input :placeholder=&quot;$attrs['placej']&quot;
+               :value=&quot;value&quot;
+               @input=&quot;$emit('inputa', $event.target.value)&quot;&gt;
+    &lt;/label&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+    export default {
+        name: &quot;BaseInput&quot;,
+        inheritAttrs: false,
+        props: ['label', 'value'],
+        model: {
+            prop: 'label',
+            event: 'inputa'
+        }
+    }
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+
+&lt;/style&gt;
+</code></pre>
+<p>外层组件</p>
+<pre><code class="language-vue">&lt;template&gt;
+    &lt;div &gt;
+        &lt;BaseInput class=&quot;outter home&quot; placej=&quot;aj&quot; v-model=&quot;bi&quot;&gt;&lt;/BaseInput&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+    export default {
+        name: 'Home',
+        data() {
+            return {
+                bi: '',
+            }
+        },
+    }
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+
+&lt;/style&gt;
+
+</code></pre>
+<p>流程分析：</p>
+<p>首先<code>BaseInput.vue</code>中两个属性<code>props: ['label', 'value']</code>是空值。接下来，当输入的时候，input事件触发，在<code>BaseInput.vue</code>中</p>
+<p><code>@input=&quot;$emit('inputa', $event.target.value)&quot;</code>，抛出<code>inputa</code>事件，值为input更加底层的value即<code>$event.target.value</code>抛出；</p>
+<p>然后由于</p>
+<pre><code> model: {
+            prop: 'label',
+            event: 'inputa'
+        }
+</code></pre>
+<p>所以，label值被设置为这个<code>$event.target.value</code>的值，并<code>v-model=&quot;bi&quot;</code>设置到外层组件的<code>bi</code>值，同时，value值因为<code>:value=&quot;value&quot;</code>而该组件中value为空，则一旦触发<code>input</code>事件，这个<code>:value</code>又被重置为空，输入框值也就被清空。</p>
 
                                 </div>
                     </article>
@@ -131,9 +235,9 @@ https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/guest-post-huo-zhe-mai-wai-lian-jie-lun/">
+                            <a href="https://dzkjz.github.io/post/vue-zhi-dollarattrs/">
                                 <h3 class="post-title">
-                                    guest post 或者 买外链 结论
+                                    Vue 之 $attrs
                                 </h3>
                             </a>
                         </div>
@@ -146,32 +250,42 @@ https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
                 <!-- right -->
                 <div id="sidebar" class="main-container-right">
                     
-                                <!-- id-card -->
-                                
-    <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1597162430555)">
-        </div>
-        <h1 class="id_card-title">
-            JojoLegend
-        </h1>
-        <h2 class="id_card-description">
-            Something for age
-        </h2>
-        <!--  -->
-        <div class="id_card-sns">
-            <!-- github -->
-            
-                    <!-- twitter -->
-                    
-                            <!-- weibo -->
-                            
-                                    <!-- facebook -->
-                                    
+                        <!-- toc -->
+                        
+    <div class="toc-card i-card ">
+        <div class="toc-title i-card-title">目录</div>
+        <div class="toc-content">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84">自定义组件的 </a></li>
+</ul>
 
         </div>
+        <script>
+            function locateCatelogList() {
+                /*获取文章目录集合,可通过:header过滤器*/
+                var alis = $('.post-content :header');
+                /*获取侧边栏目录列表集合**/
+                var sidebar_alis = $('.markdownIt-TOC a');
+                /*获取滚动条到顶部的距离*/
+                var scroll_height = $(window).scrollTop();
+                for (var i = 0; i < alis.length; i++) {
+                    /*获取锚点集合中的元素分别到顶点的距离*/
+                    var a_height = $(alis[i]).offset().top;
+                    if (a_height < scroll_height) {
+                        /*高亮显示*/
+                        sidebar_alis.removeClass('on');
+                        $(sidebar_alis[i]).addClass('on');
+                    }
+                }
+            }
+            $(function() {
+                /*绑定滚动事件 */
+                $(window).bind('scroll', locateCatelogList);
+            });
+        </script>
     </div>
     
-                                    
+                            
 
                 </div>
 

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-11T13:52:17.377Z</updated>
+    <updated>2020-08-11T16:13:54.686Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,120 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[自定义组件的 v-model]]></title>
+        <id>https://dzkjz.github.io/post/zi-ding-yi-zu-jian-de-v-model/</id>
+        <link href="https://dzkjz.github.io/post/zi-ding-yi-zu-jian-de-v-model/">
+        </link>
+        <updated>2020-08-11T15:45:38.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="自定义组件的"><a href="https://cn.vuejs.org/v2/guide/components-custom-events.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84-v-model">自定义组件的 <code>v-model</code></a></h1>
+<p>一个组件上的 <code>v-model</code> 默认会利用名为 <code>value</code> 的 prop 和名为 <code>input</code> 的事件，但是像单选框、复选框等类型的输入控件可能会将 <code>value</code> attribute 用于<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#Value">不同的目的</a>。<code>model</code> 选项可以用来避免这样的冲突：</p>
+<pre><code>Vue.component('base-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    checked: Boolean
+  },
+  template: `
+    &lt;input
+      type=&quot;checkbox&quot;
+      v-bind:checked=&quot;checked&quot;
+      v-on:change=&quot;$emit('change', $event.target.checked)&quot;
+    &gt;
+  `
+})
+</code></pre>
+<p>现在在这个组件上使用 <code>v-model</code> 的时候：</p>
+<pre><code>&lt;base-checkbox v-model=&quot;lovingVue&quot;&gt;&lt;/base-checkbox&gt;
+</code></pre>
+<p>这里的 <code>lovingVue</code> 的值将会传入这个名为 <code>checked</code> 的 prop。同时当 <code>&lt;base-checkbox&gt;</code> 触发一个 <code>change</code> 事件并附带一个新的值的时候，这个 <code>lovingVue</code> 的 property 将会被更新。</p>
+<p>注意你仍然需要在组件的 <code>props</code> 选项里声明 <code>checked</code> 这个 prop。</p>
+<p>就是说：</p>
+<p>默认情况下：</p>
+<p><code>&lt;base-checkbox v-model=&quot;lovingVue&quot;&gt;&lt;/base-checkbox&gt;</code></p>
+<p>lovingVue会对应到<code>base-checkbox</code>里面的value值，但是如果外层component需要的是使用这个<code>base-checkbox</code>component的其他属性，那就用</p>
+<pre><code>  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+</code></pre>
+<p>这种方式；</p>
+<p><code>v-model=&quot;lovingVue&quot;</code>对应到的就是<code>base-checkbox</code>component里面的<code>checked</code>属性，这个属性必须在该组件props里声明，</p>
+<p>且</p>
+<pre><code>v-on:change=&quot;$emit('change', $event.target.checked)&quot;
+</code></pre>
+<p>以及</p>
+<pre><code> model: {
+    prop: 'checked',
+    event: 'change'
+  },
+</code></pre>
+<p>中的<code>event: 'change'</code>都不可省略，还必须对应，抛出的事件和model里的事件必须一样。</p>
+<p>拓展分析：</p>
+<p>有这样一个组件</p>
+<pre><code class="language-vue">//BaseInput.vue
+&lt;template&gt;
+    &lt;label class=&quot;inner base&quot;&gt;
+        {{ label }} : {{value}}
+        &lt;input :placeholder=&quot;$attrs['placej']&quot;
+               :value=&quot;value&quot;
+               @input=&quot;$emit('inputa', $event.target.value)&quot;&gt;
+    &lt;/label&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+    export default {
+        name: &quot;BaseInput&quot;,
+        inheritAttrs: false,
+        props: ['label', 'value'],
+        model: {
+            prop: 'label',
+            event: 'inputa'
+        }
+    }
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+
+&lt;/style&gt;
+</code></pre>
+<p>外层组件</p>
+<pre><code class="language-vue">&lt;template&gt;
+    &lt;div &gt;
+        &lt;BaseInput class=&quot;outter home&quot; placej=&quot;aj&quot; v-model=&quot;bi&quot;&gt;&lt;/BaseInput&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+    export default {
+        name: 'Home',
+        data() {
+            return {
+                bi: '',
+            }
+        },
+    }
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+
+&lt;/style&gt;
+
+</code></pre>
+<p>流程分析：</p>
+<p>首先<code>BaseInput.vue</code>中两个属性<code>props: ['label', 'value']</code>是空值。接下来，当输入的时候，input事件触发，在<code>BaseInput.vue</code>中</p>
+<p><code>@input=&quot;$emit('inputa', $event.target.value)&quot;</code>，抛出<code>inputa</code>事件，值为input更加底层的value即<code>$event.target.value</code>抛出；</p>
+<p>然后由于</p>
+<pre><code> model: {
+            prop: 'label',
+            event: 'inputa'
+        }
+</code></pre>
+<p>所以，label值被设置为这个<code>$event.target.value</code>的值，并<code>v-model=&quot;bi&quot;</code>设置到外层组件的<code>bi</code>值，同时，value值因为<code>:value=&quot;value&quot;</code>而该组件中value为空，则一旦触发<code>input</code>事件，这个<code>:value</code>又被重置为空，输入框值也就被清空。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Vue 之 $attrs]]></title>
         <id>https://dzkjz.github.io/post/vue-zhi-dollarattrs/</id>
@@ -1479,1072 +1593,6 @@ FatJoe</p>
 <h3 id="策略">策略</h3>
 <p>请看看你的同行怎么做的</p>
 <p>解决你的产品的最容易解决的business problem，逐步向上解决。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[[一全SEO博客](https://www.yiquanseo.com/)摘抄]]></title>
-        <id>https://dzkjz.github.io/post/yi-quan-seo-bo-ke-httpswwwyiquanseocomzhai-chao/</id>
-        <link href="https://dzkjz.github.io/post/yi-quan-seo-bo-ke-httpswwwyiquanseocomzhai-chao/">
-        </link>
-        <updated>2020-08-05T16:43:48.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="一全seo博客"><a href="https://www.yiquanseo.com/">一全SEO博客</a>摘抄</h1>
-<h2 id="内容-on-page-seo">内容 On-page SEO</h2>
-<h3 id="关键词">关键词</h3>
-<p>如果你不是专业做SEO的，工具只选取几个看一下，学一下就可以了，如果要推荐的话，我推荐kwfinder和ubersuggest</p>
-<h4 id="第一步种词">第一步，种词</h4>
-<p>种子关键词，输入关键词工具获取关键词提示的那个词，列种词的时候你需要开阔的思维，只有这样，你才有机会发现更多你的竞争对手注意不到的有价值的关键词:</p>
-<blockquote>
-<p>SEO的目的是什么？没错，就是排名！</p>
-<p>我这么说，可能很多人会觉得我见识浅薄，俗不可耐，毕竟在很多人心中，SEO可是一门博大精深的学问，怎么可能仅仅是做排名这么简单？</p>
-<p>SEO应该是涉及搜索引擎、网络优化、引流、转化等等的一系列学问，其中还包含营销推广等专业知识。没错，这些话应该是无数个SEOer曾经告诉你的，也是你在各种论坛，各种文章中所看到的！</p>
-<p>但是，明确告诉你，SEO的最终目的就是网站在搜索引擎上的排名，谷歌百度等搜索引擎的本质是什么，就是根据关键词给网站排名！好的网站排名在前，获得更多展现机会和流量，差的网站排名在后，自生自灭爱咋咋地！所以，你既然是做搜索引擎优化，不优化排名还能优化什么？</p>
-<p>但是现在排名有多难做，你能体会吗？像谷歌，一个SEOer想要将一个中等词操作到首页，往往需要半年的努力，还要花费不菲的金钱和精力！这偌大的代价很多公司甚至承受不起！（当然，你要说百度排名好做，我无法反驳，毕竟现在百度有快排这个死穴，但快排毕竟不是长久之计，很多SEOer都认为快排死期将近。）</p>
-<p>为何竞争激烈，不是因为你竞争对手增加了，而是因为你的竞争对手选择了跟你一样的关键词！</p>
-<p>而所有关键词工具，提供给你的几乎全部都是极其相关词，更恐怖的是，即使你综合使用若干种不同的关键词发掘工具，找到的可以利用的关键词其实也没有什么区别。</p>
-<p>很明显，这就是为什么做同一产品的网站使用的关键词几乎一模一样的原因。</p>
-<p>更多查看 原网址：https://www.yiquanseo.com/guanjianciguihua/</p>
-</blockquote>
-<h4 id="第二步关键词发掘">第二步，关键词发掘</h4>
-<p>一般是输入种词（一般是网站主词），使用关键词工具尽可能多的获取相关词，当然也有一些直接利用搜索引擎特点的方式。</p>
-<p>原文：<a href="https://www.yiquanseo.com/kwfinder/">究极好用的谷歌关键词工具——KWfinder</a></p>
-<blockquote>
-<p>相比于MOZ过小的词库、GKP无法按照竞争和搜索量排列提示词，SECockpit过于复杂已渐渐过时，<strong>kwfinder可以说当之无愧最好用</strong>。</p>
-</blockquote>
-<p>顺带介绍了个 <a href="https://mangools.com/">Mangools</a></p>
-<blockquote>
-<p>一全老师，请教个关键词选择的问题。我用KwFinder 找到一个搜索量比较高，KD只有20几的相关关键词，按文中的意思是这个关键词很好，但是查看这个关键词的详情（右侧），在谷歌首页的网站DA基本上是8、90的，那还适合选择这个关键词吗。或者说竞争对手的DA对于排名影响大吗?</p>
-<blockquote>
-<p>这个不是一两句话能讲清楚的。如果是我们操作，首先看搜这个词的人的搜索意图，或者你可以看kw提供的竞价数据，看下这个词是否精准，之后我们会找下有没有其他同义词、近义词，然后看下排名前十的网站的seo情况（站内站外）这些，分析下是什么网站，哪些页面，确定难度，最后确定要不要用这个词。</p>
-</blockquote>
-</blockquote>
-<p>原文：<a href="https://www.yiquanseo.com/ubersuggest/">2019最新版ubersuggest讲解！最强免费关键词工具（赶紧用，可能很快就收费！）</a></p>
-<p>Ubersuggest关键词挖掘</p>
-<blockquote>
-<p>3.谷歌提示词（完全包含这个词的长尾词）</p>
-<blockquote>
-<p>原文:<a href="https://www.yiquanseo.com/keywordtool-io/">谷歌长尾词工具KeywordTool.io教程（19年更新版）</a></p>
-<p>谷歌提示词也被称为谷歌自动填充词（google autocomplate keywords）</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/%E8%B0%B7%E6%AD%8C%E6%8F%90%E7%A4%BA%E8%AF%8D.png" alt="" loading="lazy"></figure>
-<p>正因为谷歌有这个功能，才出现了Keyword Tool这样的工具，这些工具的原理很简单，就是模拟搜索，然后搜索过程中获得的提示词整理出来，当然，这里有几个关键点是只有工具才能做到的，比如说，keywordtool会在一秒之内搜索近百次（关键词前后加26个字母进行搜索，这里不深入讲了），然后把所有提示词整理出来，并且删除重复内容，最后按一定顺序呈现给我们。</p>
-<p><strong>这个最大的用处是做产品分类、产品页以及文章页seo的时候，可以用来找写作思路，几百个词一呈现，基本我们就知道可以从几个方面写了，同时在写作的时候，也可以把这些词全部覆盖进去</strong>，非常完美。</p>
-</blockquote>
-</blockquote>
-<p>使用ubersuggest分析竞争对手网站</p>
-<p>检测网站seo问题</p>
-<p>原文：<a href="https://www.yiquanseo.com/gugeguanjiancigongju/">Google AdWords关键词工具使用详解</a></p>
-<blockquote>
-<p>Google keywords planner中文名谷歌关键词规划师，简称GKP！</p>
-<p>做谷歌推广最好用的关键词工具，没有之一！</p>
-<p>当然，使用GKP之前，你首先要有一个AdWords账户，但是放心，不需要付钱的！注册过程很简单</p>
-<p>看最重要的Keyword ideas:</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082314532154.png" alt="" loading="lazy"></figure>
-<p>对于如何从这么多的关键词中选择最好的最合适的关键词，国外SEO大牛主要给出三条建议：</p>
-<p>选择搜索量高的，搜索量越高，价值一般越大。<br>
-看这个词的Commercial Intent（商业性），具体如何查看一个词的Commercial Intent: 在这里，我们可以用前面说到的competition和suggested bid来衡量，竞争越高，建议出价越高，这个词商业性越大。<br>
-Organic SEO Competition（SEO竞争度），毫无疑问，SEO竞争度越高，这个词的排名越难操作。</p>
-</blockquote>
-<p>原文：<a href="https://www.yiquanseo.com/yingwenguanjianci/">英文关键词研究高级攻略：如何获取长尾关键词</a></p>
-<blockquote>
-<p>第一种 谷歌相关搜索（Searches Related To…）</p>
-<p>第二种 使用论坛</p>
-<blockquote>
-<p>行业论坛通常是行业内专业人才最集中的地方，在这里我们经常能够了解到行业最新的变化。</p>
-<p>寻找行业论坛，在谷歌输入这几个搜索串可以轻松发现众多行业论坛</p>
-<p>“keyword” + “forum”  “keyword” + “board”  “keyword” + “powered by vbulletin”</p>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415062216.png" alt="" loading="lazy"></figure>
-<p>英文关键词研究高级攻略：如何获取长尾关键词</p>
-<p>当然，你也可以使用keyword + discussions，这样出现的搜索结果不仅会包含论坛，也会包含问答网站，例如Yahoo问答。</p>
-<p>当你进入行业论坛之后，先看一下论坛的栏目分类：</p>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415074968.png" alt="" loading="lazy"></figure>
-<p>通常这些栏目分类都是非常棒的“种词”（种词就是种子关键词，就是我们输入到关键词工具用来找长尾词的那个词）。</p>
-<p>然后你可以点击栏目分类，查看里面比较热门的话题：</p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/201708241508243.png" alt="" loading="lazy"></figure>
-<p>从这里我们就可以总结出至少三条对baking感兴趣的人们可能会搜索的内容：</p>
-<p>1.all purpose flour for white bread  2. how to make bread healthier  3. how to use corn flour</p>
-</blockquote>
-<p>第三种 利用Soovle.com</p>
-<p>第四种 使用UberSuggest</p>
-<p>第五种 使用Answer The Public获取问答关键词</p>
-<p>第六种 使用ScrapeBox获取英文关键词提示</p>
-<p>第七种 利用谷歌站长工具（Google Webmaster Tools）</p>
-<blockquote>
-<p>其实最好的关键词是那些已经有排名基础的词！</p>
-<p>什么意思？</p>
-<p>其实我一说你就明白了，一般情况下，一个网站操作一段时间后，排名好的词已经能出现在谷歌的第2页、第3页了，最不济第4页或第5页总会有个位置。</p>
-<p>到了这种时候，你会发现有一些我们没有去操作的长尾词在谷歌竟然也有排名，这个时候你就可以好好利用一下了。找到这些长尾词有排名的页面，然后在页面内容中，专门对这个长尾词做一下优化，通常情况下，两周之内这个词能上首页。</p>
-<p>具体操作步骤：</p>
-<p>登录谷歌站长工具，点击左边侧边栏Search traffic，选择Search Queries：</p>
-<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415132785.png" alt="" loading="lazy"></figure>
-<p>在这个页面最上部的是我们网站排名最好的一些页面：</p>
-<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415135230.png" alt="" loading="lazy"></figure>
-<p>但我们要寻找的是那些排名在谷歌第2页、第3页，甚至第4页的关键词，我们可以通过position按钮来达到目的，点击一下，关键词会倒叙显示：</p>
-<figure data-type="image" tabindex="8"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415144019.png" alt="" loading="lazy"></figure>
-<p>当然，如果你的网站非常好，有排名的关键词极多，而且大部分排在第一页，这对你来说找排名第二页、第三页的关键词是比较困难的，但我们可以通过调整每页的显示行数来更快的找到想要的关键词，比如让每页显示500行：</p>
-<figure data-type="image" tabindex="9"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415151225.png" alt="" loading="lazy"></figure>
-<p>查看position这一列的数据，排在第二页的关键词position当然就是10-20了，这些词是我们最好的目标：</p>
-<figure data-type="image" tabindex="10"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/201708241515401.png" alt="" loading="lazy"></figure>
-<p>单击关键词，然后点击pages：</p>
-<figure data-type="image" tabindex="11"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415161415.png" alt="" loading="lazy"></figure>
-<p>这样我们就能找到这个关键词所在的页面了：</p>
-<figure data-type="image" tabindex="12"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082415164513.png" alt="" loading="lazy"></figure>
-<p>接下来，在这个页面把这个关键词优化进去，页面SEO做好，等一到两周，这个词便会很轻松的进入首页了。当然，如果你的网站这类词特别多，那你可以将这些词输入GKP查询一下搜索指数，再做优化决定。</p>
-</blockquote>
-<p>第八种 利用谷歌趋势（Google Trends）</p>
-<p>第九种 使用谷歌相关工具（Google Correlate）</p>
-<blockquote>
-<p>第一步，我们要进入Google Correlate（https://www.google.com/trends/correlate）：</p>
-<figure data-type="image" tabindex="13"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082700450669.png" alt="" loading="lazy"></figure>
-<p>第二步，在搜索框输入你的种词，在下面的例子中我们的种词是baking：</p>
-<figure data-type="image" tabindex="14"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082700454490.png" alt="" loading="lazy"></figure>
-<p>第三步，分析搜索结果：</p>
-<figure data-type="image" tabindex="15"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082700461517.png" alt="" loading="lazy"></figure>
-<p>词左边的数字是相关系数，相关系数越接近一，说明这个词跟种词的相关性越高，也就是一个人搜索种词的时候，也有极大的可能性搜索这个相关词。</p>
-<p>第四步，点击Show More显示更多，并且将关键词导出为CSV文件：</p>
-<figure data-type="image" tabindex="16"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017082700464241.png" alt="" loading="lazy"></figure>
-</blockquote>
-<p>第十种 使用Quora</p>
-<p>第十一种 利用KeywordTool.io发掘长尾关键词</p>
-</blockquote>
-<h5 id="发掘竞争对手关键词">发掘竞争对手关键词</h5>
-<p><a href="https://www.yiquanseo.com/semrush/">用SEMrush获取竞争对手关键词</a></p>
-<p><a href="https://www.yiquanseo.com/ahrefs/">Ahrefs关键词发掘</a></p>
-<h5 id="跨境电商">跨境电商</h5>
-<p><a href="https://www.yiquanseo.com/dianshangseoguanjianci/">2017外贸电商网站SEO攻略之挖掘关键词</a></p>
-<blockquote>
-<p>方法一：利用Amazon Suggest（亚马逊搜索提示词）</p>
-<p>方法二：使用Keyword Tool Dominator</p>
-<p>方法三：分析Amazon (and Competitor) Categories</p>
-<p>方法四：使用SEMRush</p>
-<p>方法五：使用GKP（Google Keyword Planner谷歌关键词规划师）</p>
-</blockquote>
-<p><a href="https://www.yiquanseo.com/dianshangseoshaici/">2017外贸电商网站SEO攻略之关键词分析筛选</a></p>
-<blockquote>
-<p>关键词的指数:</p>
-<p>就是关键词的搜索量</p>
-<p>最主流的方法还是使用GKP，输入关键词点击开始分析，GKP可以非常清楚的将这个关键词在谷歌的月平均搜索量显示给我们：</p>
-<p>关键词转化率</p>
-<p>我们最好的方法就是依靠数据来判断，这里主要给大家介绍两项数据：GKP的competition和suggest bid。</p>
-<p>所以，一般来说，GKP的competition越高，关键词的转化率越高，反之越低。</p>
-<p>说实话很多时候suggest bid反应的关键词转化率要比competition还要准确，suggest bid越高转化率越高，suggest bid很低，说明这个词转户率也不怎么样。原因跟上面相同，如果某个词转化率很低，有谁会傻到投相当高的价钱来抢这个词。</p>
-<p>竞争程度</p>
-<p>关于关键词的竞争程度我们可以通过SEM RUSH查看，输入关键词看KD</p>
-<p>指标越高，竞争程度越高，反之越低。</p>
-<p>还有就是，查看谷歌首页搜索结果是否完全匹配你搜索的关键词，对于大部分关键词来说，排名首页的搜索结果都是完全围绕你的关键词的</p>
-<p>最后，还有非常简单的一种判断关键词竞争程度的方法，那就是使用工具secockpit【已渐渐过时】</p>
-</blockquote>
-<h4 id="第三步关键词搜索量-商业价值-竞争程度等分析">第三步，关键词搜索量、商业价值、竞争程度等分析</h4>
-<p>原文：<a href="https://www.yiquanseo.com/seo-nandu/">判断关键词SEO难度？N种方法全面讲解！</a></p>
-<blockquote>
-<p>第一：参考专业工具给出的难度指数。（最简单有效的判断方法）</p>
-<p>Kwfinder、SEMrush、Ahrefs</p>
-<p>第二：查询谷歌库里收录了多少条相关结果（最简单古老的方法）</p>
-<p>第三种：精致判断。</p>
-<blockquote>
-<p>举个例子吧，如果发现排名前十的网站，大部分页面文字内容特别多，都按关键词规则好好布局了关键词，同时网站外观高大上，细节处理完美，用户体验很好，并且外链质量很高，数量很多，那基本不用想，难度很高。</p>
-<p>反之，排名前十的页面，大部分页面上连文字都没有，外观很差，各种问题，外链基本没有或者都是垃圾链接，那这个词的难度一般很低。</p>
-<p>当然，一个一个页面的去查询他们的外链、权重等，会比较麻烦，这里建议大家使用seoquake或者moz bar</p>
-</blockquote>
-<p>第一、三种方法查细致关键词难度更好，第二种更适合查行业seo难度。</p>
-</blockquote>
-<p>原文：<a href="https://www.yiquanseo.com/guanjiancifangfa/">为什么你的产品词不能当主词？</a></p>
-<blockquote>
-<p>很多从平台转到独立站的客户，习惯性的把阿里热搜词导出来，然后布局到独立站里当主词……</p>
-<p>为什么不能拿阿里等平台的热搜词当独立站的主词？（机械类除外）</p>
-<ol>
-<li>
-<p>有些词在阿里有搜索量，在谷歌完全没有，有些词在阿里没人用，在谷歌里却是非常热的词</p>
-</li>
-<li>
-<p>阿里、MIC等是B2B平台，这些平台上所有卖家都是批发商、生产商，所以用户在这个平台上搜索不需要加supplier、manufacturer这些，单纯搜产品词就可以了，反正找到的肯定是批发商。（这个也是解释为什么B2B不能直接拿产品词当主词？）</p>
-<p>但谷歌完全不同，大部情况下，你在谷歌上直接搜产品词，找到的肯定是零售商城！原因很简单，老外拿谷歌当淘宝用，想买东西了，直接去谷歌搜索，找到后直接买，就跟国内我们去淘宝、天猫搜到东西直接买一样。</p>
-</li>
-<li>
-<p>这里可能也有人会问了：你就能保证我的客户不会在谷歌直接搜索产品词找批发商吗？</p>
-<p>我不能保证，而且你的客户很可能会直接在谷歌搜产品词找供应商，但是我们要考虑一个问题：你的客户占所有搜索这个词的用户的百分之几？</p>
-<p>随便打个比方，每天有1000个人在谷歌搜索保温杯，这1000个人里可能有想找批发商的，但是能占到10个人吗？</p>
-<p>对于谷歌来说，如果搜索这个词的1000个人有990个都是想网购，想单买，很显然，为了用户体验，它一定会把零售杯子的网站排在前面，甚至很有可能出现这种情况：前三页全是零售网站。</p>
-<p>这个时候你的客户搜完就会发现，直接搜产品根本找不到供应商，所以他会反过头来搜杯子生产商、杯子供应商、杯子批发等等。</p>
-</li>
-<li>
-<p>甚至退一步讲，即使你用黑科技把网站做到第一了，别人一搜杯子，最前面的就是你，但是进来的绝大部分客户都发现你只做批发不做零售，然后他们瞬间退出，并且继续搜索，这个信号对于谷歌来说太明显了，你的网站不符合用户体验，接下来几天时间谷歌算法就会把你重新调到后面。</p>
-</li>
-<li>
-<p>当然，也有这种情况，搜这个产品词的用户有很多是想找供应商的，这种情况你可以直接使用产品词。</p>
-<p>如何判断你的产品是否是这种情况呢，很简单，把产品词输入到谷歌里面搜索，查看谷歌前十前三的结果有几个是零售的几个是批发的，如果全是零售的说明绝大部分人搜索这个词的需求是零售，如果有三到五个是批发商，那非常好，你可以尝试用这个当主词。</p>
-</li>
-<li>
-<p>快消品做B2B批发的话关键词加上supplier/producer/这类B端词，机械，化工，模具这种本身就是B端属性的话可以用大词当做主词。</p>
-</li>
-</ol>
-</blockquote>
-<p>原文<a href="https://www.yiquanseo.com/guanjiancijingzheng/">关键词筛选的最后一步：竞争程度研究！</a></p>
-<blockquote>
-<p>注：这个其实就是研究的时候，参考看看过一遍就行。无需提前阅读。</p>
-</blockquote>
-<h3 id="关键词布局">关键词布局</h3>
-<p>原文：<a href="https://www.yiquanseo.com/seoguanjianciguihua/">页面关键词如何规划才能实现最佳SEO效果？</a></p>
-<blockquote>
-<ol>
-<li>
-<p>尽量让标题中多包含几个相关关键词</p>
-<ul>
-<li>
-<p>大部分SEOer在布局标题关键词的时候采用的都是下面的步骤：首先，找一个筛选出来的关键词当做页面主词；然后，写一个标题将这个关键词包含进去。这样做只是对你选择的这一个词有帮助，后期也只有这词有排名，但如果我教给你的方法，同样的一个网页你至少可以获得两个词甚至更多词的排名。</p>
-</li>
-<li>
-<p>方法很简单，标题关键词使用包含原定关键词的长尾词</p>
-</li>
-</ul>
-<p>比如，通过筛选，我们发现一个英文关键词seo tips很好，</p>
-<figure data-type="image" tabindex="17"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017090811142470.png" alt="" loading="lazy"></figure>
-<p>接着，我们搜索这个词的长尾，找一个含义最相近、能完美包含SEO tips，并且搜索量还不低的长尾词，如下：</p>
-<figure data-type="image" tabindex="18"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017090811145552.png" alt="" loading="lazy"></figure>
-<p>然后，我们用这个词来做标题的关键词，标题可以如下设置：</p>
-<figure data-type="image" tabindex="19"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017090811152753.png" alt="" loading="lazy"></figure>
-<p>为什么这样做？道理很简单，这个长尾词的难度比seo tips低，所以很容易就能上排名，而当我们外链和推广做好的时候，SEO tips也会很顺利的进入谷歌首页，相比于标题中只使用SEO tips一个词，我们这样做至少可以轻松获得两个排名，这样才是将标题价值最大化的体现。页面标题是页面SEO规划中第一重要的内容，充分利用好标题的每一份价值至关重要！</p>
-</li>
-<li>
-<p>页面内容中关键词的布局</p>
-<ul>
-<li>关键词尽可能出现在文章最前面，一般是要求文章或页面前100个词中必须出现一次关键词。</li>
-<li>关键词密度应当适中，过分堆砌关键词既影响用户体验，又会让搜索引擎认为你的网站使用作弊手法，合理的关键词密度在2%-8%之间，尽可能的增加文章或页面内容的长度，这样你可以更合理的让关键词多次出现，取得更好地排名</li>
-<li>使用H标签，合理运用H标签不仅可以让文章层次分明、更有条理，增加用户体验；更重要的是，将关键词合理的嵌入到H标签中，页面SEO会更完善，对于谷歌排名的提升会有一定的好处。</li>
-<li>页面内容应该紧扣关键词主题，要考虑我们的用户搜索这个词的时候想看到的内容是什么，获得更好的用户体验数据，现在谷歌会通过如页面停留时间、跳出率等等来调整排名。</li>
-<li>内容中跟关键词相关的图片、表格、视频、音频等，alt标签填写好，最好出现关键词。</li>
-</ul>
-</li>
-<li>
-<p>用和页面内容最贴切的词，谷歌根本不看关键词【keyword meta标签[meta keyword=&quot;...&quot;]】，所以关键词标签【keyword meta标签[meta keyword=&quot;...&quot;]】里面是什么内容根本无所谓，或者说有没有也无所谓。</p>
-</li>
-</ol>
-</blockquote>
-<p>原文：<a href="https://www.yiquanseo.com/guanjiancibuju/">谷歌实战：关键词、长尾词如何布局到网页内容</a></p>
-<blockquote>
-<ol>
-<li>
-<p>确定这个页面的中心关键词。</p>
-<ul>
-<li>
-<p>中心关键词一般是一到三个，当然一个的话最好操作，三个的话就特别麻烦（因为还是需要给它们分清主次，不然三个词都搞不好），至于再多，那肯定就不是中心词了</p>
-</li>
-<li>
-<p>中心词如何确定，拿产品或者产品分类页面来说，叫法准确、搜索量高的词就是中心词（机械类、工业材料类产品一般如此，某些偏零售的产品可能必须加supplier、manufacturer这种属性词才行）</p>
-</li>
-<li>
-<p>这里举个例子，比如我们是做测试设备的，某个分类是纺织测试设备，英文名称是textile testing equipment，但是我们通过分析竞争对手网站和使用关键词工具（GKP、kwfinder等等）查询，发现这个词还有几个近似的叫法，分别为textile testing instruments和textile testing machine以及textile tester，通过考察分析，基本可以确定，搜索这些词的客户找的都是同一类产品。然后看查看搜索量：</p>
-<figure data-type="image" tabindex="20"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018042711484416.png" alt="" loading="lazy"></figure>
-<p>（textile tester月搜索量只有10，这里不列出来了）</p>
-<p>所以，如果中心词只有一个那肯定是textile testing Instruments（搜索量最高且难度最低），如果是三个，那依次就是textile testing Instruments、textile testing equipment、textile testing machine。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>根据中心词寻找相关长尾词</p>
-<ol>
-<li>将textile testing Instruments输入到keywordtool.io、ubersuggest等，我们能够得到针对性非常高的长尾词：</li>
-</ol>
-<figure data-type="image" tabindex="21"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018042711484666.png" alt="" loading="lazy"></figure>
-<p>将textile testing equipment输入类似工具也是如此，这样，用三个中心词将重要的长尾词拓展出来，我们手里就有一个质量非常高的关键词表了。</p>
-<ol start="2">
-<li>如何取舍拓展长尾词？主要有三个标准：</li>
-</ol>
-<ul>
-<li>
-<p>搜索量。</p>
-</li>
-<li>
-<p>搜索词体现的需求是否强烈，这里打个比方，搜索textile testing Instruments supplier的明显是想要买产品的，他对于产品的需求我们一眼就能看出来，所以就算搜索量很低，但是依然很重要，我们必须要覆盖；另一个词what is textile testing Instruments，搜索这个词的用户可能仅仅想要了解下产品，购买意图可能非常低，所以就算搜索量很高，我们一般也不会选择。</p>
-</li>
-<li>
-<p>合不合适，至于如何判断合不合适，标准有很多。但是一般来说都比较通用，还是举实际例子说明，例如，地区词：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018042711484878.png" alt="" loading="lazy"></p>
-<pre><code>像上面这类词，仔细分析一下，搜这些词的客户购买意图还是很高的，所以，如果有可能我们会尽量覆盖，但是如果你没有很好的套路，就直接刻意的覆盖这些词，用户进来之后会有一种被欺骗的感觉，这对于那些想树立高端形象的网站来说是很不合适的，所以，如果你不能想一段很好的话来覆盖，那这些词建议舍弃。详细写法见此：[优质英文产品描述怎么写](#优质英文产品描述怎么写) 
-</code></pre>
-<p>然后还有一种，我们可以称之为精准产品词（形容词+产品词）：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018042711484962.png" alt="" loading="lazy">像这种词，你可以考虑覆盖，也可以考虑用更精确的产品来覆盖，一般对于这种机械类产品来说，分类词搜索量是最大的，到了单个的产品词其实搜索量很小甚至没有，所以这个时候，很多分类覆盖不过来的长尾词，其实我们完全可以考虑用放到单个产品里面。【就是说 产品页面里面放置这些产品词。】</p>
-</li>
-</ul>
-<p>通过上面三个标准，我们可以把相关长尾词好好的排除一下，但是依然会剩下一批（可能20个以上）。对于这一批词，我们应该如何布局呢。</p>
-</li>
-<li>
-<p>长尾词如何布局</p>
-<ol>
-<li>首先，最重要的词才可以出现在标题中，并且越重要就越要在标题前面。（如果按照这个例子，标题应该是textile testing Instruments, textile testing equipment, textile testing machine或者是textile testing Instruments,equipment,machine supplier &amp; manufacturer等等，具体如何来做，需要更深的实践经验，考虑更多东西，一般情况这两种就比较合格了。）</li>
-<li>其次，最重要的词出现在最前面的文字内容中，毫无疑问textile testing Instruments, textile testing equipment, textile testing machine这些词都要尽可能出现在页面内容第一段的，而且在第一段越前面的位置越好，其他的长尾词，按照重要程度也是尽量的往前放，越往前，越容易获得排名。</li>
-<li>第三，关键词能连在一起最好，但是为了用户体验（语句自然程度、通顺程度），很多词可以分开，简单来说一句话，textile XX testing Instruments XX XX manufacturer也算把textile testing Instruments覆盖了，只是没有连在一起效果那么好，但是一般情况下，不重要的词完全可以用这种断开的形式覆盖。</li>
-<li>第四，最重要的词，在H标签里出现一下，比如这种词textile testing Instruments，如果可以的话，可以让它在H标签里出现一下，但是注意一定要自然。</li>
-<li>第五，最重要的几个词，使用黑体、斜体、下划线之类的标注一下。</li>
-<li>第六，最重要的关键词在内容结尾也出现一下。</li>
-<li>第七，图片标题和alt标签可以适当出现一下关键词。</li>
-<li>第八，不要在乎什么关键词密度，像那种不重要的关键词，只要在内容里出现一遍就可以了，哪怕不连在一起也没事，重要的词只要保证出现在内容靠前的位置，最重要的词出现在标题、内容最前方、H标签、末尾，这样就足够了，根本不需要刻意增加关键词密度。</li>
-<li>第九，内容思路要清晰，文字要自然，要注意用户体验（重要的地方加黑，用一下其他颜色标注下，加一下内链等等），千万不要为了覆盖关键词瞎写。</li>
-</ol>
-<p>这样，一篇比较好的覆盖关键词的内容就做出来了（按照上面套路指导客户做出来的页面：https://fyitester.com/textile-testing-equipments/，说实话，还有非常大的改进空间，实际上也在慢慢改。）。</p>
-<figure data-type="image" tabindex="22"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200805191158.png" alt="" loading="lazy"></figure>
-<p><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200805191445.png" alt="" loading="lazy"> [图片截于2020年8月，但本文写于2018年4月，数据不可考了，只是随手截图]</p>
-<p>当然，这里还要提醒一句，这样下来一篇内容覆盖的词非常多，但是能迅速上排名的，其实只有最重要的一个或几个词，其他次要词，长尾词，需要很长很长时间才会有效果。</p>
-</li>
-</ol>
-</blockquote>
-<h3 id="网页描述写法和布置">网页描述写法和布置</h3>
-<h5 id="优质英文产品描述怎么写"><a href="https://www.yiquanseo.com/chanpinmiaoshu/">优质英文产品描述怎么写</a></h5>
-<blockquote>
-<p>对于低竞争产品，网站文字内容几乎决定一切。</p>
-<ol>
-<li>
-<p>文字内容的要求，</p>
-<p>主要有这么几点：</p>
-<ol>
-<li>首先，不能有语法和拼写错误，这是基础。</li>
-<li>其次，内容需要原创，而且每个页面的内容重复度要尽可能低。</li>
-<li>最后，内容越长越好，涵盖的相关话题越丰富越好，当然更重要的是有价值，要让客户看了觉得有用，觉得很nice。</li>
-<li>对于大部分B2B和B2C商品站来说，网站文字最重要的部分就是产品描述！</li>
-</ol>
-</li>
-<li>
-<p>但是很多网站，产品描述基本上是应付事：</p>
-<ol>
-<li>很多是从阿里或同行网站把文字原封不动搬过来的；</li>
-<li>还有些就随便弄了个参数表格，连像样的文字介绍都没有；</li>
-<li>好一点的，文字介绍是让业务员写了不少，但是各个页面重复度很高，很多产品都是用的极其类似的介绍，</li>
-</ol>
-<p>类似这些情况，网站内容都是不及格的，拿这样的内容来做SEO，想上排名难度太大！</p>
-</li>
-<li>
-<p>那产品描述到底应该如何写呢？</p>
-<ol>
-<li>
-<p>首先，你要确定客户需求</p>
-<p>客户搜索产品词和产品相关词（长尾词、<a href="https://lsigraph.com/what-is-lsi-keyword/">LSI词</a>）的时候，他们都是有一定的需求的，他们的需求包含哪些方面？我们应该如何解决他们的这些需求？</p>
-<ol>
-<li>一般来说，仅仅依靠主关键词，我们只能主观判断客户需求，</li>
-<li>但是通过长尾词和<a href="https://lsigraph.com/what-is-lsi-keyword/">LSI词</a>，我们能更客观的了解客户的搜索目的</li>
-</ol>
-<p>拿机械类产品来举个栗子吧：transformer winding machine（这是我随便搜索的一个纺织类产品，我也不知道是什么产品，后续如果有解释错误的，行家别见怪）</p>
-<p>单看这个词，我们可以想象，客户的需求主要有两个方面：</p>
-<ol>
-<li>
-<p>想了解transformer winding machine是什么、有什么用？</p>
-</li>
-<li>
-<p>想搜索相关厂家和代理商进行购买。</p>
-</li>
-</ol>
-<p>但是如果我们仔细了解下这个词的相关词（使用Ubersuggest/keywordtool/Lsigraph工具查找），下面是通过keywordtool.io搜索到的部分相关词：</p>
-<figure data-type="image" tabindex="23"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018022309001940.png" alt="" loading="lazy"></figure>
-<p>通过浏览keywordtool显示的全部的长尾词以及查看lsigraph.com提供的LSI词，可以发现：客户更进一步的搜索需求主要包含这个几个方面：</p>
-<ol>
-<li>
-<p>transformer winding machine+地区（这个需求可能有几种，一种是外地客户想购买特定地方生产的这类机器，比如，美国人想购买印度生产的这类机器：另一种是本地客户想购买本地的机械，例如巴基斯坦人想购买巴基斯坦本地的这类机器）。</p>
-</li>
-<li>
-<p>transformer winding machine price（想了解价格）。</p>
-</li>
-<li>
-<p>diy和how to build transformer winding machine（想了解如何自己制造或者说组装这类机器）。</p>
-</li>
-<li>
-<p>transformer winding machine的相关产品coil winding machine。（这种一般是两个词是一类产品的两种叫法，或者两类产品非常相近、互相包含等，因为有人会经常一起搜索，或者搜索不同的词进入同样的网页，因此谷歌将之归为一类词。）</p>
-</li>
-<li>
-<p>transformer winding machine和coil winding machine更细小的一些产品分类（比如transformer winding machine automatic、electric motor winder machine等，这种很明显，用户想要满足更精细功能的这类产品）。</p>
-</li>
-</ol>
-</li>
-<li>
-<p>布局内容</p>
-<p>理解完了需求，我们在产品介绍的时候很容易就知道怎么写了。比如，如果要写transformer winding machine的产品介绍，根据需求，我会这样来布局内容：</p>
-<ol>
-<li>
-<p>首先，简单介绍下transformer winding machine是什么，有什么用途，如果有别名的话，一起包含进去（就说某某机械也被称为某某机械，一句话带过就行）。</p>
-<p>介绍差不多了，丢一句话，想详细了解的可以看维基百科，留一条链接（为什么要留链接，因为做谷歌排名，网页有导出到高权重网站的链接是有好处的！）。</p>
-<p>这样，这些内容可以完全满足搜索需求是为了解信息的客户了。（这样一段话相信怎么着也得100词吧）</p>
-</li>
-<li>
-<p>接下来，介绍我们企业生产的这类产品的特点，款式、跟同行对比有什么优势，采用了什么全新的技术，使用了什么原料，质量如何，有哪些地方做了改进，属于世界第几流，跟哪些著名品牌有一拼等等，最后，详细参数。</p>
-<p>（这个主要是为了吸引客户，实实在在写，尽量不要吹，这段内容相信怎么也有150词，这是营销自己的最重要内容，写不了150词可以GG了。）</p>
-</li>
-<li>
-<p>然后是价格，上面质量说完了，客户肯定会对价格有个预期，但是直接说价格肯定也是不好的，而且那些搜索价格的客户肯定也是想了解整个这类产品全世界、高中低、不同生产商的所有价格，以便做到心里有个数。</p>
-<p>所以，写价格我们要这么写，首先最高的，先把几款国际知名品牌价格写出来（口说无凭，最好有截图或者引用链接），然后评判一下这些价格（如何评判？客观的说下谁会选择这些产品就可以啊，比如说国企，超大型企业等。然后分析整体价格里面，质量占多少分、品牌价值占多少分、渠道占多少分、广告占多少分。）</p>
-<p>接下来，中档的也是这样介绍，低档的也是同样套路，当然别忘了自己的产品，介绍清楚自己属于哪一档，如果价格低，写清楚为什么低，如果高，同样写清楚为什么高！这样，基本想了解价格的客户需求解决了，而且也适当营销了自己，说不定就能给转化了。（这个也能写100词吧。）</p>
-<p>（当然，对于价格，其实列一个详细的产品价格调研清单，然后列明出处，再做一下评论，这个是很好的，如果推出去，有可能能引发病毒营销，并带来外链。）</p>
-</li>
-<li>
-<p>然后就是产地了，产品+产地是非常容易出现的，客户的搜索需求往往也是上面列出的两种，如何满足这两种需求呢，很简单。</p>
-<ul>
-<li>
-<p>第一种，外地客户想购买特定地区的产品，为什么？无非就是因为某个地区专门生产这个，价格低或者质量高呗，如果我们不是这个地区怎么办？建议可以写我们工厂跟这个地区主要工厂有合作关系，当然你可以说是货源地，或者原来在这里来后来搬迁了等等，最重要的要点出，你们的价格和质量跟他们相比差不多，或者更优秀。当然，不管怎么说得有一定根据才行，不能胡扯。</p>
-</li>
-<li>
-<p>第二种，本地客户就想找本地的供应商，你怎么办呢？也很简单啊，你可以说某某地是你最大的市场，百分之八十的客户都是来自这里（此处最好有案例），是你最重要的出货地区，因为出货量大，你在这些地区建立了完善的售后和服务体系，甚至投资建立了生产基地等等。还是那句话，可以说，但是要有根据。</p>
-<p>这样地区需求也解决了，至少也得150词吧。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>再然后，diy的部分，有些人就是不想买想自己制作，或者可能是买了产品想自己组装，对于这些客户，我们同样要好好对待，如果你能写好的教程，那一定详详细细讲出来，如果没有，你可以百度或者谷歌出来，然后放一条链接。这里，有的同学可能在想，我写不出教程来，也不想放别的网站的链接，那OK，这段完全别写！如果你写了，却解决不了用户需求，只能给客户留下这样的印象：“标题党，把我骗来，就说一堆废话。”这样适得其反。（这段话也能有100词左右，如果内容很多，可以写一篇专门文章，这里放一条链接即可。）</p>
-</li>
-<li>
-<p>最后，是不同产品或者这类产品更细分产品的需求，这个其实也很好写，对于不同产品，你可以直接写区别啊，这两种产品有什么异同，如果都是一种用途，那各有什么优劣势，如果内容很多，在这里不方便展开，你可以单独写一篇文章，然后在这里放一条链接连接到文章即可。至于更细分的产品也是这样，详细的讲一下就可以了，展不开就放链接。这里也得有150词左右。</p>
-</li>
-<li>
-<p>上面这些是我们通过关键词分析出来的需求，但是作为一个老练的业务员，我们是很明白客户找到我们会有哪些其余的疑惑以及想了解的问题，其实我们可以一并放在这里的。</p>
-<p>比如客户会关心配送、担保、售后等等，这些客户经常问的问题，你写在产品介绍里不很好吗，弄上200词，既能增加字数，稀释重复度，又能促进转化，何乐而不为？</p>
-<p>当然内容不仅是在解决需求，同时也是在营销，所以，写这些内容的时候你要穿插着把企业优势介绍一下，让自己的品牌多出现一下，尤其是全部介绍完的时候，再来个50词的产品或者品牌介绍。</p>
-<p>同时，对于关键词也是一样，像做2B，常见的必须加的词supplier、manufacturer、factory、company、oem、wholesale、bulk、cheap、china等等，这些很自然要全部出现一到两遍。其他的用工具搜到的，比较重要的关键词更不用说，该放到H标签的放H标签，改黑体的黑体，改斜体的斜体，下划线什么的也用下，重要的想要客户注意的，不同颜色标注下也是应该的。</p>
-</li>
-</ol>
-<p>写到这里，可能很多同学深受启发，还有一些同学感觉，我的产品差异太小了，就算按照这个写也写不了这么多内容，或者写出来重复度也还是很高。</p>
-<p>是，的确也有情况，如果遇见那种产品及其相似的，有两个办法：</p>
-<ol>
-<li>使用<a href="https://www.seozac.com/seo/canonical-tag-301/">canonical标签</a>，适合2C站。</li>
-<li>将极其类似的产品统统放到一个页面，比如有十个产品及其类似，几乎没什么区别，那你干嘛放一个页面，统统放到一个页面去，当然，这个肯定是适合2B站。</li>
-</ol>
-<p>另外，关于内容，每个句子尽量简短易懂，每段话也是尽量短一些，层次分明一些，版式也清爽一些，能有图表的用下图表，有相应图片和视频就都加下，这样不管是客户还是搜索引擎感觉都会很好。</p>
-</li>
-</ol>
-<p>注：</p>
-<blockquote>
-<p>你好，我想问一下，如果我英文不好，我用百度或者谷歌的翻译软件翻译可以吗？我写一遍中文的，直接放到翻译软件导出来。保证自己写的，每一篇都是重复内容少的，就是使用了翻译软件翻译全文？谢谢</p>
-<blockquote>
-<p>如果是一些很简单的产品，这样也可以吧，中等难度以上的，这种可能就不太行了，软件翻译的毕竟还是有问题的，可以找老外润色下</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-<h5 id="semrush教程4站内seo部分"><a href="https://www.yiquanseo.com/semrushjiaocheng4/">Semrush教程（4）——站内seo部分</a></h5>
-<p>自注：这个我看了1-3 都是教怎么用，其实官网也有这种tutorial，一般没有必要特别去看，就是说明书文章，第5部分，说了一个观点，就是这个<strong>Semrush可以替代Similiarweb，便宜【淘宝50元一个月】，效果近乎Similiarweb付费版【6000刀一年】</strong>。</p>
-<blockquote>
-<p>​	第二：semrush核心竞争力——查看竞争对手的关键词及流量情况远胜ahrefs；第三：跟majestic合体之后，外链分析能够和ahrefs一争长短。</p>
-<ol>
-<li>
-<p>Seo Content Template</p>
-<ol>
-<li>
-<p>什么是Seo content template？简单说就是，你它可以告诉你如何改进你的内容;</p>
-</li>
-<li>
-<p>它的原理很简单，就是分析一下对应关键词排在谷歌前十的网页，看这些网页里出现频率较高的关键词，看这些网页的文字数量，然后指导你把高频关键词都写进去，把文字数量提升到平均标准以上。</p>
-<blockquote>
-<p>使用就不摘了，就是说明书和使用心得。</p>
-</blockquote>
-</li>
-</ol>
-</li>
-<li>
-<p>Seo audit 检测网站的seo状况</p>
-<p>主要是针对technical seo和on page seo来做检测</p>
-<ol>
-<li>
-<p>优点是：对中小网站来说，可以一次性检测全部网页，并且将网站站内seo问题清晰的显示出来。可以按照site audit提供的信息对站内seo进行优化，非常简单而且有效。</p>
-</li>
-<li>
-<p>缺点是：对某些问题并没有提供详细的解决方案，依然需要我们自己去找解决方法。（当然，所有检测工具都是这样，一全老师从来没见到能提供所有完美解决方案的检测工具）</p>
-<blockquote>
-<p>使用就不摘了，就是说明书和使用心得。</p>
-</blockquote>
-</li>
-</ol>
-<p>还是semrush固有的一个缺点，功能太多甚至繁杂，但是很多功能还需要提升实用性。</p>
-</li>
-</ol>
-</blockquote>
-<h5 id="google-seo最基础因素信任度trustrank详解"><a href="https://www.yiquanseo.com/googleseoxinrendu/">Google SEO最基础因素：信任度（trustrank）详解</a></h5>
-<blockquote>
-<p>为获取谷歌信任需要操作的点：【仅供参考的】</p>
-<ol>
-<li>
-<p>网站要有导出到权威网站的链接</p>
-</li>
-<li>
-<p>隐私政策和应用条款以及附加说明等页面要全面详细</p>
-</li>
-<li>
-<p>保证网页质量，延长用户的提留时间，降低跳出率，避免用户屏蔽</p>
-</li>
-<li>
-<p>页面下方适当添加文章引用和来源。</p>
-</li>
-<li>
-<p>用品牌加关键词的方式做域名和网站名</p>
-</li>
-<li>
-<p>详细的关于我们页面（看起来像大企业的介绍）</p>
-</li>
-<li>
-<p>活跃的社交账户</p>
-</li>
-<li>
-<p>用品排名来做外链的锚文本</p>
-</li>
-<li>
-<p>使用注册时间超过两年的域名</p>
-</li>
-<li>
-<p>域名的whois信息真实公开</p>
-</li>
-<li>
-<p>在联系我们页面出现跟whois信息一致的地址信息、联系信息等</p>
-</li>
-<li>
-<p>获取某网站外链的时候记得查看这个网站的外链来源，如果他的外链</p>
-</li>
-</ol>
-<p>中有来自种子网站的，那想办法一定获得这个网站的外链。</p>
-<ol start="13">
-<li>想办法获得谷歌新闻的外链。</li>
-</ol>
-</blockquote>
-<h5 id="新google质量评分指南高质量页面e-a-t解析"><a href="https://www.yiquanseo.com/googlezhiliangpingfenzhinan/">新Google质量评分指南“高质量页面”+“E-A-T”解析</a></h5>
-<p><strong>相当理论的一篇文章</strong>，这种都是强迫症的站长了。</p>
-<p>“E-A-T” ： Expertise, Authoritativeness, Trustworthiness的缩写，也就是页面的专业度、权威度、信任度。</p>
-<blockquote>
-<p>页面质量不仅仅看页面本身内容，还要考虑网站、创作者背景、网上声誉。<br>
-要达到Google认为的高质量，难度是不小的。可以参考高质量页面例子都达到了什么水平。<br>
-质量高，不一定就得到排名，还要满足搜索意图，所以关键词研究还是很重要的。<br>
-Google的搜索质量比百度高是有原因的。</p>
-</blockquote>
-<h5 id="写文章找不到话题6个工具帮你有效解决"><a href="https://www.yiquanseo.com/huatichazhaogongju/">写文章找不到话题？6个工具帮你有效解决</a></h5>
-<blockquote>
-<p>第一款：https://tweakyourbiz.com/title-generator（一次生成近千个标题）</p>
-<p>第二款：https://www.title-generator.com</p>
-<p>第三款：https://www.contentrow.com/tools/link-bait-title-generator/</p>
-<p>第四款：https://www.portent.com/tools/title-maker</p>
-<p>第五款：https://www.webfx.com/blog-topic-idea-generator/</p>
-<p>最后再加一个不一样的：<a href="https://www.seoreviewtools.com/content-idea-generator/">Content Idea Generator</a> 这个工具是从各大社交平台获取话题，跟buzzsumo类似。</p>
-</blockquote>
-<h3 id="高质量文章如何写">高质量文章如何写</h3>
-<blockquote>
-<p>有些关键词靠首页、产品页是做不上去的，这个时候最好的方法是创作一篇优秀的博客文章，用这篇文章来做排名。</p>
-<p>今天，结合我自己写文章的经验，老外的一些经验，然后是客户写内容的过程中遇见的一些问题，简单的讲一下创作高质量文章应该注意的地方：</p>
-<p>一、找话题</p>
-<ol>
-<li>
-<p>用户需求（用户正在寻找的某个问题的答案，迫切想要了解的某方面的知识）</p>
-</li>
-<li>
-<p>用户喜欢（用户感兴趣甚至着迷的内容，比如内幕、八卦）</p>
-</li>
-<li>
-<p>客户关心（行业技巧、知识、规则）</p>
-</li>
-</ol>
-<p>对于寻找这些话题，其实方法也很多，比如去相关行业论坛查找大家讨论比较多的内容，看比较火热的帖子，也可以去问答平台查看潜在客户都在问什么样的问题，当然，最简单的还是使用buzzsumo查找热门内容。（buzzsumo教程）</p>
-<p>二、话题找到之后，要对话题进行筛选，筛选的时候主要注意这么几点：</p>
-<ol>
-<li>围绕这个话题是否有人已经写了非常完美的文章？</li>
-</ol>
-<p>如果你搜到的内容能找到他们的缺点，并感觉能超越他们，那放手去做就行了。</p>
-<ol start="2">
-<li>不要太在意搜索量和SEO规则。</li>
-</ol>
-<p>对于优质的内容来说，首先考虑的是价值，其次才是流量和排名，写内容的时候不要太过注重SEO，更没必要刻意增加关键词出现的频率，一切以用户体验为先，顺其自然，比如对用户比较重要的信息进行加粗，而不是对关键词进行加粗，对用户的确可能需要的内容做下内链，而不是单纯的为了增加访问就毫无理由的加上一堆内链。</p>
-<p>最后写内容的时候，还要注意这么几点：</p>
-<ol>
-<li>
-<p>内容的正确性或者说准确性。</p>
-</li>
-<li>
-<p>内容创意</p>
-</li>
-<li>
-<p>内容深度</p>
-</li>
-<li>
-<p>做别人不想去做的事</p>
-</li>
-</ol>
-<p>这一点是艰难的捷径，可以让你以最短的时间超过别人，但是过程很痛苦。</p>
-<p>具体是什么意思呢，打个比方你就明白了，做SEO的很多人都想详细的了解Sem rush，但是到现在为止，中文的Sem rush教程没有一个详细的，基本上都是蜻蜓点水，所以我就想写个详细的教程，但当我把Sem rush完全搞懂，我发现sem rush现在功能太多了，写个完整教程恐怕要几万字，就算分成十多篇文章，每篇都得几千字，而且每篇内容需要详细的配图，图片讲解，术语讲解，功能讲解，这简直就是一个工程的工作量，这种事很多人一看就不想做了，但是如果你做了，很可能就因为这一系列的文章你网站流量就起来了。</p>
-<p>所以，做别人不想做的，做别人不愿意做但对客户有用的，做哪些很艰难的，这是捷径。</p>
-<p>至于是否是地道的英文，这一点没必要看的那么重，对于很多用户来说，只要内容有价值，他们能看懂就可以了，剩下的你的蹩脚的英文甚至可能会成为你的特色。</p>
-</blockquote>
-<p>这部分内容，我看了下原博客的文章要么偏于理论，要么偏于大道理，而其推荐的<a href="https://www.yiquanseo.com/goumaiguowaineirong/">懒人必备！4个直接购买网站内容的国外网站！</a> 这几个站点都是垃圾，更推荐看看<a href="https://dzkjz.github.io/post/bo-wen-xie-shou-fang-tan-ji-ji-zhao-xie-shou-de-jing-yan-ji/">博文写手访谈记 及找写手的经验记</a></p>
-<h3 id="技术">技术</h3>
-<h5 id="站内重复度检测">站内重复度检测</h5>
-<blockquote>
-<p>工具地址：http://www.siteliner.com/</p>
-</blockquote>
-<h5 id="伪原创检测">伪原创检测</h5>
-<blockquote>
-<p>分别是：https://www.copyscape.com和https://www.duplichecker.com，https://www.spinmenot.io， www.quetext.com</p>
-</blockquote>
-<h5 id="网站速度检测">网站速度检测</h5>
-<blockquote>
-<p>第一款：dotcom-tools的网站速度测试工具，地址：https://www.dotcom-tools.com/website-speed-test.aspx</p>
-<p>第二款：Sucuri的速度测试工具，地址：https://performance.sucuri.net/</p>
-<p>其他就是WP的速度优化，图片压缩之类的插件了【针对WP谈的】。</p>
-</blockquote>
-<h5 id="内链">内链</h5>
-<blockquote>
-<p>一个网页内，指向同一个页面的内链只有一条起作用！</p>
-</blockquote>
-<h5 id="死链">死链</h5>
-<blockquote>
-<p>如何发现这些404页面和站内死链?</p>
-<blockquote>
-<p>工具：DRLINKCHECK。</p>
-<p>网址：https://www.drlinkcheck.com</p>
-</blockquote>
-<p>这些死链如何处理？</p>
-<blockquote>
-<p>第一种是301重定向，做了301之后，用户访问原来URL直接跳转到新URL。这种方法其实很好，因为301可以保证原先页面的权重不流失，并且如果原先页面有很多的访问，跳转到新页面之后，这些用户也不会流失。</p>
-<p>如果全部做301，必须保证原网页和新网页内容基本一致。</p>
-<p>第二种，如果没做重定向，只是单纯删除页面，那一定记得要把被删页面的URL提交谷歌，提交方式很简单，到这里：https://www.google.com/webmasters/tools/removals，输入删除URL，点击提交就可以了。</p>
-<blockquote>
-<p>​	但是，被人忽略的一个问题就出现了——内链问题，想一想某条内链指向的页面被删掉了，然后这个页面提交了谷歌，在谷歌的搜索结果确实清理掉了，但是网站内部，访问这条内链指向的仍然是不存在的页面，这条内链仍然是死链，如果做重定向还稍微好点，但肯定不如内链直接指向重定向后的页面。</p>
-</blockquote>
-<p>所以，如果想彻底解决死链问题，内链死链要么彻底删掉，要么直接修改成重定向之后的页面。</p>
-</blockquote>
-</blockquote>
-<p><a href="https://www.yiquanseo.com/broken-link-building/">详解如何利用“死链”做外链（Broken Link Building）！</a></p>
-<blockquote>
-<p>利用“死链”进行外链建设逻辑很简单：</p>
-<p>找到别人网站的死链，然后告诉他：“hi 朋友，这条是你网站的死链，我不仅把它揪出来了，还找到了更好的内容（你网站的内容），可以替代原来的链接，你看怎么样？”只要你的网站或内容跟原链接类似而且足够好，成功替换那条死链的几率是很大的。</p>
-<p>具体操作，首先是寻找死链，这是一件相对很麻烦的事，这里一全老师给大家提供几个方法：</p>
-<p>方法一：使用搜索语句，因为链接越多的页面出现死链的可能性越大，所以我们可以使用下面的搜索语句查找互联网上的资源聚合页、网站目录页等：</p>
-<p>“keyword” + “resource page”</p>
-<p>“keyword” + “resources”</p>
-<p>“keyword” + “recommended sites”</p>
-<p>“keyword” + “links”</p>
-<p>找到行业的这类具有丰富导出链接的页面之后，就需要我们将这些页面里的死链揪出来，借助死链工具 Check My Links，你会发现查找死链其实非常简单。</p>
-<p>方法二：借助Citation Labs’ Broken Link Finder</p>
-<p>虽然对于寻找死链，方法一也有一定用处，但大部分情况，使用第一种方法都是非常耗时而且费力的，并且对于很多行业来说，方法一可能几乎不可能让你找到合适的死链。</p>
-<p>这个时候，你可以选择使用Citation Labs’ Broken Link Finder，Citation Labs’ Broken Link Finder在上面提到的死链检查工具这篇文章中已经讲过，打开工具，输入关键词，它就会收集你行业的网站，并且对这些网站进行检测，如果发现死链就会一一呈现出来，可以说比第一种方法省事强大一百倍。</p>
-<p>但唯一问题是，这个工具是付费的！所以，一全老师还要给大家介绍方法三！</p>
-<p>方法三：利用维基百科死链</p>
-<p>维基百科有一点比较独特，那就是如果词条引用的链接出现死链，一般不会第一时间直接清除或替换，而是用[dead link]注明这条引用已经丢失链接，然后等待其他百科编辑者提供新的适合的链接来补充：</p>
-<figure data-type="image" tabindex="24"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017110813170111.png" alt="" loading="lazy"></figure>
-<p>这就给了我们很大的操作空间。</p>
-<p>我们可以通过这样的搜索串：site:wikipedia.org [keyword] + “dead link”来直接搜索行业相关的维基百科死链。</p>
-<p>例如，如果你的网站是投资领域的，我们可以这样搜索：</p>
-<figure data-type="image" tabindex="25"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017110813173226.png" alt="" loading="lazy"></figure>
-<p>然后，点击跟你行业或者网站内容最相关的词条：</p>
-<figure data-type="image" tabindex="26"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017110813181346.png" alt="" loading="lazy"></figure>
-<p>进入之后，按ctrl + f寻找dead link：</p>
-<figure data-type="image" tabindex="27"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017110813184486.png" alt="" loading="lazy"></figure>
-<p>然后，整个页面的dead link引用链接就出现了：</p>
-<figure data-type="image" tabindex="28"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017110813192999.png" alt="" loading="lazy"></figure>
-<p>当然，维基百科也有专门的<a href="https://en.wikipedia.org/wiki/Category:All_articles_with_dead_external_links">dead link汇总页面</a>，你也可以在汇总页面寻找你行业相关的死链。</p>
-<p>通过这三种方式找到死链之后，接下来自然就是想办法将链接替换成我们的网站内容了，如果你网站没有凑巧合适的内容，那还需要创作一下，如果有，对于维基百科来说，你可以申请成为百科编辑，然后直接将用你的内容将词条死链替换掉。</p>
-<p>如果你是通过第一、二种方法寻找的死链，那就需要使用邮件来向那些网站的站长来申请链接了。</p>
-<p>这里一全老师给大家提供一份国外大牛使用的邮件模板，大家可以借鉴下：【202008注：这个模板已经证实不行，用[My 15 All-Time BEST SEO Tips (That Get Results)](https://dzkjz.github.io/post/my-15-all-time-best-seo-tips-that-get-results/#Broken Link-Building)】</p>
-<p>Hi [Site Owner Name],</p>
-<p>I was just browsing around your resources page today, and among the lists of great resources, were some broken links.</p>
-<p>Here’s a few of them:</p>
-<p>[URL 1]</p>
-<p>[URL 2]</p>
-<p>[URL 3]</p>
-<p>Oh, and I have a website, [Your Website], that also regularly posts quality content related to whatever. If you think so too, feel free to post a link to it on your resources page.</p>
-<p>Either way I hope this helps and keep up the good work!</p>
-<p>Thanks,</p>
-<p>[Your Name]</p>
-</blockquote>
-<h5 id="侵权处理">侵权处理</h5>
-<blockquote>
-<p><a href="https://www.yiquanseo.com/wangzhanqinquanchuli/">网站被侵权如何处理？（负面信息同理！）</a></p>
-<p>方法非常简单：找到侵权网站或诋毁网站的域名及服务器供应商，然后投诉。</p>
-</blockquote>
-<h5 id="谷歌富文本摘要rich-snippets">谷歌富文本摘要（Rich Snippets）</h5>
-<blockquote>
-<p>就是下图</p>
-<figure data-type="image" tabindex="29"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018030209022169.png" alt="" loading="lazy"></figure>
-<p>想实现大部分Rich Snippets，你必须要在网页的html代码里面加入Schema标记，比如产品站比较青睐的评分、促销活动、搜索框等。如果你程序方便还算比较在行，具体的操作方式可以直接查看谷歌给出的教程：https://developers.google.com/search/docs/guides/intro-structured-data?hl=zh-Hans</p>
-<p>WordPress的可以直接上插件：</p>
-<ol>
-<li>All In One Schema Rich Snippets</li>
-<li>Event Schema</li>
-<li>Rich Reviews</li>
-<li>PRyC WP: Google Sitelinks Search Box snippest</li>
-</ol>
-<p>唯一不能通过标记实现的是Sitelinks：下图第一个结果中下面左右两个次级链接。</p>
-<figure data-type="image" tabindex="30"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2018030209023248.png" alt="" loading="lazy"></figure>
-<p>只能靠谷歌“赏赐”，我们是没法依靠添加Schema标记实现的。（一般来说，只有高质量站点才会获得谷歌给予的sitelinks。）</p>
-<p>详细的sitelinks讲解可以参考这两篇内容：</p>
-<p>谷歌自家的介绍：https://support.google.com/webmasters/answer/47334?topic=8523</p>
-<p>维基百科的介绍：https://en.wikipedia.org/wiki/Sitelink#cite_note-8</p>
-</blockquote>
-<h2 id="外链">外链</h2>
-<h4 id="外链重要还是内容重要">外链重要还是内容重要？</h4>
-<p>对中低难度的关键词来说，内容更重要；对中高难度的词来说，你要是解决不了外链，内容再好也很难排上去。</p>
-<p>当然有一点这里必须要提一下，即使是中低难度内容比外链重要，也不是说你只做内容就可以了。</p>
-<h4 id="怎么做外链">怎么做外链？</h4>
-<p>只有两种情况我建议你自己做。</p>
-<ol>
-<li>你自己的网站并且时间很多。</li>
-<li>你招聘了专门做外链的员工，并保证他有大把时间给你做外链。如果满足不了这两点，我建议外包或者买。</li>
-</ol>
-<h5 id="做外链比较靠谱的方式">做外链比较靠谱的方式</h5>
-<ol>
-<li>
-<p>自己寻找、注册web2博客，然后采集复制伪原创文章内容做垃圾链接。（PBN同理，只不过需要域名和服务器）</p>
-</li>
-<li>
-<p>寻找行业相关论坛，到论坛找到合适的话题参与讨论，然后留下外链。（问答平台、博客评论同理）</p>
-<blockquote>
-<ol>
-<li>
-<p>找相关性博客和论坛:</p>
-<p>确定好你产品相关的领域，然后使用“allintitle:行业领域 blog（forum）”</p>
-<p>（更精确的是使用allinurl，比如在谷歌找汽车论坛，直接用allinurl:car forum，这样还要精确的多，同样搜索到的结果也会少的多）</p>
-</li>
-<li>
-<p>按照排名来发外链</p>
-<p>外链不是随便发的，除了要注意认真回复，你还要注意技巧。</p>
-</li>
-</ol>
-<p>以这种方法找出来的博客和论坛一般得有几百个，只能挑最好的回复。</p>
-<p>如何挑？</p>
-<ol>
-<li>
-<p>第一种用网站分析工具，这里推荐用ahrefs</p>
-<p>把博客或论坛地址输入ahrefs，点击分析：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017120409523722.png" alt="" loading="lazy"></p>
-<p>然后，点击侧边栏pages下面的best by links：</p>
-<figure data-type="image" tabindex="31"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017120409523981.png" alt="" loading="lazy"></figure>
-<p>这个时候，你就会发现这个网站外链最佳（或者说谷歌权重最好）的网页依次展现给你了：</p>
-<figure data-type="image" tabindex="32"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017120409524116.png" alt="" loading="lazy"></figure>
-<p>选取前一百个，认真回复，发外链吧。</p>
-</li>
-<li>
-<p>第二种方法，直接site：</p>
-<p>找到要发布外链的论坛后，在谷歌里输入site：域名，然后搜索，如下：</p>
-<figure data-type="image" tabindex="33"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017120409524337.png" alt="" loading="lazy"></figure>
-<p>我们可以看到site的结果，某些帖子排在最前面：</p>
-<figure data-type="image" tabindex="34"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017120409524489.png" alt="" loading="lazy"></figure>
-<p>一般认为，site网站网址时，某些页面之所以出现在更前面是因为谷歌认为这些页面质量更好，所以赋予更多权重。所以，我们可以选择出现在site结果前五十或者前一百的结果来写回复，发外链。</p>
-<p>当然，如果拿site前一百同ahrefs的best by links前一百页面进行比较，差距还是很大的，至于那些更好，一全老师还是倾向ahrefs，当然，如果可以的话，你可以两种结果的前一百个都发一下。</p>
-</li>
-<li>
-<p>最后提醒下，发外链要注意节奏，要模拟自然，你在一个论坛半个小时回复他100个帖子，加一百条外链，别说谷歌，就是论坛管理员也受不了，是吧？至于博客，你找到的这些博客，很多可能是接受投稿的【guest post】，那这个时候你就留意下，留言外链套套近乎，争取投稿。</p>
-</li>
-</ol>
-</blockquote>
-</li>
-<li>
-<p>做好高质量内容，寻找行业知名博主，然后outreach（邮件联系博主）要外链。</p>
-</li>
-<li>
-<p>寻找目录网站，把网站提交上去。</p>
-</li>
-<li>
-<p>略繁琐且操作数量较小的论坛、社交平台等的个人信息页面外链</p>
-</li>
-<li>
-<p>简单但是实用度稍逊的外链操作——领英posts、FB 以及tumblr外链</p>
-</li>
-</ol>
-<h4 id="如何判断外链质量或者是什么是高质量外链">如何判断外链质量（或者是什么是高质量外链）</h4>
-<ol>
-<li>
-<p>是不是自然的外链？</p>
-<p>什么是模拟自然？简单说就是，全面想象一下自然产生的外链有什么特点，然后做符合这些特点的外链，这里没法详细讲，只能说内容营销outreach就是最大程度的模拟自然。</p>
-</li>
-<li>
-<p>相关性越高，外链质量越高，同时相关性又分两块：内容相关和网站相关。</p>
-</li>
-<li>
-<p>是否来自真实网站？什么是真实网站？举个反例，你注册的0博客，内容全是采集复制伪原创，根本就没想给人看，只是为了给目标网站导外链，这就不能称之为真实网站，PBN也一样，内容全是垃圾，唯一目的就是外链，这种就是典型假网站。所以，网站做出来真正给人看的，为了传播知识、营销品牌、产品销售等等的都是真网站。</p>
-</li>
-<li>
-<p>看网站流量数据（ahrefs的关键词数量、预估自然流量、预估自然流量价值），排除0，最后看网站的DA、PA、DR、UR，这些当然是越高越好。</p>
-</li>
-</ol>
-<h4 id="外链是不是必须做高质量的">外链是不是必须做高质量的？</h4>
-<p>实话实说，未必！对于很多中低难度网站，尤其是中等难度一下的小语种网站，低质量web2.0一样效果不错，这里一全老师见过靠垃圾外链和中低内容做起来的案例了，但是，一定注意但是，低质量外链做起来的网站，将来有被谷歌清算的可能。所以如果可以，尽量把外链质量搞高一点。</p>
-<h5 id="外链是不是必须自己做买外链容易被谷歌惩罚">外链是不是必须自己做，买外链容易被谷歌惩罚？</h5>
-<p>首先有一点大家一定要明确：谷歌不允许任何形式的外链建设工作，在谷歌看来，所有外链都应该是自然产生的，所有人为操作、建设、获取的外链都是违规的的。</p>
-<p>所以就外链来说，你自己买和自己做一样，被谷歌逮着都算作弊。</p>
-<blockquote>
-<ol>
-<li>
-<p>利用手里积累的可以发外链的网站资源进行外链建设。</p>
-</li>
-<li>
-<p>直接到fivrr或者seo clerk这类的网站购买外链。【这上面99%都是垃圾】</p>
-<p>关于外链购买，谷歌一直是严令禁止的，万一抓到很容易导致网站被K；还有一点可能更致命，那就是买外链的水实在是太深了。要是没有经验，买100条外链可能95条都没有任何作用甚至起反作用，这一点很多seo公司其实也是深陷其中，所以如果你想靠买外链做seo，一全老师有三点建议：1.外链收录才有用。2.了解所有外链类型，买的时候能很清楚老外给你做的是哪种外链。3.至少准备好两千美金用来打水漂。</p>
-</li>
-<li>
-<p>分析竞争对手网站链接，然后进行外链操作。</p>
-<p>比如把行业前十网站的外链来源全部整理出来，然后仿照他们进行外链建设，复制别人成功的足迹。但这种操作的问题是，工作量很大，外链成功率不高，很多优质外链不可复制</p>
-</li>
-<li>
-<p>Outreach【发邮件获取外链】</p>
-<p>外链建设工具:</p>
-<ol>
-<li><a href="linkprospector.citationlabs.com">Citation Labs’ Link Prospector</a></li>
-<li><a href="dibz.me">DIBZ</a></li>
-</ol>
-</li>
-</ol>
-</blockquote>
-<h5 id="付费链接">付费链接</h5>
-<p>现在付费链接已经昨日黄花了，谷歌动不动就要打击; 百度也是极大的削弱了付费链接对排名的影响力。</p>
-<p>建议大家，付费链接购买一定不要一次搞太多，谨慎谨慎再谨慎。</p>
-<p>付费链接去哪里买？</p>
-<blockquote>
-<p>想购买付费链接地方还是非常多的，首先，某宝！这就不必说了吧，买天买地买空气，只要你有钱，没有某宝解决不了的货。</p>
-<p>其次，国内各大论坛，基本都有这类业务，这里介绍一个图王的交易论坛，比较火爆。</p>
-<p>如果是国外的，Links Management和Buy High-Quality Backlinks比较好，另外Fiverr和SEOClerks.com也是值得选择。</p>
-<p>还可以谷歌搜 “Buy High-Quality Backlinks” 有无数推荐。</p>
-</blockquote>
-<p>关于付费链接购买，有什么需要注意的？</p>
-<blockquote>
-<ul>
-<li>先看评价，差评太多的不要买，因为卖链接的骗子很多，最怕的就是你买了之后，没几天你的链接就被取消了，然后人也找不到了。</li>
-<li>PR高当然好，但也不要一味贪高，要考虑性价比，比如你的网站PR为1，你不一定非要PR6以上的，其实PR3/4的就不错。</li>
-<li>要注重相关性，买跟你行业相关的网站链接效果最好。</li>
-<li>购买的时候，也注意查看一下链接网站的域名年龄和收录情况。</li>
-<li>建议大家，付费链接购买一定不要一次搞太多，谨慎谨慎再谨慎。</li>
-</ul>
-</blockquote>
-<h4 id="该做多少外链">该做多少外链。</h4>
-<p>先去做，从少开始，做完了观察数据，根据数据反馈调整力度和数量。这些数据你可以看search console-performance-position的数据，也可以看ahrefs里的organic keywords。具体自己研究。</p>
-<p>文章摘要：基本上就是上述框架谈到的详细操作版本，很多方法简直丧心病狂。</p>
-<p><a href="https://www.yiquanseo.com/justreachout/">超高质量外链助手——JustReachOut</a></p>
-<blockquote>
-<p>在JustReachOut输入你的目标关键词，JustReachOut会提供给你相关领域的记者及其联系方式</p>
-<p>直接选择跟这些记者沟通或者投稿，大大减少你的搜寻成本，同时通过这个工具沟通</p>
-</blockquote>
-<p><a href="https://www.yiquanseo.com/boketuiguangwailian/">高效率谷歌外链建设技术：借助博客推广工具（blogger outreach tool）</a></p>
-<blockquote>
-<ol>
-<li>第一种：<a href="https://www.grouphigh.com/">GroupHigh </a> 输入你的行业关键词，它就会将相关博客按照域名权重和最后更新时间等因素依次呈现给你，而且你可以很方便的使用它直接和喜欢的博主沟通</li>
-<li>第二种：<a href="https://www.inkybee.com/">Inky Bee</a></li>
-<li>第三种：<a href="https://www.guestposttracker.com/">GuestPost Tracker</a> 其数据库里的博客全部都是接受投稿的高质量客座博客</li>
-</ol>
-</blockquote>
-<p><a href="https://www.yiquanseo.com/bingduyingxiao/">海外病毒营销推广详解：如何一天增加17584浏览量！</a></p>
-<blockquote>
-<p>译文原文：https://backlinko.com/viral-marketing</p>
-<p>提炼总结：</p>
-<ol>
-<li>
-<p>寻找能火的主题</p>
-<ol>
-<li>
-<p>使用buzzsumo（buzzsumo.com，可以看做国外一个很特别的搜索引擎，搜索出来的内容按照社交媒体的分享量排名！）。将你网站的主词输入buzzsumo直接搜索。比如你的网站是做减肥产品的，主词是weight loss, burn fat或者 dieting这种，输入主词：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017080702021490.png" alt="" loading="lazy"></p>
-<p>点击搜索之后，结果如下排列：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017080702042522.png" alt="" loading="lazy"></p>
-<p>把搜索到的这些文章全部保存下来（每个关键词的搜索结果保存10个就差不多），以供筛选。</p>
-</li>
-<li>
-<p>上面保存的那些文章标题中，找出那些用户可能会在谷歌中搜索的关键词（操作一个网站，首先你要对这个网站关键词有透彻的了解，这没什么好说的！），比如下面图片标红的部分：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017080702050965.png" alt="" loading="lazy"></p>
-<p>将找到的这些词和网站主关键词结合，然后放到谷歌里搜索，搜索出来的结果保存下来（也是每个组合关键词的搜索结果保存10个左右就行），以供筛选。</p>
-</li>
-<li>
-<p>通过上面步骤找到了很多曾经非常火热的文章，而且还找到了这些文章的创作者，也就是我们的最强有力的一些竞争对手！所以，将这些竞争对手的域名输入到<a href="moz.com/researchtools/ose/">OpenSiteExplorer</a>进行搜索，如下，比如我们竞争对手域名为：backlinko.com<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017080702074312.png" alt="" loading="lazy"></p>
-<p>然后，点top page，找到他网站链接最多的文章：<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/2017080702085868.png" alt="" loading="lazy"></p>
-<p>将你竞争对手链接最多的文章页保存下来，以供筛选。</p>
-<p>这样一系列操作下来，我们一般能获得至少几十篇曾经非常流行的文章，查看这些文章的主题，分析并进行筛选！</p>
-<p>这个分析筛选就看你自己的理解了，一般我会先将曾经最火的文章分一个类，比如将社交分享最高、谷歌排名最好和外链最多的文章分为一类，将主题属于自己最熟悉、写起来最舒服的文章分为一类，将时间最早的文章分为一类，然后看这三类文章中有没有重合的，如果有，果断选它！</p>
-</li>
-</ol>
-</li>
-<li>
-<p>围绕主题创作更好地文章</p>
-<ol>
-<li>增加长度！增加长度的方法，
-<ol>
-<li>要点类文章，增加要点。</li>
-<li>理论类文章，增加实操内容</li>
-<li>实操类的文章，增加理论内容</li>
-<li>过时的文章增加最近流行的内容</li>
-<li>国内的文章增加国外的内容</li>
-<li>增加实例</li>
-</ol>
-</li>
-<li>让文章有趣，一篇技术性文章或者实操文章，如果你不写的有趣一点，喜欢看的人就会很少！</li>
-<li>增加文章的实用性！不要说些废话，如果可以的话，最好操作的每一步都教给你的用户，而且要简洁易懂。</li>
-<li>增加文章深度，要有自己的见解，一篇文章如果能有几句精辟的分析，那就相当于画龙点睛，一下子提升整篇文章档次。</li>
-<li>使用图片，视频等，一篇文章不要干巴巴只有文字。</li>
-<li>学会背书，如果你的文章质量很好，你可以找个行业大咖，然他指点一下，然后你就可以在文章里写上，共同创作人你+某大咖。</li>
-<li>文章的SEO要规划好。</li>
-</ol>
-</li>
-<li>
-<p>内容发布</p>
-<ol>
-<li>文章写得好，这是基础。</li>
-<li>推广基本到位，该发的地方基本都法了，而且针对面做的很好，基本文章覆盖的地方都是目标客户聚集的地方。将文章发布到了Reddit聚集了很多作者的目标客户的板块；上传到了StumbleUpon；将文章在Facebook和Twitter上发布；者将目标客户喜欢的论坛社区等全部搜索出来，然后在上面发布文章。</li>
-<li>竞争对手不重视网络营销，这是非常重要的一点！想想看，如果他的竞争对手已经做过N次这样的事了，目标用户感觉一点不新鲜了，你这时候使用同样手段的推广，我管保连十分之一效果都没有。</li>
-<li>找红人帮忙！Facebook和Twitter上有很多红人，就跟微博的大V一样，他们通常拥有几十万甚至上百万的粉丝，所以，你如果希望你的推广效果能达到最大化，找他们合作吧。</li>
-<li>Facebook付费广告，使用Facebook付费广告增加你文章的曝光量，只需要300美金，就能营造一种铺天盖地的效果。</li>
-<li>千万不要忽略群组的威力，尤其是Facebook群组，将你的文章发到你行业的群组里，效果通常会很好！Facebook群组人数上万很正常，甚至有的大群人数上百万，这是qq微信群比不了的！</li>
-<li>跟摩天大楼技术的最后一步配合起来</li>
-</ol>
-</li>
-</ol>
-</blockquote>
-<p><a href="https://www.yiquanseo.com/gugewailian/">【绝密】21种谷歌SEO外链做法</a></p>
-<blockquote>
-<p>方法太多，但是网上都是很多在讲的。</p>
-<ol>
-<li>
-<p>音频分享网站外链</p>
-<blockquote>
-<p>首先你需要录几段音频（可以是音乐，也可以是演讲或者是技术解说等等），可以使用Vocaroo录制，然后导出为mp3格式就行。</p>
-<p>接下来你要注册音频分享网站账户。</p>
-<p>高PR音频分享网站（一全网络提供）有这么几个：</p>
-<p>Reverbnation.com (PR6)</p>
-<p>BandCamp.com (PR7)</p>
-<p>Sutros.com (PR5)</p>
-<p>YourListen.com (PR5)</p>
-<p>最后上传你的音频，并在个人信息页面留下你网站的链接。就像他做的这样：http://sutros.com/SamMathieus</p>
-</blockquote>
-</li>
-<li>
-<p>向慈善机构捐赠获得外链</p>
-<p>虽然要付出一定金钱，但是一般来自这类网站的外链效果都特别好，想一想一条PR6的外链如果购买的话，一年需要花费几百甚至上千美元，而捐赠外链如果操作得法，通常只需要几十美元就能搞定，对于一些网站来说，一条高质量的外链就能带动排名的上升。</p>
-<blockquote>
-<p>第一步，在谷歌中输入这类的字符串：</p>
-</blockquote>
-</li>
-</ol>
-<blockquote>
-<p>“donate to us”</p>
-<p>“contributors page”</p>
-<p>“sponsors page”</p>
-<p>allintitle: “contributors”</p>
-<p>allintitle: “sponsors”</p>
-<p>将搜索结果筛选一下，确认一下捐赠者是否可以获得一条dofollow链接，当然还有一点你必须注意，那就是这个网站是合法正规的。</p>
-<p>最后一步，捐上money获取链接，大功告成。</p>
-</blockquote>
-<blockquote>
-<p>如何寻找这些advertise、sponsor、donation链接？</p>
-<p>很简单，谷歌，用谷歌搜索下列词语：</p>
-<p>advertise with us</p>
-<p>advertise with us blog</p>
-<p>advertise with us banner</p>
-<p>our sponsors</p>
-<p>our sponsors page</p>
-<p>support our sponsors</p>
-<p>Sponsor page</p>
-<p>donation list contributors</p>
-<p>donor lists for nonprofits</p>
-<p>contributors page donate</p>
-<p>https://medium.com/@bostonseo/charity-donations-for-seo-backlinks-7cfdf308ddb4</p>
-</blockquote>
-<ol start="3">
-<li>
-<p>通过用户赞赏（Testimonials）来获得外链</p>
-<blockquote>
-<p>如果你使用了某个网站的产品或服务之后，如果感觉不错，那就写一封表扬信吧，同时提醒一下，你很乐意他们将你的表扬信公布出来，并且为了增加真实性，他们也可以将你的信息一同公布，当然你的个人网站链接也要在里面才好。如果你觉得一封信难度太大，真诚的几句赞扬效果也是不错的。</p>
-</blockquote>
-</li>
-<li>
-<p>博主评论链接</p>
-</li>
-</ol>
-<blockquote>
-<p>首先，根据你的产品或服务，找一个切入点，写一篇你最拿手的文章。<br>
-然后，在谷歌搜索与你产品或服务相近的博客，搜索的时候可以输入：best (产品或服务) blogs 2014 搜索，也可以输入跟文章相关的内容来搜索。<br>
-搜索完毕之后，你要对搜索结果进行筛选，然后收集他们的邮箱，发送邮件，下面是一全网络给大家提供的一份邮件模板，适当修改一下直接拿来用就行。</p>
-</blockquote>
-<blockquote>
-<p>Hey [Site Owner Name],</p>
-<p>I was searching for [Some Homemade Soap Recipes] today when I came across [Website].</p>
-<p>Awesome stuff!</p>
-<p>Actually, I just launched a guide that [Teaches People How To Make Luxury Soaps At Home]. I usually charge [$X], but I’d be more than happy to send it over to you on the house. All I’d ask is that you’d consider mentioning it on your blog or writing a review.</p>
-<p>Let me know how that sounds.</p>
-<p>Cheers,</p>
-<p>[Your First Name]</p>
-</blockquote>
-<ol start="5">
-<li>
-<p>链接回收（Link Reclamation）</p>
-</li>
-<li>
-<p>.....后面的就不写了</p>
-</li>
-</ol>
-</blockquote>
-<p>所有的文章剩下的就两个主题，具体操作的时候，都可以谷歌搜一堆的操作手法；</p>
-<ol>
-<li>guest post</li>
-<li>外链资源</li>
-</ol>
-<p>只摘录一些站长的经验点评：</p>
-<blockquote>
-<p>这个我相信真正懂谷歌SEO的应该都明白，目前可以操作的外链大部分都是中低质量的，比如最常见的：自己注册些web2，每天发发内容，或者是找些pbn之类的发些spin，这些质量往往都比较差；</p>
-<p>好一些的，做一下相关性评论外链，或者找点新闻源网站投点新闻外链，这种相对好点，但是质量仍旧不是很高；</p>
-<p>质量最高的就是找到同行业内那些最顶尖的博客，然后给他们发邮件，通过投稿或者购买获得他们网站的链接，这种方式也就是我们通常所说的outreach。</p>
-<p>做outreach第一步就是找行业内的高质量博客，最简单的方法是直接在谷歌寻找，比如有朋友是做太阳镜行业的，我们可以直接在谷歌搜索：sunglasses blog，这样太阳镜相关的博客一下子就会找到很多，其他行业也是一样，如果行业太窄，我们可以找涵盖我们的更大的行业，比如太阳镜属于时尚类和美妆类，我们可以直接搜索：fashion blog或者beauty blog，这样来找大行业高质量博客。（高级点找guest post，可以搜xxx submit a guest post或者 xx write for等）</p>
-<p>使用谷歌寻找看起来很简单，实际操作起来还是有比较大的问题，比如找到的很多都是竞争对手的企业站博客，这些博客我们去outreach的时候往往成功率很低，另外我们找到这些博客之后，需要人工判断这些博客的质量和网站权重，这就比较费劲。</p>
-<p>然后介绍了几个网站：</p>
-<ol>
-<li>www.alltop.com</li>
-<li>www.feedspot.com</li>
-<li>https://www.effectivebusinessideas.com/blogs-that-accept-guest-posts/</li>
-</ol>
-</blockquote>
-<p>评论网站外链资源:</p>
-<blockquote>
-<p>https://www.trustpilot.com/</p>
-<p>https://www.angieslist.com/</p>
-<p>https://www.resellerratings.com/</p>
-<p>https://www.merchantcircle.com/</p>
-</blockquote>
-<p>免费分类广告网站外链资源：略<br>
-免费发布广告，如果实在没地方发外链，你可以把网站上所有产品都在这里发一遍，然后全部挂上链接。</p>
-<p>免费国际贸易平台网站外链资源：略</p>
-<p><strong>这个只能说聊胜于无，效果就很鸡肋。</strong></p>
-<p><strong>书签目录网站【低质量书签目录链接不要碰】</strong></p>
-<blockquote>
-<p>​	外链自己发，比买的质量要好的多</p>
-</blockquote>
-<p><a href="https://www.yiquanseo.com/wailianziyuan/">终极外链资源分享——史无前例！（英文SEO必备）</a></p>
-<blockquote>
-<p>站长分享的资源：<a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZSBm-sbYVnmb-Y1eg4LqC1pv7egnrnWVvt0DuLnXNQzh8mGleXqP6tcvRNmNSdVSRlZyrQiN-zlcz/pubhtml">点击打开</a></p>
-</blockquote>
-<blockquote>
-<p>上面大部分平台都能创建账户并发布内容附带外链，但是有些一两年没用了，现在具体是什么情况也不清楚，另外，使用web2.0发外链，对于初学者来说有一定难度，但是钻研个一两天基本就完全清楚了，所以，自己研究，搞不定换下一个，问我我也得自己操作才行，回答不了……</p>
-<p>论坛外链:</p>
-<p><strong>论坛外链现在不好做，不少论坛注册之后都不允许直接发链接的</strong>，但是行业相关的高质量论坛是值得我们好好经营的。</p>
-<p>论坛外链其实是非常非常多的，基本上行业加forum都能找出几个来，如果行业太窄，那就搜相关行业和延伸行业，总之论坛不难找，找到之后在论坛里多回答问题，多聊天，账号等级差不多了，发外链引流，效果相对来说很好。</p>
-<p>目录站外链:</p>
-<p>到现在为止，一全老师感觉高质量的目录站外链效果依旧不错，<strong>唯一缺憾就是，免费的目录外链资源越来越少了</strong>，大部分都是需要付费或者要求挂它家网站的友链，至于如何选择，大家自己看着办。</p>
-<p>文档分享网站:</p>
-<p>文档分享网站你可以理解为国内百度文库、豆丁这种。将网站pdf、word、ppt等文档分享到文档分享网站并留下链接，也是不错的引流和外链操作方式，因为这些网站往往自身权重很高，所以很多文件分享过去都能获得不错的排名。</p>
-<p>B2B网站外链（免费）</p>
-<p>免费B2B平台不仅可以发外链，而且运气好还能直接来订单，唯一需要的就是大家努力去传产品了：</p>
-<p>免费广告网站:</p>
-<p>只要你愿意，完全可以在这些网站直接发广告，其中还有些类似企业推广目录之类的，可以免费提交网站、业务内容、企业地址等等信息。当然，做广告的时候还能做外链，一举两得。</p>
-<p>视频及图片分享网站:</p>
-<p>这些网站一般为视频或者图片网站，当你在这些网站分享完图片或视频之后，一般会允许你留下网站的外链，典型的如youtube。</p>
-<p>profile外链:</p>
-<p><strong>其实大部分profile链接都不会被谷歌收录，bookmarks也是这个情况，对于外链来说，谷歌不收录根本就没有意义</strong>，但是很多SEOer也认为它们是有作用的，具体作用可能跟社交分享信号（social signals）类似。</p>
-<p>这种的实在是太多了，主要是随便一个可以注册的网站就都会有用户个人信息网站，而且一般允许用户留下网站地址，但一全老师这种外链几乎没啥意义。</p>
-<p>书签外链:</p>
-<p><strong>书签外链现在一般也不收录</strong>，但是考虑到正常逻辑（如果某个网站很好，会有很多人收藏），所以如果谷歌统计某个网站被多少人添加了书签的话，书签外链是有意义的，这个应该是更接近社交信号一点。</p>
-<p>短网址重定向</p>
-<p>短网址重定向外链具体在以前文章中也提到过，这种外链效果到底如何比较难说，即便有<strong>作用也是微乎其微</strong>，不过搞这个人不少，尤其是国内做谷歌的比较倾向搞这个。</p>
-<p>问答平台</p>
-<p>这没什么好说的，只说主流的就行，quora和yahoo问答，yahoo问答现在也半死不活，所以做<strong>问答外链只抓一个quora就行，引流加nofollow外链</strong>。</p>
-<blockquote>
-<p>如果看到rel =“ nofollow”属性，则该链接为nofollowed。否则，链接为dofollow。【链接默认 dofollow】</p>
-<p>Dofollow链接可帮助您搜索引擎排名。而一般而言Nofollow链接没有这个作用。</p>
-<p>以下这些来源的链接通常都是Nofollow链接：</p>
-<p>博客评论</p>
-<p>社交媒体（例如，Facebook、Quora帖子中的链接）</p>
-<p>论坛帖子中的链接或其他形式的用户生成的内容</p>
-<p>某些博客和新闻网站</p>
-<p>网络插件中的链接</p>
-<p>新闻稿中的链接</p>
-<p>以下这些热门网站在其所有出站链接上都使用rel =“ nofollow”标签：</p>
-<p>Quora</p>
-<p>YouTube</p>
-<p>Wikipedia</p>
-<p>Reddit</p>
-<p>Twitch</p>
-<p>Medium</p>
-<p>还有另外一类链接应该也是nofollow类型链接：</p>
-<p>付费广告链接。</p>
-<p>根据Google的网站站长指南所描述：您通过广告付费的任何链接都应是nofollow链接。</p>
-<p>Dofollow链接和Nofollow链接同样都具有SEO的作用，但是从作用大小来说，Dofollow链接帮助更大。</p>
-<p>Nofollow链接虽然一般而言不可以当作外链，对SEO作用不大，但是在可以带来大量流量或者由很多相关主题网站链接的情况下，同样具有SEO作用。</p>
-<p>最后，从实操当中来讲，不要进行大量的分发外链，如通过一些软件工具自动化的跑外链，这些外链绝大多数自动分发在博客评论当中，以nofollow的形式存在，其意义不大，而且容易受到google的惩罚。</p>
-<p>dofollow和nofollow要比率适当。</p>
-</blockquote>
-</blockquote>
 ]]></content>
     </entry>
 </feed>
