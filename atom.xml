@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-11T16:13:54.686Z</updated>
+    <updated>2020-08-11T18:58:31.433Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,31 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Vue 之 作用域插槽]]></title>
+        <id>https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/</id>
+        <link href="https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/">
+        </link>
+        <updated>2020-08-11T18:53:34.000Z</updated>
+        <content type="html"><![CDATA[<p>参考<a href="https://cn.vuejs.org/v2/guide/components-slots.html#%E5%85%B6%E5%AE%83%E7%A4%BA%E4%BE%8B">其他示例</a><br>
+其实</p>
+<pre><code> &lt;slot name=&quot;todo&quot; v-bind:todo=&quot;todo&quot;&gt;
+      &lt;!-- 后备内容 --&gt;
+      {{ todo.text }}
+    &lt;/slot&gt;
+</code></pre>
+<p>就是把子组件中的 todo 暴露给外层组件</p>
+<p>然后外层组件就可以通过</p>
+<pre><code> &lt;template v-slot:todo=&quot;{ todo }&quot;&gt;
+    &lt;span v-if=&quot;todo.isComplete&quot;&gt;✓&lt;/span&gt;
+    {{ todo.text }}
+  &lt;/template&gt;
+</code></pre>
+<p>这里面用了{todo}解构出上面slot的<code>:todo</code>其值为上面那个组件中的<code>todo</code>值，<br>
+暴露出来在外层组件的template里面，就可以访问了：<code>todo.isComplete</code>及<code>{{ todo.text }}</code>就是从外层访问的子组件中的值。<br>
+slot只能通过这种方式由内而外，被外层访问到。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[自定义组件的 v-model]]></title>
         <id>https://dzkjz.github.io/post/zi-ding-yi-zu-jian-de-v-model/</id>
@@ -1533,66 +1558,6 @@ FatJoe</p>
 <figure data-type="image" tabindex="31"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806152518.png" alt="" loading="lazy"></figure>
 <p><strong>复制你成功的策略，加注20%，3天不要动，获取数据。</strong></p>
 <p><strong>慢慢下注。</strong></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Facebook Ads Tutorial 2020 - How to Create Facebook Ads For Beginners (COMPLETE GUIDE)]]></title>
-        <id>https://dzkjz.github.io/post/facebook-ads-tutorial-2020-how-to-create-facebook-ads-for-beginners-complete-guide/</id>
-        <link href="https://dzkjz.github.io/post/facebook-ads-tutorial-2020-how-to-create-facebook-ads-for-beginners-complete-guide/">
-        </link>
-        <updated>2020-08-06T05:31:17.000Z</updated>
-        <content type="html"><![CDATA[<p>视频地址：https://www.youtube.com/watch?v=1iZl0bCyDPQ<br>
-点评：全部内容文本可能就5分钟看完，一个视频讲了47分钟。当然设置及其他操作确实需要费时间。</p>
-<h3 id="创建bussines-manager账户">创建Bussines manager账户</h3>
-<p>不要使用你的personal account，也不要搞多个账户管理ad，会被ban。</p>
-<p>地址：https://business.facebook.com/</p>
-<p>注册填入的资料可以用你的网站，也可以用的你的Facebook profile 地址。</p>
-<h4 id="business-settings">business settings</h4>
-<p>添加用户</p>
-<p>添加pages【重要】</p>
-<p>Ad account</p>
-<p>Business info</p>
-<p>​	primary page需要添加。</p>
-<p><strong>新账户只能创建一个ad account</strong>，花钱越多，时间越长，账户就会增加。</p>
-<h4 id="ad-manager">ad manager</h4>
-<h5 id="添加campaigns">添加campaigns</h5>
-<p>​	<strong>用5刀起步测试。</strong></p>
-<h5 id="添加-ad-sets">添加 ad sets</h5>
-<ol>
-<li>受众自己分析设置大概条件；</li>
-<li>添加设置的Detailed targeting不要太多，如果太多，根本不晓得到底是哪个条件起的作用。</li>
-<li>audience size 不要大了【几百万人】，太大请设置must also match缩小受众。</li>
-<li>然后逐步缩小范围测试。</li>
-</ol>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806130855.png" alt="" loading="lazy"></figure>
-<p>设置Edit placement【博主说最好的organic的还是Facebook news feed】他只选择了Facebook news feed</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806130941.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131013.png" alt="" loading="lazy"></figure>
-<p>选择了Link clicks，因为博主就是选择的traffic。</p>
-<h5 id="添加-ads">添加 ads</h5>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131141.png" alt="" loading="lazy"></figure>
-<p>这个就牛了，博主要做个测评视频的。<strong>推荐了个做视频的：invideo.io</strong> 20刀一个月，有点贵贵的。</p>
-<blockquote>
-<p>用invideo搜了个testimonial短视频template：</p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131728.png" alt="" loading="lazy"></figure>
-</blockquote>
-<blockquote>
-<p>然后输入点文本</p>
-<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806131901.png" alt="" loading="lazy"></figure>
-</blockquote>
-<blockquote>
-<p>改改背景，传点自己手机录得视频做背景，改改logo啥的。一顿微操。</p>
-</blockquote>
-<p>Ad text设置，就是要求 <strong>简洁</strong></p>
-<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806132634.png" alt="" loading="lazy"></figure>
-<p>接下来track 使用下面Event manager设置好的或者用Facebook pixel，用于追踪转化。</p>
-<p>测试广告请不要乱调整，让他运行一天。一天5刀。</p>
-<p>**请先添加billing details。**支持PP</p>
-<h4 id="event-manager">Event Manager</h4>
-<p>添加转化触发代码用于记录conversions。</p>
-<h3 id="策略">策略</h3>
-<p>请看看你的同行怎么做的</p>
-<p>解决你的产品的最容易解决的business problem，逐步向上解决。</p>
 ]]></content>
     </entry>
 </feed>

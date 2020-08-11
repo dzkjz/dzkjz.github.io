@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Surfer SEO | JojoLegend
+    Vue 之 作用域插槽 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1597172306778">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,16 +114,31 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Surfer SEO
+                            Vue 之 作用域插槽
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-08-07</time>
+                            <time class="post-time">2020-08-12</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>就是文章检测，帮你优化文章SEO效果的。有几个技术性指标，这个软件会检测，然后提供建议，建议直接按这个技术指标写一个app，就懒得付费了。<br>
-https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
+                                    <p>参考<a href="https://cn.vuejs.org/v2/guide/components-slots.html#%E5%85%B6%E5%AE%83%E7%A4%BA%E4%BE%8B">其他示例</a><br>
+其实</p>
+<pre><code> &lt;slot name=&quot;todo&quot; v-bind:todo=&quot;todo&quot;&gt;
+      &lt;!-- 后备内容 --&gt;
+      {{ todo.text }}
+    &lt;/slot&gt;
+</code></pre>
+<p>就是把子组件中的 todo 暴露给外层组件</p>
+<p>然后外层组件就可以通过</p>
+<pre><code> &lt;template v-slot:todo=&quot;{ todo }&quot;&gt;
+    &lt;span v-if=&quot;todo.isComplete&quot;&gt;✓&lt;/span&gt;
+    {{ todo.text }}
+  &lt;/template&gt;
+</code></pre>
+<p>这里面用了{todo}解构出上面slot的<code>:todo</code>其值为上面那个组件中的<code>todo</code>值，<br>
+暴露出来在外层组件的template里面，就可以访问了：<code>todo.isComplete</code>及<code>{{ todo.text }}</code>就是从外层访问的子组件中的值。<br>
+slot只能通过这种方式由内而外，被外层访问到。</p>
 
                                 </div>
                     </article>
@@ -131,9 +146,9 @@ https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/guest-post-huo-zhe-mai-wai-lian-jie-lun/">
+                            <a href="https://dzkjz.github.io/post/zi-ding-yi-zu-jian-de-v-model/">
                                 <h3 class="post-title">
-                                    guest post 或者 买外链 结论
+                                    自定义组件的 v-model
                                 </h3>
                             </a>
                         </div>
