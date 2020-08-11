@@ -7,7 +7,7 @@
 <title>
     Vue 之 作用域插槽 | JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1597172306778">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1597172391831">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -35,7 +35,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1597172306778" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1597172391831" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -138,7 +138,8 @@
 </code></pre>
 <p>这里面用了{todo}解构出上面slot的<code>:todo</code>其值为上面那个组件中的<code>todo</code>值，<br>
 暴露出来在外层组件的template里面，就可以访问了：<code>todo.isComplete</code>及<code>{{ todo.text }}</code>就是从外层访问的子组件中的值。<br>
-slot只能通过这种方式由内而外，被外层访问到。</p>
+slot只能通过这种方式由内而外，被外层访问到。<br>
+需要注意的是，之前版本是<code>slot-scope=&quot;slotProps&quot;</code>这种方式访问的，但是已经被<strong>废弃了</strong>。</p>
 
                                 </div>
                     </article>
@@ -164,7 +165,7 @@ slot只能通过这种方式由内而外，被外层访问到。</p>
                                 <!-- id-card -->
                                 
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1597172306778)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1597172391831)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
