@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-11T18:59:56.256Z</updated>
+    <updated>2020-08-13T05:55:22.868Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,56 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Vue之inheritAttrs]]></title>
+        <id>https://dzkjz.github.io/post/vue-zhi-inheritattrshttpscnvuejsorgv2apiinheritattrs/</id>
+        <link href="https://dzkjz.github.io/post/vue-zhi-inheritattrshttpscnvuejsorgv2apiinheritattrs/">
+        </link>
+        <updated>2020-08-13T05:48:34.000Z</updated>
+        <content type="html"><![CDATA[<p>参考<a href="https://stackoverflow.com/questions/56224091/what-are-inheritattrsfalse-and-attrs-used-for-in-vue">what are inheritAttrs:false and $attrs used for in vue?</a>：</p>
+<blockquote>
+<pre><code>// Component
+Vue.component('base-input', {
+ inheritAttrs: false,
+ props: ['label', 'value'],
+ template: `
+   &lt;label&gt;
+     {{ label }}
+     &lt;input
+       v-bind=&quot;$attrs&quot;
+       v-bind:value=&quot;value&quot;
+       v-on:input=&quot;$emit('input', $event.target.value)&quot;
+     &gt;
+   &lt;/label&gt;
+ `
+})
+
+// Usage
+&lt;base-input
+ v-model=&quot;username&quot;
+ required
+ placeholder=&quot;Enter your username&quot;
+/&gt;
+</code></pre>
+<p>The <code>required</code> and <code>placeholder</code> attributes are then set on the <code>input</code> instead of the wrapping <code>label</code>.</p>
+<p>It doesn't really have anything to do with children of children of components but it can be used in such a hierarchy.</p>
+<p>I hope that clears things up for you.</p>
+<p>上面的示例代码来自 <a href="https://vuejs.org/v2/guide/components-props.html#Disabling-Attribute-Inheritance">Disabling Attribute Inheritance</a>官方文档。</p>
+<p>其实就是 <code>inheritAttrs</code>设置为<code>false</code>值之后，</p>
+<p>使用的</p>
+<pre><code>&lt;base-input
+ v-model=&quot;username&quot;
+ required
+ placeholder=&quot;Enter your username&quot;
+</code></pre>
+<p>这里面设置的 <code>required</code> 和 <code>placeholder</code>就不在模板根元素<code>label</code>上，而是在指定了<code>$attrs</code>的</p>
+<pre><code>&lt;input
+       v-bind=&quot;$attrs&quot;
+</code></pre>
+<p><code>input</code>标签上。参考这个，以后要用的就是你想设置到哪里，就设置<code>$attrs</code>到哪里，一般这个用在自定义基础组件<a href="https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended">base components</a>的上面。</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Vue 之 作用域插槽]]></title>
         <id>https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/</id>
@@ -1473,92 +1523,6 @@ FatJoe</p>
 <figure data-type="image" tabindex="85"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200807030436.png" alt="" loading="lazy"></figure>
 <figure data-type="image" tabindex="86"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200807030500.png" alt="" loading="lazy"></figure>
 <figure data-type="image" tabindex="87"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200807030542.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[5$ Facebook Ads For Dropshipping In 2020 | MASTER FB Ads For Shopify In 30 Minutes!]]></title>
-        <id>https://dzkjz.github.io/post/5dollar-facebook-ads-for-dropshipping-in-2020-or-master-fb-ads-for-shopify-in-30-minutes/</id>
-        <link href="https://dzkjz.github.io/post/5dollar-facebook-ads-for-dropshipping-in-2020-or-master-fb-ads-for-shopify-in-30-minutes/">
-        </link>
-        <updated>2020-08-06T07:26:52.000Z</updated>
-        <content type="html"><![CDATA[<p>Facebook pixel，50个sales之后，就会生成这个东西。</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806144625.png" alt="" loading="lazy"></figure>
-<h3 id="install-facebook-pixel">Install Facebook Pixel</h3>
-<p>在business manager中</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806141552.png" alt="" loading="lazy"></figure>
-<p>选择Pixels</p>
-<p>这是效果：</p>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806143603.png" alt="" loading="lazy"></figure>
-<p>这是在shopify中设置：</p>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806143531.png" alt="" loading="lazy"></figure>
-<h3 id="organize-facebook-ad-columns">Organize Facebook Ad columns</h3>
-<p>account overview选择customize columns</p>
-<p>然后ROAS</p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806143754.png" alt="" loading="lazy"></figure>
-<p>然后CPP</p>
-<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806143916.png" alt="" loading="lazy"></figure>
-<p>然后CPC</p>
-<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806144124.png" alt="" loading="lazy"></figure>
-<p>然后CPM</p>
-<figure data-type="image" tabindex="8"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806144521.png" alt="" loading="lazy"></figure>
-<p>然后conversion</p>
-<figure data-type="image" tabindex="9"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806144601.png" alt="" loading="lazy"></figure>
-<p>受众：</p>
-<blockquote>
-<p>知道车的：</p>
-<p>知道车，知道宝马，那可能知道宝马是德国的。</p>
-<p>知道车，但不知道宝马，那就不太可能知道宝马是德国的。</p>
-</blockquote>
-<p>前往 www.facebook.com/ads/preferences 查看你个人可能对什么广告感兴趣。</p>
-<figure data-type="image" tabindex="10"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145137.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="11"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145308.png" alt="" loading="lazy"></figure>
-<h3 id="audience-insights">Audience Insights</h3>
-<figure data-type="image" tabindex="12"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145450.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="13"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145525.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="14"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145558.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="15"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145619.png" alt="" loading="lazy"></figure>
-<p>一般跑个3刀 5刀 最高不超过20刀，然后每个跑完就来分析，就可以有这些数据用于优化。</p>
-<h3 id="ad">Ad</h3>
-<figure data-type="image" tabindex="16"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145751.png" alt="" loading="lazy"></figure>
-<p>直接选择了Conversions</p>
-<figure data-type="image" tabindex="17"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145850.png" alt="" loading="lazy"></figure>
-<p>命名一定要便于分辨。</p>
-<figure data-type="image" tabindex="18"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806145954.png" alt="" loading="lazy"></figure>
-<p>具体设置：</p>
-<figure data-type="image" tabindex="19"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806150102.png" alt="" loading="lazy"></figure>
-<p>地区选择了People live in this location 而不是 travel ，<em>这个看具体产品的。</em></p>
-<p>选了big four 【US,CA,AU,UK】，但是可以不限于，反正只要支持post shipping就可以尝试。</p>
-<figure data-type="image" tabindex="20"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806150235.png" alt="" loading="lazy"></figure>
-<p>年龄18-65 看情况，之前有个推自动扫地机的就是22-65 homeowners</p>
-<figure data-type="image" tabindex="21"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806150420.png" alt="" loading="lazy"></figure>
-<p><strong>输入单词可以有提示的。也可以点击Suggestions。</strong></p>
-<p>如果跑过了，优化的时候，可以根据刚刚那个[Audience Insights](#Audience Insights)里面的数据来输入词，</p>
-<figure data-type="image" tabindex="22"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806150705.png" alt="" loading="lazy"></figure>
-<p>这个Dukin donuts就是根据那个里面的数据来的。</p>
-<h4 id="placements重要">Placements【重要】</h4>
-<p>只选了Facebook feeds及Instagram feed，但是之前有个博主没选IG feed</p>
-<figure data-type="image" tabindex="23"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806150924.png" alt="" loading="lazy"></figure>
-<p>另外<strong>取消了audience network</strong>，并说了一句：<strong>你会得到一大堆BOT点击</strong>。虽然便宜，但是不仅仅费钱无转化，还污染数据。</p>
-<p>另取消Messenger。</p>
-<h4 id="budget">Budget</h4>
-<figure data-type="image" tabindex="24"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806151321.png" alt="" loading="lazy"></figure>
-<p>注：**一般就是3刀 5刀 10刀 ，3刀数据获取就很慢，20刀就有点太大了。对于还需要优化的campaign来说，最高10刀就不错。**没钱的就3刀起步。</p>
-<p><strong>运行个1-3天用于收集数据</strong></p>
-<h4 id="ad-creation">Ad Creation</h4>
-<figure data-type="image" tabindex="25"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806151614.png" alt="" loading="lazy"></figure>
-<p>查看同行的：用免费的<a href="https://chrome.google.com/webstore/detail/turbo-ad-finder/kjbjojolojmokicddfeaamkodihccdcl?hl=en-US">turbo ad finder</a></p>
-<figure data-type="image" tabindex="26"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806151648.png" alt="" loading="lazy"></figure>
-<p>然后打开FB，会移除不是广告的feed，就可以看到满屏广告了。</p>
-<figure data-type="image" tabindex="27"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806152042.png" alt="" loading="lazy"></figure>
-<p>去别人主页 点选Info and Ads</p>
-<figure data-type="image" tabindex="28"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806152105.png" alt="" loading="lazy"></figure>
-<h4 id="ads-progression">ADs progression</h4>
-<figure data-type="image" tabindex="29"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806152241.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="30"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806152356.png" alt="" loading="lazy"></figure>
-<h4 id="infinite-scaling-加码">Infinite Scaling 加码</h4>
-<figure data-type="image" tabindex="31"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200806152518.png" alt="" loading="lazy"></figure>
-<p><strong>复制你成功的策略，加注20%，3天不要动，获取数据。</strong></p>
-<p><strong>慢慢下注。</strong></p>
 ]]></content>
     </entry>
 </feed>

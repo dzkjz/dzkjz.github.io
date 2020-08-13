@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-     向google提交站点【请求收录】 | JojoLegend
+    Vue之inheritAttrs | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1597298117200">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,24 +114,56 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                             向google提交站点【请求收录】
+                            Vue之inheritAttrs
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-07-31</time>
+                            <time class="post-time">2020-08-13</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>登录地址 https://search.google.com/</p>
-<p>需要验证域名所有权</p>
-<p>参考 <a href="https://www.youtube.com/watch?v=B4p1nVspM5U">How to Ask Google to Recrawl URLs of Your WordPress Site</a></p>
-<p>或 <a href="https://www.wpbeginner.com/wp-tutorials/how-to-ask-google-to-recrawl-urls-of-your-wordpress-site/">How to Ask Google to Recrawl URLs of Your WordPress Site</a></p>
-<p>提交页面 index请求</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731225136.png" alt="" loading="lazy"></figure>
-<p>现在搜索框中输入页面地址，回车，看是不是页面被索引了，如果需要索引 点REQUEST INDEXING即可。</p>
-<p>提交sitemap</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731225523.png" alt="" loading="lazy"></figure>
-<p>一般来说，一个小时到一天就收录了。</p>
+                                    <p>参考<a href="https://stackoverflow.com/questions/56224091/what-are-inheritattrsfalse-and-attrs-used-for-in-vue">what are inheritAttrs:false and $attrs used for in vue?</a>：</p>
+<blockquote>
+<pre><code>// Component
+Vue.component('base-input', {
+ inheritAttrs: false,
+ props: ['label', 'value'],
+ template: `
+   &lt;label&gt;
+     {{ label }}
+     &lt;input
+       v-bind=&quot;$attrs&quot;
+       v-bind:value=&quot;value&quot;
+       v-on:input=&quot;$emit('input', $event.target.value)&quot;
+     &gt;
+   &lt;/label&gt;
+ `
+})
+
+// Usage
+&lt;base-input
+ v-model=&quot;username&quot;
+ required
+ placeholder=&quot;Enter your username&quot;
+/&gt;
+</code></pre>
+<p>The <code>required</code> and <code>placeholder</code> attributes are then set on the <code>input</code> instead of the wrapping <code>label</code>.</p>
+<p>It doesn't really have anything to do with children of children of components but it can be used in such a hierarchy.</p>
+<p>I hope that clears things up for you.</p>
+<p>上面的示例代码来自 <a href="https://vuejs.org/v2/guide/components-props.html#Disabling-Attribute-Inheritance">Disabling Attribute Inheritance</a>官方文档。</p>
+<p>其实就是 <code>inheritAttrs</code>设置为<code>false</code>值之后，</p>
+<p>使用的</p>
+<pre><code>&lt;base-input
+ v-model=&quot;username&quot;
+ required
+ placeholder=&quot;Enter your username&quot;
+</code></pre>
+<p>这里面设置的 <code>required</code> 和 <code>placeholder</code>就不在模板根元素<code>label</code>上，而是在指定了<code>$attrs</code>的</p>
+<pre><code>&lt;input
+       v-bind=&quot;$attrs&quot;
+</code></pre>
+<p><code>input</code>标签上。参考这个，以后要用的就是你想设置到哪里，就设置<code>$attrs</code>到哪里，一般这个用在自定义基础组件<a href="https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended">base components</a>的上面。</p>
+</blockquote>
 
                                 </div>
                     </article>
@@ -139,9 +171,9 @@
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-shi-yong-sendgrid-de-pei-zhi/">
+                            <a href="https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/">
                                 <h3 class="post-title">
-                                    laravel使用sendgrid的配置
+                                    Vue 之 作用域插槽
                                 </h3>
                             </a>
                         </div>
