@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理 | JojoLegend
+    Laravel Broadcasting 学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598789882429">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,98 +114,70 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理
+                            Laravel Broadcasting 学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-07-27</time>
+                            <time class="post-time">2020-08-30</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>Mysql Docker容器关于如何处理down后up数据就丢失的问题以及原理</p>
-<p>[toc]</p>
-<p>docker-compose 可以很方便的用于部署多容器环境。其中比较繁琐的就是做到多应用间数据分离。</p>
-<p>容器随时我们可以关闭更新更换，但是要怎么做到数据的连续性就很关键了。</p>
-<h2 id="一-场景介绍">一、场景介绍</h2>
-<p>比较常见的情况，如果你运行起一个数据库容器，如果你删除了这个容器，那存在其中的数据也就丢失了。</p>
-<p>特别是执行<code>docker-compose down</code>然后更新dockerfile和docker-compose.yml文件，再执行<code>docker-compose up -d</code>，你之前网站的数据就丢了。</p>
-<h2 id="二-原理以及原因">二、原理以及原因</h2>
+                                    <h2 id="1思考每一个模块功能有什么用什么时候可以用到">1.思考每一个模块，功能有什么用，什么时候可以用到？</h2>
+<p>主要就是通过利用WebSocket技术实现服务端对用户端的信息更新推送。</p>
+<p><em>提前需要知道Event【事件】和Listeners 【监听器】如何用。</em></p>
 <blockquote>
-<p>我们在有运行数据库容器的机器里面演示；</p>
+<p>详细一点，就是利用Pusher和Redis作为驱动，log一般是测试的时候用，自己可以参考 <a href="https://github.com/beyondcode/laravel-websockets">laravel-websockets</a>实现一个，通过WebSocket，实现Laravel服务端把事件广播到客户端的JavaScript应用上。</p>
+<p>事件广播用到的信道，具体分公共和私有信道，公共的信道，任何用户可以不经授权和认证就可以订阅接受，私有的就必须认证和授权了。</p>
 </blockquote>
-<p>执行<code>docker volume ls</code>查看服务器里面的数据卷：</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200727152424.png" alt="" loading="lazy"></figure>
-<p>默认driver就是local ，我们配置的数据卷都在这里面了。</p>
-<p>为了查看哪一个是数据库容器的数据卷，以及对应的详细信息</p>
-<p>执行<code>docker inspect 数据库容器名</code></p>
-<p>然后找到 Mounts部分：</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200727152753.png" alt="" loading="lazy"></figure>
-<p>第一个我们配置的可以在docker-compose.prod.yml中找到：</p>
-<pre><code class="language-yml">  db:
-    image: mysql:5.7
-    container_name: ***api-db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-</code></pre>
-<p>而第二个对应目标地址是<code>/var/lib/mysql</code>的，因为我没有配置，所以自动给了一个，正是这个没有配置，导致每次<code>docker-compose up -d</code>就生成一个新容器及对应的数据卷，然后之前的数据库数据就丢失了。</p>
-<h2 id="三-处理办法">三、处理办法</h2>
-<p>如果你配置了比如</p>
-<pre><code class="language-yml">  db:
-    ...
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-      - /data/mysql:/var/lib/mysql
-   #   - /data/pgsql:/var/lib/postgresql
-   #   - /data/maria:/var/lib/mariadb
-   #   - /data/redis:/var/lib/redis
-   #   - /data/memcached:/var/lib/memcached
-   #   - /data/neo4j:/var/lib/neo4j/data
-    networks:
-      ...
-</code></pre>
-<p>配置了对应的本地[宿主机]数据卷位置，第一次<code>docker-compose up -d</code>的时候会直接关联起来，而下一次执行<code>docker-compose up -d</code>的时候，daemon执行到生成一个对应数据卷位置的时候，发现已经给了配置，那就跳过，使用先前的。</p>
-<p>当然也可以这么配置：</p>
-<pre><code class="language-yml">volumes:
-- db-data:/var/lib/mysql
-volumes:
- db-data:
-  driver: local
-</code></pre>
+<p>使用举例：</p>
+<ol>
+<li>
+<p>假定有一个给用户查看订单发货状态的页面；</p>
+</li>
+<li>
+<p>订单运输状态发生改变就会触发一个ShippingStatusUpdated事件。</p>
+</li>
+</ol>
 <blockquote>
-<p>参考 <a href="https://linuxhint.com/run_postgresql_docker_compose/">Running PostgreSQL using Docker Compose</a></p>
-<p>参考 <a href="https://stackoverflow.com/questions/43297384/data-is-lost-in-mysql-docker-container-after-comminting-it-to-a-new-image">Data is lost in Mysql docker container after comminting it to a new image?</a></p>
-<blockquote>
-<p>I don't know which image you're using but I believe every <code>Dockerfile</code> of <a href="https://github.com/docker-library/mysql">official mysql images</a> has following command:</p>
-<pre><code>VOLUME /var/lib/mysql
+<pre><code class="language-php">event(new ShippingStatusUpdated($update));
 </code></pre>
-<p>which means all mysql data goes to volume. From <a href="https://docs.docker.com/engine/tutorials/dockervolumes/">docker volume docs</a> they specially mentioned that:</p>
-<pre><code>&gt; Changes to a data volume will not be included when you update an image.
-</code></pre>
-<p>And this is the root cause you loss your data in newly started container.</p>
-<p>For your question:</p>
+<p>当用户挂在这个页面，即使不需要刷新。也可以在运单状态改变的时候通过广播到应用的方式进行运单状态的更新。</p>
 <blockquote>
-<p>How to achieve this?</p>
-</blockquote>
-<p>You can use either <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume">mounted volumes</a>, or create a <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#creating-and-mounting-a-data-volume-container">data volume container</a>, then run mysql container with option <code>--volumes-from</code>. The former links contain step-by-step guide of how to do it.</p>
-<blockquote>
-<p>I don't want to use mounted volumes because i want to link this container with another container of my application so that it can inset and update into db</p>
-</blockquote>
-<p>I don't know what other concerns you have about mounted volumes, but as far as I can tell, using mounted volumes does not prevent you to link containers.</p>
-<p>Hope this helps you.</p>
+<p>只需要实现<code>ShouldBroadcast</code>接口即可；具体实现看官方文档。</p>
 </blockquote>
 </blockquote>
-<h2 id="四-如果不慎丢失怎么恢复">四、如果不慎丢失，怎么恢复</h2>
-<p>如果数据卷都删除了 docker rm 容器的时候 添加了 -v 或 -volume，那就拜拜，没有任何办法的。如果没有删除volume 参考：</p>
-<p><a href="https://www.primozker.in/post/saving-lost-data-docker/">Saving 'lost' MYSQL database running in Docker</a></p>
-<p>更多可以看<a href="https://docs.docker.com/storage/volumes/">官方文档</a></p>
+<p>对于需要私有信道的，可以看<a href="https://laravel.com/docs/7.x/broadcasting#authorizing-channels">Authorizing Channels</a>。就是JS应用向后端发送HTTP请求，后端鉴权搞定就可以了，使用Laravel Echo的话，这些都是默认实现好了的。不过，需要定义相应的routes来响应这些请求。</p>
+<blockquote>
+<p>路由及其他的配置见官方文档。</p>
+</blockquote>
+<p>如果你的应用在routes/channels.php中配置有太多的channel，会非常的臃肿，这个时候，就建议执行<code>php artisan make:channel OrderChannel</code>这个artisan命令添加channel类【位于App\Broadcasting文件夹】，其实就很类似于http请求的routes了；把channels.php文件里面的闭包就换成类名<code>Broadcast::channel('order.{order}', OrderChannel::class);</code>具体代码就在channel类的join方法里面处理。</p>
+<blockquote>
+<p>更多的参考官方文档</p>
+</blockquote>
+<p>对于一个事件广播需要排除当前用户【客户端】的，一般是使用toOthers()方法，事件类需要使用<code>Illuminate\Broadcasting\InteractsWithSockets</code>trait来调用toOthers()方法。</p>
+<blockquote>
+<p>​	However, remember that we also broadcast the task's creation. If your JavaScript application is listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast. You may solve this by using the <code>toOthers</code> method to instruct the broadcaster to not broadcast the event to the current user.</p>
+<blockquote>
+<p>场景就是，用户发布了一个任务，然后axios的response获取到该任务更新，同时这个任务更新被事件广播出去，前端代码通过事件广播将用户们的任务列表+1，其他用户接收到了，本用户也接受到了，相当于当前用户收到了两次响应，这样就重复了，使用<code>toOthers</code>方法就可以不通知当前用户，这样就不会重复。</p>
+</blockquote>
+<blockquote>
+<p>默认情况下，Vue+Axios已经实现了客户端的处理逻辑，也可以自定义，具体的看官方文档：<a href="https://laravel.com/docs/7.x/broadcasting#only-to-others">Only To Others</a>。</p>
+</blockquote>
+</blockquote>
+<p>在线状态频道【我愿称之为局域网】，可以实现比如bilibili在线观看人数实时变动的功能。用户多一个，大家的在线观看人数都显示+1，当然更精细的可以做到，谁加入了直播间这种提示。<em>肯定也就是private信道，而且用户还必须过channel鉴权，不然怎么统计用户信息？</em></p>
+<blockquote>
+<p>也因此，鉴权的回调函数不是返回true值，而是一个包含用户数据的array，这个数据会被其他事件广播监听的用户所使用，如果没有被授权或授权失败，返回false或者null。</p>
+</blockquote>
+<blockquote>
+<p>如果需要做聊天室类的应用或者功能可以参考官方文档。</p>
+</blockquote>
+<p>如果需要一个比如“正在输入”的状态提示给其他用户，而不用通知到后端，只需要一个很轻量简洁的功能，触发方使用Echo的<code>whisper</code>方法，接收方使用<code>listenForWhisper</code>即可。</p>
+<blockquote>
+<p>具体参考官方文档</p>
+</blockquote>
+<p>需要Notification也使用BroadCasting服务，不需要刷新就可以通知到前端，</p>
+<p>请先参考<a href="https://laravel.com/docs/7.x/notifications#broadcast-notifications">the broadcast notification channel</a>配置Notification，然后前端参考<a href="https://laravel.com/docs/7.x/broadcasting#notifications">官方文档</a>进行Notification广播的监听即可。</p>
+<h2 id="2具体用法只需要了解不使用的时候是记不住的具体要用再查官方文档">2.具体用法只需要了解【不使用的时候是记不住的】，具体要用再查官方文档。</h2>
 
                                 </div>
                     </article>
@@ -213,9 +185,9 @@ volumes:
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/">
+                            <a href="https://dzkjz.github.io/post/laradock-win10/">
                                 <h3 class="post-title">
-                                     解决 sitemap robots.txt 以及提交google index
+                                    Laradock Win10 
                                 </h3>
                             </a>
                         </div>
@@ -236,10 +208,8 @@ volumes:
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E4%B8%80-%E5%9C%BA%E6%99%AF%E4%BB%8B%E7%BB%8D">一、场景介绍</a></li>
-<li><a href="#%E4%BA%8C-%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%8E%9F%E5%9B%A0">二、原理以及原因</a></li>
-<li><a href="#%E4%B8%89-%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95">三、处理办法</a></li>
-<li><a href="#%E5%9B%9B-%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%85%8E%E4%B8%A2%E5%A4%B1%E6%80%8E%E4%B9%88%E6%81%A2%E5%A4%8D">四、如果不慎丢失，怎么恢复</a></li>
+<li><a href="#1%E6%80%9D%E8%80%83%E6%AF%8F%E4%B8%80%E4%B8%AA%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%8F%AF%E4%BB%A5%E7%94%A8%E5%88%B0">1.思考每一个模块，功能有什么用，什么时候可以用到？</a></li>
+<li><a href="#2%E5%85%B7%E4%BD%93%E7%94%A8%E6%B3%95%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E6%97%B6%E5%80%99%E6%98%AF%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%85%B7%E4%BD%93%E8%A6%81%E7%94%A8%E5%86%8D%E6%9F%A5%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3">2.具体用法只需要了解【不使用的时候是记不住的】，具体要用再查官方文档。</a></li>
 </ul>
 </li>
 </ul>

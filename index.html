@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1597503338408">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598789882429">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1597503338408" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598789882429" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,85 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-broadcasting-xue-xi-ti-gang/">
+                        Laravel Broadcasting 学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-08-30</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            1.思考每一个模块，功能有什么用，什么时候可以用到？
+主要就是通过利用WebSocket技术实现服务端对用户端的信息更新推送。
+提前需要知道Event【事件】和Listeners 【监听器】如何用。
+
+详细一点，就是利用Pusher和Redis作为驱动，log一般是测试的时候用，自己可以参考 laravel-websockets实现一个，通过WebSocket，实现Laravel服务端把事件广播到客户端的JavaScript应用上。
+事件广播用到的信道，具体分公共和私有信道，公共的信道，任何用户可以不经授权和认证就可以订阅接受，私有的就必须认证和授权了。
+
+使用举例：
+
+
+假定有一个给用户查看订单发货状态的页面；
+
+
+订单运输状态发生改变就会触发一个ShippingStatusUpdated事件。
+
+
+
+event(new ShippingStatusUpdated($update));
+
+当用户挂在这个页面，即使不需要刷新。也可以在运单状态改变的时候通过广播到应用的方式进行运单状态的更新。
+
+只需要实现ShouldBroadcast接口即可；具体实现看官方文档。
+
+
+对于需要私有信道的，可以看Authorizing Channels。就是JS应用向后端发送HTTP请求，后端鉴权搞定就可以了，使用Laravel Echo的话，这些都是默认实现好了的。不过，需要定义相应的routes来响应这些请求。
+
+路由及其他的配置见官方文档。
+
+如果你的应用在routes/channels.php中配置有太多的channel，会非常的臃肿，这个时候，就建议执行php artisan make:channel OrderChannel这个artisan命令添加channel类【位于App\Broadcasting文件夹】，其实就很类似于http请求的routes了；把channels.php文件里面的闭包就换成类名Broadcast::channel(&#39;order.{order}&#39;, OrderChannel::class);具体代码就在channel类的join方法里面处理。
+
+更多的参考官方文档
+
+对于一个事件广播需要排除当前用户【客户端】的，一般是使用toOthers()方法，事件类需要使用Illuminate\Broadcasting\InteractsWithSocketstrait来调用toOthers()方法。
+
+​	However, remember that we also broadcast the task&#39;s creation. If your JavaScript application is listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast. You may solve this by using the toOthers method to instruct the broadcaster to not broadcast the event to the current user.
+
+场景就是，用户发布了一个任务，然后axios的response获取到该任务更新，同时这个任务更新被事件广播出去，前端代码通过事件广播将用户们的任务列表+1，其他用户接收到了，本用户也接受到了，相当于当前用户收到了两次响应，这样就重复了，使用toOthers方法就可以不通知当前用户，这样就不会重复。
+
+
+默认情况下，Vue+Axios已经实现了客户端的处理逻辑，也可以自定义，具体的看官方文档：Only To Others。
+
+
+在线状态频道【我愿称之为局域网】，可以实现比如bilibili在线观看人数实时变动的功能。用户多一个，大家的在线观看人数都显示+1，当然更精细的可以做到，谁加入了直播间这种提示。肯定也就是private信道，而且用户还必须过channel鉴权，不然怎么统计用户信息？
+
+也因此，鉴权的回调函数不是返回true值，而是一个包含用户数据的array，这个数据会被其他事件广播监听的用户所使用，如果没有被授权或授权失败，返回false或者null。
+
+
+如果需要做聊天室类的应用或者功能可以参考官方文档。
+
+如果需要一个比如“正在输入”的状态提示给其他用户，而不用通知到后端，只需要一个很轻量简洁的功能，触发方使用Echo的whisper方法，接收方使用listenForWhisper即可。
+
+具体参考官方文档
+
+需要Notification也使用BroadCasting服务，不需要刷新就可以通知到前端，
+请先参考the broadcast notification channel配置Notification，然后前端参考官方文档进行Notification广播的监听即可。
+2.具体用法只需要了解【不使用的时候是记不住的】，具体要用再查官方文档。
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-broadcasting-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laradock-win10/">
@@ -502,7 +581,7 @@ export default {
                     <time class="post-time">2020-08-09</time>
                     
                         <a href="https://dzkjz.github.io/tag/Gki6VgISX/" class="post-tag i-tag
-                            i-tag-success">
+                            i-tag-warning">
             #Vue
         </a>
                         
@@ -1189,267 +1268,6 @@ Nope, those services deliver low quality links that most of the time break Googl
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/seo-xi-lie-zhai-yao-backlinkocom/">
-                        SEO 系列摘要【backlinko.com】
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-07</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            这个博主的文章观点很流行，但是文章太长。以后建议看这个博主文章的时候，直接看结论，除非特别想知道原理。
-Ahrefs
-source: https://backlinko.com/ahrefs-guide
-
-Backlink Profile
-If a site has a ton of backlinks, I recommend going to “Link type” → “Dofollow”.
-I usually also hit the “One link per domain” or “Group similar links” button here.
-重点关注：如何使用外链报告数据？
-
-你看同行的外链，你如果有和同行文章差不多的，甚至介绍不同领域或者质量更好的，可以联系外链站点的站长，“两步法”问那个站长要外链。
-去给外链的站点看，那边文章是写的啥，然后就能分析出为啥会链接你的同行；这就是起底！然后你可以积累越来越多的数据，什么样的文章可能有助于获得外链。
-
-交叉外链分析
-In the top navigation hit “More” → “Link Intersect”.
-Then, put two or more competing sites into the fields:
-And voila! You get a list of sites that are linking to all of the sites you put in.
-就是用这个功能，看你多个同行都从哪些相同的站获取到了外链。如果你的同行都是从【比如】A站点获得了外链，那么你和这个A站点的主题肯定也会有交集，或者有这种趋势，你可以看看可以一起打交道。比如A站是你以前不知道的广告主站点，那你可以申请成为他的affiliate。或者简单的就是给外链之类的。
-“Best by links” = pages on a site that have the most backlinks.
-博主以前分析Moz.com的时候，按这个排序，然后看到Moz所有最多外链的页面都是教程，另外Moz站权威度第二高的页面就是Beginner’s Guide to SEO。这个页面有114k条外链，然后博主几个月后就也搞了一个教程The Definitive Guide to Keyword Research.
-效果就是现在这个页面有4.45k条外链了，同样用交叉外链，可以看到以前链接到Moz站的外链，同时也添加了链接到这个页面的链接。接下来博主继续创建了一个系列的文章，8个月增加了20%自然流量。
-“New” Backlinks
-同行那边数据里面出现的新链接，也可能有机会给你带来新链接，老外链出链站点那边的文章有的都不再更新，文章内容可能过时了。
-“Lost” Backlinks
-可以前往查看掉了哪些外链，有助于分析为啥你会丢外链。
-Content Gap
-分析同行在做而你没有做的关键词。
-
-摩天大楼法
-source https://backlinko.com/skyscraper-technique
-
-Step 1: Find Proven Linkable Assets
-用SEO工具查看关键词，同行里社交分享最高的文章
-Step 2: Make something even better
-写一篇更好的
-Step 3: Reach out to the right people
-发给受众
-
-SEMrush
-source https://backlinko.com/hub/seo/semrush
-
-SEO Content Template
-Link Building
-What’s unique about SEMrush is that they’ve built an interesting link building tool:
-
-First, you enter keywords that you want to rank for:
-Then, SEMrush will then find sites that link to the sites that are ranking for those keywords:
-You can even create a prospect list and reach out to people inside of the platform (similar to BuzzStream):
-
-
-OffPage-Seo
-source https://backlinko.com/off-page-seo-guide
-
-Case Study #3 How Ash Got Dozens of Media Features With Zero Marketing Budget
-
-Ash Turner runs a mobile device trade-in site called BankMyCell.
-
-Because Ash was bootstrapping his new site, he had essentially zero marketing budget.
-But he DID have experience getting press for small businesses using surveys.
-So the first thing Ash did was look for surveys in the mobile phone space that already got press coverage.
-
-Then, once he found a successful survey, he popped it into Ahrefs to see which data points journalists cited most often in their coverage.
-(Very clever)
-Next, Ash basically used The Skyscraper Technique on an existing survey… and pushed out a bigger and better version of his own.
-
-To get the word out, he creates a press release with the key findings and sends it to journalists that covered the initial study.
-And because he’s promoting super valuable content to people that WANT to cover it, Ash has racked up tons of authority links from sites like The Guardian, Wired, CNET, Forbes and more.
-
-Pretty cool.
-
-Source https://backlinko.com/how-to-rank-number-one-in-google
-
-全文先抛出观点，结果：我的页面做到了关键词&amp;quot;list building&amp;quot;第一名
-然后给出他的研究 OPP Formula
-摘抄
-
-Here’s how it works:
-First, you have the Outcome.
-Start your intro off with the OUTCOME that your reader wants.
-For example, what does someone searching for “list building” want?
-MORE email subscribers!
-So I start my intro off with that outcome front-and-center.
-Now that you’ve hooked them with the Outcome, it’s time for the Proof.
-Here’s where you prove that you know what you’re talking about.
-For example, my intro shows people how I have 90k+ email subscribers.
-
-Finally, cap you intro off with the Preview.
-This is easy:
-All you need to do is preview what your content has in store for them
-For example, my preview gives my reader a sneak peak into my post… which makes them want to keep reading.
-
-
-
-You don’t need to go crazy and use a million images in every post.
-Our search engine ranking factors study found that content with ONE image outranked pages that didn’t use a single image.
-So using one image is WAY better than not using any at all.
-
-
-First, I used the phrase “How to” in my title.
-Next, I made sure to use a number in my title.
-
-
-These related words and phrases help Google understand your content’s topic.
-You’d just search for that keyword — and related keywords — in Google.
-Finally, add those terms to your content.
-You can also use Google Suggest.
-Again, add a handful of these to your article and you’ll help Google better understand what your content is all about.
-
-
-First, find people that are legitimately interested in your post’s topic.
-You can find these people by searching in Google……or using a tool like Buzzsumo.
-Next, you want to email these people to see if they’re interested in reading your content.
-This is KEY. 邮件不要做舔狗。
-Instead, I recommend using a two-step approach.
-Your first email gauges someone’s interest in your content. That way you’re not shoving a link in someone’s face.
-
-Hi [Name],
-I noticed that you recently shared one of my favorite articles about [topic].
-I actually have a [topic] post coming out this week that I think you might enjoy.
-Want me to let you know when it goes live?
-
-Here’s a real life example.
-
-And when someone gets back to you saying they’d like to check out your content….
-
-…THEN send them a link.
-
-Note that I DON’T ask for a share.
-Again, the point of the Content Roadshow isn’t to be a pushy jerkface.
-Nobody likes a pushy jerkface 🙂
-Instead, your goal is to get your content in front of people.
-Specifically, people that have the power to share it.
-And these people aren’t dumb. If they like your content, they’ll share it. There’s no need to even ask.
-
-
-Bonus Step: Regularly Update Your Content
-
-通篇看下来，这个博主爱写的文章就是step by step
-然后每一段标题是观点，开头是论据【哪里有新的文章说什么什么了，研究发现了什么，我最近有一篇新文章讲到了什么什么】，然后用自己语言加图片复述一遍那个文章的观点，废话多加点，大道理也多加点，然后就是介绍自己怎么做的。照着做或者优化后的方法，然后就是配图，然后就是结果results，然后就是延伸讲或者承上启下一个小句子。
-不过确实有的观点很新颖，对于其他的，对于需要直接了解怎么操作的，那可是真的太费时间了。对于那种新人【他这里新人不少】，那可能确实大道理说得新人很感触感动甚至悟透了。
-缩水版还是要好得多。不过缩水版就最多几分钟看完，不会像他文章，字间距行间距段落间距都超级大。看着简直可以用鼠标滚轮发电了。
-下面这个文章也是如此；
-source https://backlinko.com/hub/seo/original-research
-前面的就不摘抄了
-
-​	就是让你做数据分析调研，出来的结论可以被其他人引用，那就自然获得了链接了。
-Best Practices
-Find a Trending Topic
-How do you find a trending topic?
-Google Trends: Just pop a potential topic into Google Trends and see whether it’s growing or shrinking in popularity. If the line is moving up and to the right, you’re golden.
-BuzzSumo: This time, type a broad keyword into BuzzSumo. For example, if you’re in the content marketing niche, you’d put “content marketing” into the tool. Then, identify subtopics that are getting lots of shares. These are hot topics that can work really well as a research study.
-Twitter: This isn’t as precise as BuzzSumo or Google Trends. But you can sometimes find white hot topics with Twitter search. Just be sure to confirm that the topic has long-term interest using Google Trends and BuzzSumo.
-Publish as a Blog Post
-don’t publish the results as a PDF whitepaper.[If your #1 goal with your study is to build your email list, this approach might make sense. ]
-Pro Tip: Optimize post around keywords that bloggers and journalists search for (like “SEO statistics” or “YouTube Ranking factors”). That way, whenever someone needs a statistic for an article, they’ll find your study.
-Use the biggest sample size you possibly can.
-First, large sample size=stronger statistical significance. In other words, it makes your data more reliable.
-Second, large numbers attract more attention.
-
-source https://backlinko.com/hub/seo/resource-pages
-
-​	观点就是，找这种页面，啥50个推荐的什么，或者100个什么，98个什么推荐的资源地址教程之类的。
-
-主要是这种页面，如果你的文章也可以成为里面被收集的一部分，那就发【两步】邮件给站长，有的站点甚至直接就有 “Suggest a resource” link；
-这样就又有一条外链了。
-Best Practices
-Find Resource Pages With Search Strings
-Your first step is to find resource pages in your industry.
-Fortunately, most resource pages use the same terms… which makes them easy to find using search strings.
-With that, here are a handful of search strings you can use to find resource pages:
-
-Keyword inurl:resources
-Keyword “best resources”
-Keyword” useful resources”
-Keyword intitle:links
-Keyword “helpful links”
-
-
-So to increase your link opportunities, use these search strings to find non-obvious resource pages:
-
-Keyword “best sites”
-Keyword “best blogs”
-Keyword “blog awards”
-Keyword “places to learn”
-
-Reverse Engineer Your Competitor’s Resource Page Links
-First, pop a competing website into Ahrefs.
-And look at their backlinks:
-Then, search for terms that resource pages use (like “resources”).
-And Ahrefs will show you their links that came from pages that used that term somewhere on the page,
-And because they link to your competitor there’s GREAT chance they’ll link to you too.
-Look for Broken Links 这种resource页面也可以做死链请替换
-Don’t Forget “Mini Resource Pages”
-
-That said, you can sometimes uncover a few of Mini Resource pages with this search strings:
-
-Keyword “learn more”
-Keyword “other resources”
-Keyword “learn online”
-
-Focus On Realistic Targets
-那种只链接gov edu站点的，那种只链接自己内部站点的，就直接pass掉。
-Email The Person That Manages The Page
-大站点有专人负责专栏或者某一页内容，发邮件要找对人。
-Make It Easy to Add Your Link
-有的文章很长，你直接给出建议，你的文章链接适合加到哪。
-Personalize Your Outreach Emails
-个性化你的邮件，不要太模板化。
-
-不过最好是每种邮件都整理一套模板，发的时候修改一下。
-博主给的模板
-
-​	Template #1: Standard Resource Page
-Subject: Quick question
-Hi [First Name],
-I was looking for some information on [Topic] today, when I came across your excellent [Name of Page].
-It was super helpful! Thank you.
-I especially liked [Personalized Sentence or two].
-Anyway, I realized that I recently published a page about [Related Topic]: [URL].
-It’s [Brief Description].
-It might make a nice addition under the [Section Name] of your page.
-Anyway, thanks again for all of the excellent resources. And have an awesome week!
-Talk Soon,
-[Your Name]
-Template #2: Resource Page With Broken Link
-Subject: Found a broken link
-Hi [First Name],
-I wanted to let you know that I found a few broken links on your [Resource Page Title].
-[URL #1]
-[URL #2]
-[URL #3]
-Your page was super helpful for me when I was recently learning about [Topic], so I wanted to return the favor.
-Also, I wanted to let you know that I published a piece of content that might make a nice replacement for [URL].
-Here’s the link: [URL]
-Either way, I hope this helps and keep up the awesome work!
-Talk Soon,
-[Your Name]
-
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/seo-xi-lie-zhai-yao-backlinkocom/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -1468,7 +1286,7 @@ Talk Soon,
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1597503338408)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598789882429)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
