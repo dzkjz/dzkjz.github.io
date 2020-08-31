@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598859817713">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598894196652">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598859817713" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598894196652" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,144 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/">
+                         解决 sitemap robots.txt 以及提交google index
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-07-26</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            Sitemap
+在nuxt app里面执行
+npm install @nuxtjs/sitemap
+
+//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    &#39;@nuxtjs/axios&#39;,
+    &#39;@nuxtjs/auth&#39;,
+    &#39;vue-social-sharing/nuxt&#39;,
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    &#39;@nuxtjs/dotenv&#39;,
+    &#39;cookie-universal-nuxt&#39;,//https://www.npmjs.com/package/cookie-universal-nuxt
+    &#39;@nuxtjs/sitemap&#39;,
+  ],
+
+  sitemap: {
+    //https://www.npmjs.com/package/@nuxtjs/sitemap
+    hostname: &#39;https://&#39; + process.env.DOMAIN_NAME,
+    gzip: true,
+    exclude: [
+      &#39;/verify/**&#39;,
+      &#39;/verifynew/**&#39;,
+      &#39;/password_reset/**&#39;,
+      &#39;/dashboard_reset/**&#39;,
+      &#39;/animals/create/**&#39;,
+    ],
+
+具体配置官方文档有讲。
+默认情况下只有static页面会自动添加，对于动态的路由页面，parent/:children，这样的，参考 HOW TO: Include dynamic routes in sitemap with Nuxt.js
+Robot.txt
+npm install @nuxtjs/robots
+//nuxt.config.js
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    &#39;@nuxtjs/axios&#39;,
+    &#39;@nuxtjs/auth&#39;,
+    &#39;vue-social-sharing/nuxt&#39;,
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    &#39;@nuxtjs/dotenv&#39;,
+    &#39;cookie-universal-nuxt&#39;,//https://www.npmjs.com/package/cookie-universal-nuxt
+    &#39;@nuxtjs/sitemap&#39;,
+    &#39;@nuxtjs/robots&#39;,
+  ],
+        robots: [ //https://www.npmjs.com/package/@nuxtjs/robots
+    {
+      // UserAgent: &#39;Googlebot&#39;,
+      UserAgent: &#39;*&#39;,
+      Disallow: () =&amp;gt; [
+        &#39;/verify&#39;,
+        &#39;/verify&#39;,
+        &#39;/verifynew&#39;,
+        &#39;/password_reset&#39;,
+        &#39;/dashboard_reset&#39;,
+        &#39;/animals/create&#39;,
+      ], // accepts function
+      Sitemap: &#39;https://&#39; + process.env.DOMAIN_NAME + &#39;/sitemap.xml&#39;,
+    }
+  ],
+
+具体配置介绍参考官方文档。
+Ask Google to recrawl your URLs
+Submit a sitemap (many URLs at once)
+A sitemap is an important way for Google to discover URLs on your site. A sitemap can also include additional metadata about alternate language versions and video-, image-, or news-specific pages. Learn how to create a sitemap.
+If you have not changed your sitemap since the last time Google crawled it, resubmitting the sitemap won&#39;t have any additional benefit. If you have updated pages in the sitemap, mark them with &amp;lt;lastmod&amp;gt;.
+Here are the different ways that you can alert Google about your sitemap:
+
+Submit a sitemap using the sitemaps report.
+Use the ping tool. Send a GET request in your browser or the command line to this address, specifying the full URL of the sitemap. Be sure that the sitemap file is accessible:
+http://www.google.com/ping?sitemap=*&amp;lt;full_URL_of_sitemap&amp;gt;*
+Example:
+http://www.google.com/ping?sitemap=https://example.com/sitemap.xml
+Insert the following line anywhere in your robots.txt file, specifying the path to your sitemap. We will find it the next time we crawl your site:
+Sitemap: http://example.com/my_sitemap.xml
+
+Nuxt页面跳转过度动效
+/*assets/styles/main.css*/
+/*@import &#39;@vue-cookie-accept-decline.css&#39;;*/
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+
+.page-enter, .page-leave-to {
+  opacity: 0;
+}
+
+//nuxt.config.js 
+css: [
+      ...
+    &#39;@/assets/styles/main.css&#39;,
+      ...
+  ],
+
+官方文档：
+https://nuxtjs.org/api/configuration-loading
+https://nuxtjs.org/api/pages-transition
+//nuxt.config.js
+loading: {
+    color: &#39;orange&#39;,
+    height: &#39;5px&#39;,
+    failedColor: &#39;red&#39;,
+    duration: 5000,
+    continuous: true,
+  },
+
+自定义的可以参考 使用自定义的组件设置加载样式
+改变Favicon
+参考 https://github.com/nuxt/nuxt.js/issues/903
+//nuxt.config.js
+link: [
+      {rel: &#39;icon&#39;, type: &#39;image/x-icon&#39;, href: &#39;/tiere_favi.png&#39;},
+    ]
+
+官方文档也可以看看
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/jie-jue-sitemap-robotstxt-yi-ji-ti-jiao-google-index/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/cai-keng-ji-lu-nuxtjs-and-ant-design-vue-pei-zhi/">
@@ -1292,7 +1430,7 @@ networks:
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598859817713)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598894196652)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-31T07:44:14.640Z</updated>
+    <updated>2020-08-31T17:16:42.794Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,23 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel File Storage[FileSystem] 学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-file-storagefilesystem-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-file-storagefilesystem-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-08-31T17:16:28.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<blockquote>
+<p>​	Laravel提供了强大的文件抽象特性。</p>
+</blockquote>
+<blockquote>
+<p>对于文件存取，文件夹存取，disk配置，与Request交互，文件数据更新，追加数据，文件属性信息获取，文件URL获取与配置，以及自定义文件系统，请查看官方文档。</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Collection 学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-collection-xue-xi-ti-gang/</id>
@@ -1050,17 +1067,6 @@ new Vue({
 </li>
 </ul>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[几个SEO的百科站]]></title>
-        <id>https://dzkjz.github.io/post/ji-ge-seo-de-bai-ke-zhan/</id>
-        <link href="https://dzkjz.github.io/post/ji-ge-seo-de-bai-ke-zhan/">
-        </link>
-        <updated>2020-08-07T15:55:20.000Z</updated>
-        <content type="html"><![CDATA[<p>https://www.matthewwoodward.co.uk/seo/ 建议</p>
-<p>https://backlinko.com/hub/seo 建议</p>
-<p>https://moz.com/learn/seo 初学者建议看这个先。</p>
 ]]></content>
     </entry>
 </feed>
