@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-08-31T17:50:47.532Z</updated>
+    <updated>2020-09-01T07:32:06.996Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,47 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Mail学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-01T07:31:48.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>Mail不用说，就是发邮件的时候使用，那么官方文档里介绍的功能，就应该主要思考，发邮件需要什么功能的时候才能够用上？</p>
+<p>而这种场景下要用的功能，具体怎么配置，使用方法就不介绍，需要的时候参阅官方文档。 <strong>主要思考的是使用场景，而不是使用方法。</strong></p>
+<h3 id="driver">Driver</h3>
+<p>如果需要的是更加简便快捷的Email发送服务器，比SMTP更快的，那就是API式的服务器，比如MailGun或者Postmark。</p>
+<blockquote>
+<p>Mailgun和Postmark的配置使用参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
+</blockquote>
+<p>如果需要Amazon SES驱动可以参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
+<h3 id="mailables">Mailables</h3>
+<blockquote>
+<p>Laravel发出的Email，就是被叫做可邮件化的类。</p>
+<p>需要生成这个类，请参考<a href="https://laravel.com/docs/7.x/mail#generating-mailables">Generating Mailables</a></p>
+<p>具体如何编辑这个类，请参考<a href="https://laravel.com/docs/7.x/mail#writing-mailables">Writing Mailables</a></p>
+</blockquote>
+<p>如果需要在邮件发送前，再执行某些自定义修改，可以使用<a href="https://laravel.com/docs/7.x/mail#customizing-the-swiftmailer-message">withSwiftMessage方法</a>。</p>
+<h4 id="markdown-mailables">MarkDown Mailables</h4>
+<blockquote>
+<p>直接有预置模板，而且同时可以生成响应式HTML模板和对应的纯文本邮件内容。使用参考<a href="https://laravel.com/docs/7.x/mail#markdown-mailables">Markdown Mailables</a></p>
+</blockquote>
+<blockquote>
+<p>Markdown可邮递类，结合了Blade组件和Markdown语法。</p>
+<p><strong>特别需要注意的是，Markdown解析器会把缩进给解析为代码块</strong>，所以不要CTRL+SHIFT+L做代码格式化。</p>
+</blockquote>
+<p>预制的button组件，Panel组件，Table组件等直接开箱可用，需要了解可以参考 <a href="https://laravel.com/docs/7.x/mail#writing-markdown-messages">Writing Markdown Messages</a></p>
+<p>很多情况下，邮件要做个自定义的样式，那么参考<a href="https://laravel.com/docs/7.x/mail#customizing-the-components">Customizing The Components</a></p>
+<p>有需要queue 发送Mail的，可以参考<a href="https://laravel.com/docs/7.x/mail#queueing-mail">Queueing Mail</a></p>
+<p>如果需要不发出邮件但是查看以文本样式渲染出来的Mail，可以参考<a href="https://laravel.com/docs/7.x/mail#rendering-mailables">Rendering Mailables</a></p>
+<p>测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者<strong>使用Mailtrap，这个也是比较建议的。</strong></p>
+<h3 id="events">Events</h3>
+<p>邮件的发送会触发一系列的事件，详细参考<a href="https://laravel.com/docs/7.x/mail#events">Events</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel HTTP Client 学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-http-client-xue-xi-ti-gang/</id>
@@ -422,103 +463,6 @@ slot只能通过这种方式由内而外，被外层访问到。<br>
         }
 </code></pre>
 <p>所以，label值被设置为这个<code>$event.target.value</code>的值，并<code>v-model=&quot;bi&quot;</code>设置到外层组件的<code>bi</code>值，同时，value值因为<code>:value=&quot;value&quot;</code>而该组件中value为空，则一旦触发<code>input</code>事件，这个<code>:value</code>又被重置为空，输入框值也就被清空。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Vue 之 $attrs]]></title>
-        <id>https://dzkjz.github.io/post/vue-zhi-dollarattrs/</id>
-        <link href="https://dzkjz.github.io/post/vue-zhi-dollarattrs/">
-        </link>
-        <updated>2020-08-11T13:41:46.000Z</updated>
-        <content type="html"><![CDATA[<p>参考<a href="https://medium.com/@filip.stepien/using-v-model-attrs-on-vue-components-7fc44a315270">Using v-model + $attrs on Vue Components</a>：</p>
-<pre><code class="language-js">&lt;template&gt;
-  &lt;div&gt;
-    &lt;label for=&quot;name&quot; :class=&quot;label_cls&quot;&gt;Name&lt;/label&gt;
-    &lt;input :class=&quot;input_cls&quot; id=&quot;name&quot; v-model=&quot;$attrs.value.name&quot;&gt;
-    &lt;label for=&quot;role&quot; :class=&quot;label_cls&quot;&gt;Title&lt;/label&gt;
-    &lt;input :class=&quot;input_cls&quot; id=&quot;role&quot; v-model=&quot;$attrs.value.role&quot;&gt;
-    &lt;label for=&quot;email&quot; :class=&quot;label_cls&quot;&gt;Email&lt;/label&gt;
-    &lt;input :class=&quot;input_cls&quot; id=&quot;email&quot; v-model=&quot;$attrs.value.email&quot;&gt;
-    &lt;label for=&quot;insta&quot; :class=&quot;label_cls&quot;&gt;Instagram&lt;/label&gt;
-    &lt;input :class=&quot;input_cls&quot; id=&quot;insta&quot; v-model=&quot;$attrs.value.insta&quot; autocomplete=&quot;insta_off&quot;&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import { mapGetters } from &quot;vuex&quot;;
-export default {
-  name: &quot;UserFields&quot;,
-  computed: {
-    input_cls() {
-      return &quot;w-full appearance-none border rounded py-2 px-3 mb-6 text-grey-darkest&quot;;
-    },
-    label_cls() {
-      return &quot;text-grey-darker font-light inline-block mb-2&quot;;
-    }
-  }
-};
-&lt;/script&gt;
-</code></pre>
-<pre><code class="language-js">&lt;template&gt;
-  &lt;div class=&quot;w-5/6 md:w-3/4 lg:w-2/3 mx-auto mt-8&quot; v-if=&quot;activeUser&quot;&gt;
-    &lt;h2 class=&quot;font-light&quot;&gt;Account Settings&lt;/h2&gt;
-    &lt;div class=&quot;flex mt-8 pt-8 border-t border-grey-light&quot;&gt;
-      &lt;div class=&quot;w-64 hidden md:block&quot;&gt;
-        &lt;div class=&quot;mb-2&quot;&gt;Profile&lt;/div&gt;
-        &lt;span class=&quot;text-xs text-grey-dark&quot;&gt;
-          Keep your user infomation up to date so that team members can contact
-          you.
-        &lt;/span&gt;
-      &lt;/div&gt;
-      &lt;form @submit.prevent=&quot;updateUser(user);&quot; class=&quot;flex flex-col md:ml-8 w-full&quot;&gt;
-        &lt;UserFields v-model=&quot;user&quot;/&gt;
-        &lt;div class=&quot;flex items-center&quot;&gt;
-          &lt;input
-            class=&quot;bg-blue hover:bg-blue-dark text-white font-normal py-2 px-4 my-6 rounded w-48 tracking-wide&quot;
-            type=&quot;submit&quot;
-            value=&quot;Submit&quot;
-          &gt;
-        &lt;/div&gt;
-      &lt;/form&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-&lt;script&gt;
-import { mapGetters, mapActions } from &quot;vuex&quot;;
-import UserFields from &quot;./UserFields.vue&quot;;
-export default {
-  name: &quot;UserForm&quot;,
-  components: {
-    UserFields
-  },
-  data() {
-    return {
-      user: {}
-    };
-  },
-  mounted() {
-    this.getUser();
-  },
-  computed: {
-    ...mapGetters([&quot;activeUser&quot;])
-  },
-  methods: {
-    ...mapActions([&quot;getUser&quot;, &quot;updateUser&quot;]),
-    updateLocalUser(e) {
-      this.$set(this.user, e.target.id, e.target.value);
-    }
-  },
-  watch: {
-    activeUser: {
-      handler() {
-        this.user = { ...this.activeUser };
-      }
-    },
-    immediate: true
-  }
-};
-&lt;/script&gt;
-</code></pre>
 ]]></content>
     </entry>
 </feed>

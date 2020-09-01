@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-     向google提交站点【请求收录】 | JojoLegend
+    Laravel Mail学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598945521289">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,24 +114,47 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                             向google提交站点【请求收录】
+                            Laravel Mail学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-07-31</time>
+                            <time class="post-time">2020-09-01</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>登录地址 https://search.google.com/</p>
-<p>需要验证域名所有权</p>
-<p>参考 <a href="https://www.youtube.com/watch?v=B4p1nVspM5U">How to Ask Google to Recrawl URLs of Your WordPress Site</a></p>
-<p>或 <a href="https://www.wpbeginner.com/wp-tutorials/how-to-ask-google-to-recrawl-urls-of-your-wordpress-site/">How to Ask Google to Recrawl URLs of Your WordPress Site</a></p>
-<p>提交页面 index请求</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731225136.png" alt="" loading="lazy"></figure>
-<p>现在搜索框中输入页面地址，回车，看是不是页面被索引了，如果需要索引 点REQUEST INDEXING即可。</p>
-<p>提交sitemap</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200731225523.png" alt="" loading="lazy"></figure>
-<p>一般来说，一个小时到一天就收录了。</p>
+                                    <blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>Mail不用说，就是发邮件的时候使用，那么官方文档里介绍的功能，就应该主要思考，发邮件需要什么功能的时候才能够用上？</p>
+<p>而这种场景下要用的功能，具体怎么配置，使用方法就不介绍，需要的时候参阅官方文档。 <strong>主要思考的是使用场景，而不是使用方法。</strong></p>
+<h3 id="driver">Driver</h3>
+<p>如果需要的是更加简便快捷的Email发送服务器，比SMTP更快的，那就是API式的服务器，比如MailGun或者Postmark。</p>
+<blockquote>
+<p>Mailgun和Postmark的配置使用参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
+</blockquote>
+<p>如果需要Amazon SES驱动可以参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
+<h3 id="mailables">Mailables</h3>
+<blockquote>
+<p>Laravel发出的Email，就是被叫做可邮件化的类。</p>
+<p>需要生成这个类，请参考<a href="https://laravel.com/docs/7.x/mail#generating-mailables">Generating Mailables</a></p>
+<p>具体如何编辑这个类，请参考<a href="https://laravel.com/docs/7.x/mail#writing-mailables">Writing Mailables</a></p>
+</blockquote>
+<p>如果需要在邮件发送前，再执行某些自定义修改，可以使用<a href="https://laravel.com/docs/7.x/mail#customizing-the-swiftmailer-message">withSwiftMessage方法</a>。</p>
+<h4 id="markdown-mailables">MarkDown Mailables</h4>
+<blockquote>
+<p>直接有预置模板，而且同时可以生成响应式HTML模板和对应的纯文本邮件内容。使用参考<a href="https://laravel.com/docs/7.x/mail#markdown-mailables">Markdown Mailables</a></p>
+</blockquote>
+<blockquote>
+<p>Markdown可邮递类，结合了Blade组件和Markdown语法。</p>
+<p><strong>特别需要注意的是，Markdown解析器会把缩进给解析为代码块</strong>，所以不要CTRL+SHIFT+L做代码格式化。</p>
+</blockquote>
+<p>预制的button组件，Panel组件，Table组件等直接开箱可用，需要了解可以参考 <a href="https://laravel.com/docs/7.x/mail#writing-markdown-messages">Writing Markdown Messages</a></p>
+<p>很多情况下，邮件要做个自定义的样式，那么参考<a href="https://laravel.com/docs/7.x/mail#customizing-the-components">Customizing The Components</a></p>
+<p>有需要queue 发送Mail的，可以参考<a href="https://laravel.com/docs/7.x/mail#queueing-mail">Queueing Mail</a></p>
+<p>如果需要不发出邮件但是查看以文本样式渲染出来的Mail，可以参考<a href="https://laravel.com/docs/7.x/mail#rendering-mailables">Rendering Mailables</a></p>
+<p>测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者<strong>使用Mailtrap，这个也是比较建议的。</strong></p>
+<h3 id="events">Events</h3>
+<p>邮件的发送会触发一系列的事件，详细参考<a href="https://laravel.com/docs/7.x/mail#events">Events</a></p>
 
                                 </div>
                     </article>
@@ -139,9 +162,9 @@
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-shi-yong-sendgrid-de-pei-zhi/">
+                            <a href="https://dzkjz.github.io/post/laravel-http-client-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    laravel使用sendgrid的配置
+                                    Laravel HTTP Client 学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -154,32 +177,56 @@
                 <!-- right -->
                 <div id="sidebar" class="main-container-right">
                     
-                                <!-- id-card -->
-                                
-    <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598945521289)">
-        </div>
-        <h1 class="id_card-title">
-            JojoLegend
-        </h1>
-        <h2 class="id_card-description">
-            Something for age
-        </h2>
-        <!--  -->
-        <div class="id_card-sns">
-            <!-- github -->
-            
-                    <!-- twitter -->
-                    
-                            <!-- weibo -->
-                            
-                                    <!-- facebook -->
-                                    
+                        <!-- toc -->
+                        
+    <div class="toc-card i-card ">
+        <div class="toc-title i-card-title">目录</div>
+        <div class="toc-content">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#driver">Driver</a></li>
+<li><a href="#mailables">Mailables</a>
+<ul>
+<li><a href="#markdown-mailables">MarkDown Mailables</a></li>
+</ul>
+</li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
         </div>
+        <script>
+            function locateCatelogList() {
+                /*获取文章目录集合,可通过:header过滤器*/
+                var alis = $('.post-content :header');
+                /*获取侧边栏目录列表集合**/
+                var sidebar_alis = $('.markdownIt-TOC a');
+                /*获取滚动条到顶部的距离*/
+                var scroll_height = $(window).scrollTop();
+                for (var i = 0; i < alis.length; i++) {
+                    /*获取锚点集合中的元素分别到顶点的距离*/
+                    var a_height = $(alis[i]).offset().top;
+                    if (a_height < scroll_height) {
+                        /*高亮显示*/
+                        sidebar_alis.removeClass('on');
+                        $(sidebar_alis[i]).addClass('on');
+                    }
+                }
+            }
+            $(function() {
+                /*绑定滚动事件 */
+                $(window).bind('scroll', locateCatelogList);
+            });
+        </script>
     </div>
     
-                                    
+                            
 
                 </div>
 

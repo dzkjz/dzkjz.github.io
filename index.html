@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598896243067">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598945521289">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598896243067" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598945521289" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,62 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">
+                        Laravel Mail学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-01</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+Mail不用说，就是发邮件的时候使用，那么官方文档里介绍的功能，就应该主要思考，发邮件需要什么功能的时候才能够用上？
+而这种场景下要用的功能，具体怎么配置，使用方法就不介绍，需要的时候参阅官方文档。 主要思考的是使用场景，而不是使用方法。
+Driver
+如果需要的是更加简便快捷的Email发送服务器，比SMTP更快的，那就是API式的服务器，比如MailGun或者Postmark。
+
+Mailgun和Postmark的配置使用参考Driver Prerequisites
+
+如果需要Amazon SES驱动可以参考Driver Prerequisites
+Mailables
+
+Laravel发出的Email，就是被叫做可邮件化的类。
+需要生成这个类，请参考Generating Mailables
+具体如何编辑这个类，请参考Writing Mailables
+
+如果需要在邮件发送前，再执行某些自定义修改，可以使用withSwiftMessage方法。
+MarkDown Mailables
+
+直接有预置模板，而且同时可以生成响应式HTML模板和对应的纯文本邮件内容。使用参考Markdown Mailables
+
+
+Markdown可邮递类，结合了Blade组件和Markdown语法。
+特别需要注意的是，Markdown解析器会把缩进给解析为代码块，所以不要CTRL+SHIFT+L做代码格式化。
+
+预制的button组件，Panel组件，Table组件等直接开箱可用，需要了解可以参考 Writing Markdown Messages
+很多情况下，邮件要做个自定义的样式，那么参考Customizing The Components
+有需要queue 发送Mail的，可以参考Queueing Mail
+如果需要不发出邮件但是查看以文本样式渲染出来的Mail，可以参考Rendering Mailables
+测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者使用Mailtrap，这个也是比较建议的。
+Events
+邮件的发送会触发一系列的事件，详细参考Events
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-http-client-xue-xi-ti-gang/">
@@ -654,118 +710,6 @@ v-on:change=&amp;quot;$emit(&#39;change&#39;, $event.target.checked)&amp;quot;
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/vue-zhi-dollarattrs/">
-                        Vue 之 $attrs
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-11</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            参考Using v-model + $attrs on Vue Components：
-&amp;lt;template&amp;gt;
-  &amp;lt;div&amp;gt;
-    &amp;lt;label for=&amp;quot;name&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Name&amp;lt;/label&amp;gt;
-    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;name&amp;quot; v-model=&amp;quot;$attrs.value.name&amp;quot;&amp;gt;
-    &amp;lt;label for=&amp;quot;role&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Title&amp;lt;/label&amp;gt;
-    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;role&amp;quot; v-model=&amp;quot;$attrs.value.role&amp;quot;&amp;gt;
-    &amp;lt;label for=&amp;quot;email&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Email&amp;lt;/label&amp;gt;
-    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;email&amp;quot; v-model=&amp;quot;$attrs.value.email&amp;quot;&amp;gt;
-    &amp;lt;label for=&amp;quot;insta&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Instagram&amp;lt;/label&amp;gt;
-    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;insta&amp;quot; v-model=&amp;quot;$attrs.value.insta&amp;quot; autocomplete=&amp;quot;insta_off&amp;quot;&amp;gt;
-  &amp;lt;/div&amp;gt;
-&amp;lt;/template&amp;gt;
-
-&amp;lt;script&amp;gt;
-import { mapGetters } from &amp;quot;vuex&amp;quot;;
-export default {
-  name: &amp;quot;UserFields&amp;quot;,
-  computed: {
-    input_cls() {
-      return &amp;quot;w-full appearance-none border rounded py-2 px-3 mb-6 text-grey-darkest&amp;quot;;
-    },
-    label_cls() {
-      return &amp;quot;text-grey-darker font-light inline-block mb-2&amp;quot;;
-    }
-  }
-};
-&amp;lt;/script&amp;gt;
-
-&amp;lt;template&amp;gt;
-  &amp;lt;div class=&amp;quot;w-5/6 md:w-3/4 lg:w-2/3 mx-auto mt-8&amp;quot; v-if=&amp;quot;activeUser&amp;quot;&amp;gt;
-    &amp;lt;h2 class=&amp;quot;font-light&amp;quot;&amp;gt;Account Settings&amp;lt;/h2&amp;gt;
-    &amp;lt;div class=&amp;quot;flex mt-8 pt-8 border-t border-grey-light&amp;quot;&amp;gt;
-      &amp;lt;div class=&amp;quot;w-64 hidden md:block&amp;quot;&amp;gt;
-        &amp;lt;div class=&amp;quot;mb-2&amp;quot;&amp;gt;Profile&amp;lt;/div&amp;gt;
-        &amp;lt;span class=&amp;quot;text-xs text-grey-dark&amp;quot;&amp;gt;
-          Keep your user infomation up to date so that team members can contact
-          you.
-        &amp;lt;/span&amp;gt;
-      &amp;lt;/div&amp;gt;
-      &amp;lt;form @submit.prevent=&amp;quot;updateUser(user);&amp;quot; class=&amp;quot;flex flex-col md:ml-8 w-full&amp;quot;&amp;gt;
-        &amp;lt;UserFields v-model=&amp;quot;user&amp;quot;/&amp;gt;
-        &amp;lt;div class=&amp;quot;flex items-center&amp;quot;&amp;gt;
-          &amp;lt;input
-            class=&amp;quot;bg-blue hover:bg-blue-dark text-white font-normal py-2 px-4 my-6 rounded w-48 tracking-wide&amp;quot;
-            type=&amp;quot;submit&amp;quot;
-            value=&amp;quot;Submit&amp;quot;
-          &amp;gt;
-        &amp;lt;/div&amp;gt;
-      &amp;lt;/form&amp;gt;
-    &amp;lt;/div&amp;gt;
-  &amp;lt;/div&amp;gt;
-&amp;lt;/template&amp;gt;
-&amp;lt;script&amp;gt;
-import { mapGetters, mapActions } from &amp;quot;vuex&amp;quot;;
-import UserFields from &amp;quot;./UserFields.vue&amp;quot;;
-export default {
-  name: &amp;quot;UserForm&amp;quot;,
-  components: {
-    UserFields
-  },
-  data() {
-    return {
-      user: {}
-    };
-  },
-  mounted() {
-    this.getUser();
-  },
-  computed: {
-    ...mapGetters([&amp;quot;activeUser&amp;quot;])
-  },
-  methods: {
-    ...mapActions([&amp;quot;getUser&amp;quot;, &amp;quot;updateUser&amp;quot;]),
-    updateLocalUser(e) {
-      this.$set(this.user, e.target.id, e.target.value);
-    }
-  },
-  watch: {
-    activeUser: {
-      handler() {
-        this.user = { ...this.activeUser };
-      }
-    },
-    immediate: true
-  }
-};
-&amp;lt;/script&amp;gt;
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/vue-zhi-dollarattrs/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -784,7 +728,7 @@ export default {
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598896243067)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598945521289)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
