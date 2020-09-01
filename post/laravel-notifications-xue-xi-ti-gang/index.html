@@ -1,0 +1,337 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>
+    Laravel Notifications学习提纲 | JojoLegend
+</title>
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598975506632">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://dzkjz.github.io//styles/main.css">
+<!-- js -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dzkjz.github.io//media/js/jquery.sticky-sidebar.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+        
+            
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+                
+
+                    
+                            
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <a href="https://dzkjz.github.io/">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598975506632" alt="">
+            </a>
+            <div class="site-title">
+                <h1>
+                    JojoLegend
+                </h1>
+            </div>
+        </div>
+        <span class="menu-btn fa fa-align-justify"></span>
+        <div class="menu-container">
+            <ul>
+                
+                    
+                            <li>
+                                <a href="/" class="menu">
+                                    首页
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/archives" class="menu">
+                                    归档
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/tags" class="menu">
+                                    标签
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/post/about" class="menu">
+                                    关于
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/vue" class="menu">
+                                    Vue
+                                </a>
+                            </li>
+                            
+                                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".menu-btn").click(function() {
+            $(".menu-container").slideToggle();
+        });
+        $(window).resize(function() {
+
+            if (window.matchMedia('(min-width: 960px)').matches) {
+                $(".menu-container").css('display', 'block')
+            } else {
+                $(".menu-container").css('display', 'none')
+            }
+
+        });
+    });
+</script>
+
+            <div id="main-content" class="post-detail main-container">
+                <!-- left -->
+                <div id="content" class="main-container-left">
+                    <article class="post i-card">
+                        <h2 class="post-title">
+                            Laravel Notifications学习提纲
+                        </h2>
+                        <div class="post-info">
+                            <time class="post-time">2020-09-01</time>
+                            
+                        </div>
+                        
+                                <div class="post-content">
+                                    <blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>Notification主要用来发送简洁的通知，告知，比如付款成功之类的，Laravel支持mail，SMS，Slack方式的推送通知给用户。而且因为Notification也可用来显示在web页面上，所以Notification也可以被存在数据库中。</p>
+<blockquote>
+<p>创建通知参考<a href="https://laravel.com/docs/7.x/notifications#creating-notifications">Creating Notifications</a></p>
+</blockquote>
+<p>Model类如果需要支持被通知，那请使用<code>Notifiable</code> trait，不只User model可以支持，只要需要，就可以用这个trait。</p>
+<blockquote>
+<p>使用方法参考<a href="https://laravel.com/docs/7.x/notifications#using-the-notifiable-trait">Using The Notifiable Trait</a></p>
+</blockquote>
+<p>如果是发送给一组用户或者被通知的Model实例组，那可以使用Notification facade的<code>send</code>方法。</p>
+<blockquote>
+<p>使用方法具体参考<a href="https://laravel.com/docs/7.x/notifications#using-the-notification-facade">Using The Notification Facade</a></p>
+</blockquote>
+<p>因为Notifications发送时需要消耗时间的，特别是还要调用外部API来发送的场景下，那么请启用Queue；【就是 implements the ShouldQueue，但是使用还是和平常一样】</p>
+<blockquote>
+<p>具体参考<a href="https://laravel.com/docs/7.x/notifications#queueing-notifications">Queueing Notifications</a></p>
+</blockquote>
+<p>因为Notification的via方法是支持返回一组数组--如<code>['mail','slack']</code></p>
+<p>就是这个通知发送将使用<code>['mail','slack']</code>两个渠道，而使用<code>queue</code>来处理发送的时候，可以针对这两个渠道，分别指定不同的<code>queue</code>处理。</p>
+<blockquote>
+<p>具体参考<a href="https://laravel.com/docs/7.x/notifications#queueing-notifications">Queueing Notifications</a>的Customizing Notification Channel Queues部分</p>
+</blockquote>
+<p>如果需要搞一个<em>按需通知</em>，可以使用<code>Notification::route</code>方法。</p>
+<blockquote>
+<p>具体参考<a href="https://laravel.com/docs/7.x/notifications#on-demand-notifications">On-Demand Notifications</a></p>
+</blockquote>
+<p>如果需要更改Mail Notification的Header和Footer的name值，请在<code>config/app.php</code>中设置<code>name</code>；</p>
+<blockquote>
+<p>如果需要了解怎么写一个Notification Email 以及更多的方法 请参考<a href="https://laravel.com/docs/7.x/notifications#mail-notifications">Mail Notifications</a></p>
+</blockquote>
+<blockquote>
+<p>如果需要自定义Mail Notification或有更多的配置需求，可以查看<br>
+<a href="https://laravel.com/docs/7.x/notifications#customizing-the-sender">Customizing The Sender</a><br>
+<a href="https://laravel.com/docs/7.x/notifications#customizing-the-recipient">Customizing The Recipient</a><br>
+<a href="https://laravel.com/docs/7.x/notifications#customizing-the-subject">Customizing The Subject</a><br>
+<a href="https://laravel.com/docs/7.x/notifications#customizing-the-mailer">Customizing The Mailer</a><br>
+如果需要对默认给的Notification邮件模板做一些自定义修改，参考<a href="https://laravel.com/docs/7.x/notifications#customizing-the-templates">Customizing The Templates</a></p>
+<p>如果需要预览Notification Mail，可以参考<a href="https://laravel.com/docs/7.x/notifications#previewing-mail-notifications">Previewing Mail Notifications</a></p>
+<p>每个就是一个方法的讲解而已。很简单</p>
+</blockquote>
+<h4 id="markdown-mail-notifications">Markdown Mail Notifications</h4>
+<p>和Mail Notification差不多，只是不再使用action或者line方法调用来生成邮件内容，而是一个markdown方法调用。</p>
+<blockquote>
+<p>具体参考 <a href="https://laravel.com/docs/7.x/notifications#generating-the-message">Generating The Message</a></p>
+</blockquote>
+<p>而如果要修改邮件内容，就需要前面修改编辑markdown文件了；</p>
+<blockquote>
+<p>如何使用参考  <a href="https://laravel.com/docs/7.x/notifications#writing-the-message">Writing The Message</a></p>
+</blockquote>
+<blockquote>
+<p>而每一个组件的修改编辑参考<a href="https://laravel.com/docs/7.x/notifications#customizing-the-components">Customizing The Components</a>，其实之前学习Email的时候，也是这个；</p>
+</blockquote>
+<h3 id="database-notifications"><a href="https://laravel.com/docs/7.x/notifications#database-notifications">Database Notifications</a></h3>
+<p>主要是notification如果需要显示在页面上，这样就会用到database。比如用户登录了，就在dashbroad页面给显示notifications。</p>
+<p>参考<a href="https://laravel.com/docs/7.x/notifications#database-prerequisites">Prerequisites</a>，先执行：</p>
+<pre><code class="language-php">php artisan notifications:table
+
+php artisan migrate
+</code></pre>
+<p>生成notification的数据表。</p>
+<blockquote>
+<p>定义被存储下来的数据，请参考<a href="https://laravel.com/docs/7.x/notifications#formatting-database-notifications">Formatting Database Notifications</a></p>
+</blockquote>
+<blockquote>
+<p>存储下来的notifications数据，要展示出来的时候，请参考<a href="https://laravel.com/docs/7.x/notifications#accessing-the-notifications">Accessing The Notifications</a></p>
+</blockquote>
+<blockquote>
+<p>现实使用的时候，可以添加一个Notification Controller，这样要从js客户端访问这个notifiable实体【比如当前user】的notifications数据的时候，可以从js客户端向后端的这个controller执行一个HTTP请求获取。</p>
+</blockquote>
+<blockquote>
+<p>其他的标注已读，批量标注已读，批量更新，批量删除，请查阅<a href="https://laravel.com/docs/7.x/notifications#marking-notifications-as-read">Marking Notifications As Read</a></p>
+</blockquote>
+<h3 id="broadcast-notifications"><a href="https://laravel.com/docs/7.x/notifications#broadcast-notifications">Broadcast Notifications</a></h3>
+<p>这个用就很牛了，可以做成聊天室式的广播告知【游戏里的大喇叭式，全站送礼物通知】。前端后端都需要参考Broadcasting做一些设置。</p>
+<h3 id="sms-notifications"><a href="https://laravel.com/docs/7.x/notifications#sms-notifications">SMS Notifications</a></h3>
+<p>如果有需要搞一个短信通知，那可以参考这个官方文档<a href="https://laravel.com/docs/7.x/notifications#sms-notifications">SMS Notifications</a>做一些设置和修改。</p>
+<h3 id="slack-notifications"><a href="https://laravel.com/docs/7.x/notifications#slack-notifications">Slack Notifications</a></h3>
+<p><a href="slack.com">Slack</a>可以用到协同办公和公共留言板之类的，支持很多app，如果需要这个可以看看官方文档如何配置。</p>
+<h3 id="localizing-notifications"><a href="https://laravel.com/docs/7.x/notifications#localizing-notifications">Localizing Notifications</a></h3>
+<p>语言本地化；</p>
+<h3 id="notification-events"><a href="https://laravel.com/docs/7.x/notifications#notification-events">Notification Events</a></h3>
+<p>在notification被发送后，会触发相关的事件，如果需要了解，请参考官方文档</p>
+<h3 id="custom-channels"><a href="https://laravel.com/docs/7.x/notifications#custom-channels">Custom Channels</a></h3>
+<p>Laravel以及提供了很多Notification发送的信道，如果还有更多需求来传输你的Notification，那么可以参考此部分文档：<a href="https://laravel.com/docs/7.x/notifications#custom-channels">Custom Channels</a>。</p>
+
+                                </div>
+                    </article>
+                    <!--  -->
+                    
+                        <div class="next-post">
+                            <div class="next">下一篇</div>
+                            <a href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">
+                                <h3 class="post-title">
+                                    Laravel Mail学习提纲
+                                </h3>
+                            </a>
+                        </div>
+                        
+                            <div id="disqus_thread"></div>
+                            <div id="gitalk-container"></div>
+                </div>
+                <!-- middle -->
+                <div class="main-container-middle"></div>
+                <!-- right -->
+                <div id="sidebar" class="main-container-right">
+                    
+                        <!-- toc -->
+                        
+    <div class="toc-card i-card ">
+        <div class="toc-title i-card-title">目录</div>
+        <div class="toc-content">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#markdown-mail-notifications">Markdown Mail Notifications</a></li>
+</ul>
+</li>
+<li><a href="#database-notifications">Database Notifications</a></li>
+<li><a href="#broadcast-notifications">Broadcast Notifications</a></li>
+<li><a href="#sms-notifications">SMS Notifications</a></li>
+<li><a href="#slack-notifications">Slack Notifications</a></li>
+<li><a href="#localizing-notifications">Localizing Notifications</a></li>
+<li><a href="#notification-events">Notification Events</a></li>
+<li><a href="#custom-channels">Custom Channels</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        <script>
+            function locateCatelogList() {
+                /*获取文章目录集合,可通过:header过滤器*/
+                var alis = $('.post-content :header');
+                /*获取侧边栏目录列表集合**/
+                var sidebar_alis = $('.markdownIt-TOC a');
+                /*获取滚动条到顶部的距离*/
+                var scroll_height = $(window).scrollTop();
+                for (var i = 0; i < alis.length; i++) {
+                    /*获取锚点集合中的元素分别到顶点的距离*/
+                    var a_height = $(alis[i]).offset().top;
+                    if (a_height < scroll_height) {
+                        /*高亮显示*/
+                        sidebar_alis.removeClass('on');
+                        $(sidebar_alis[i]).addClass('on');
+                    }
+                }
+            }
+            $(function() {
+                /*绑定滚动事件 */
+                $(window).bind('scroll', locateCatelogList);
+            });
+        </script>
+    </div>
+    
+                            
+
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://dzkjz.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+
+    </div>
+    <script>
+        $('#sidebar').stickySidebar({
+            topSpacing: 80,
+            // bottomSpacing: 60
+        });
+    </script>
+    
+        
+            <script>
+    window.onload = function() {
+        var gitalk = new Gitalk({
+            clientID: 'b067c4f3d31f7962c097',
+            clientSecret: '3c8e8557b958738414c4edabfec529ca9c29bfe9',
+            repo: 'https://dzkjz.github.io/',
+            owner: 'dzkjz',
+            admin: ['dzkjz'],
+            id: (location.pathname).substring(0, 49), // Ensure uniqueness and length less than 50
+            distractionFreeMode: false // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    }
+</script>
+                
+
+                    
+                                
+</body>
+
+</html>
