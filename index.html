@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598975506632">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598977216367">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598975506632" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1598977216367" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,53 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/">
+                        Laravel Package Development学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-02</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+开发包主要是给Laravel提供功能。
+
+有些大佬开发的包，是独立的，任何PHP 框架都可以用，
+有的包就必须在Laravel框架才能用，包里可能有routes controllers views 以及configuration之类的，包只是针对Laravel功能的。
+Laravel中使用的时候，就是设置在composer.json文件中；
+
+扩展包里的servicer provider除了用户手动注册在app.php的providers里面，还可以参考Package Discovery自动处理。
+开发包如果有以下的部分，代码写完后，如何配置和发布可以参考：
+
+Resources
+Configuration
+Migrations
+Factories
+Routes
+Translations
+Views
+View Components
+Commands
+Public Assets
+Publishing File Groups
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">
@@ -649,47 +696,6 @@ input标签上。参考这个，以后要用的就是你想设置到哪里，就
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/">
-                        Vue 之 作用域插槽
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-12</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            参考其他示例
-其实
- &amp;lt;slot name=&amp;quot;todo&amp;quot; v-bind:todo=&amp;quot;todo&amp;quot;&amp;gt;
-      &amp;lt;!-- 后备内容 --&amp;gt;
-      {{ todo.text }}
-    &amp;lt;/slot&amp;gt;
-
-就是把子组件中的 todo 暴露给外层组件
-然后外层组件就可以通过
- &amp;lt;template v-slot:todo=&amp;quot;{ todo }&amp;quot;&amp;gt;
-    &amp;lt;span v-if=&amp;quot;todo.isComplete&amp;quot;&amp;gt;✓&amp;lt;/span&amp;gt;
-    {{ todo.text }}
-  &amp;lt;/template&amp;gt;
-
-这里面用了{todo}解构出上面slot的:todo其值为上面那个组件中的todo值，
-暴露出来在外层组件的template里面，就可以访问了：todo.isComplete及{{ todo.text }}就是从外层访问的子组件中的值。
-slot只能通过这种方式由内而外，被外层访问到。
-需要注意的是，之前版本是slot-scope=&amp;quot;slotProps&amp;quot;这种方式访问的，但是已经被废弃了。
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -708,7 +714,7 @@ slot只能通过这种方式由内而外，被外层访问到。
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598975506632)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1598977216367)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-01T15:51:51.846Z</updated>
+    <updated>2020-09-01T16:20:21.972Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,38 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Package Development学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-01T16:20:07.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>开发包主要是给Laravel提供功能。</p>
+<blockquote>
+<p>有些大佬开发的包，是独立的，任何PHP 框架都可以用，</p>
+<p>有的包就必须在Laravel框架才能用，包里可能有routes controllers views 以及configuration之类的，包只是针对Laravel功能的。</p>
+<p>Laravel中使用的时候，就是设置在composer.json文件中；</p>
+</blockquote>
+<p>扩展包里的servicer provider除了用户手动注册在app.php的providers里面，还可以参考<a href="https://laravel.com/docs/7.x/packages#package-discovery">Package Discovery</a>自动处理。</p>
+<p>开发包如果有以下的部分，代码写完后，如何配置和发布可以参考：</p>
+<blockquote>
+<h4 id="resources"><a href="https://laravel.com/docs/7.x/packages#resources">Resources</a></h4>
+<h5 id="configuration"><a href="https://laravel.com/docs/7.x/packages#configuration">Configuration</a></h5>
+<h5 id="migrations"><a href="https://laravel.com/docs/7.x/packages#migrations">Migrations</a></h5>
+<h5 id="factories"><a href="https://laravel.com/docs/7.x/packages#factories">Factories</a></h5>
+<h5 id="routes"><a href="https://laravel.com/docs/7.x/packages#routes">Routes</a></h5>
+<h4 id="translations"><a href="https://laravel.com/docs/7.x/packages#translations">Translations</a></h4>
+<h4 id="views"><a href="https://laravel.com/docs/7.x/packages#views">Views</a></h4>
+<h5 id="view-components"><a href="https://laravel.com/docs/7.x/packages#view-components">View Components</a></h5>
+<h4 id="commands"><a href="https://laravel.com/docs/7.x/packages#commands">Commands</a></h4>
+<h4 id="public-assets"><a href="https://laravel.com/docs/7.x/packages#public-assets">Public Assets</a></h4>
+<h4 id="publishing-file-groups"><a href="https://laravel.com/docs/7.x/packages#publishing-file-groups">Publishing File Groups</a></h4>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Notifications学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/</id>
@@ -417,32 +449,6 @@ Vue.component('base-input', {
 </code></pre>
 <p><code>input</code>标签上。参考这个，以后要用的就是你想设置到哪里，就设置<code>$attrs</code>到哪里，一般这个用在自定义基础组件<a href="https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended">base components</a>的上面。</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Vue 之 作用域插槽]]></title>
-        <id>https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/</id>
-        <link href="https://dzkjz.github.io/post/vue-zhi-zuo-yong-yu-cha-cao/">
-        </link>
-        <updated>2020-08-11T18:53:34.000Z</updated>
-        <content type="html"><![CDATA[<p>参考<a href="https://cn.vuejs.org/v2/guide/components-slots.html#%E5%85%B6%E5%AE%83%E7%A4%BA%E4%BE%8B">其他示例</a><br>
-其实</p>
-<pre><code> &lt;slot name=&quot;todo&quot; v-bind:todo=&quot;todo&quot;&gt;
-      &lt;!-- 后备内容 --&gt;
-      {{ todo.text }}
-    &lt;/slot&gt;
-</code></pre>
-<p>就是把子组件中的 todo 暴露给外层组件</p>
-<p>然后外层组件就可以通过</p>
-<pre><code> &lt;template v-slot:todo=&quot;{ todo }&quot;&gt;
-    &lt;span v-if=&quot;todo.isComplete&quot;&gt;✓&lt;/span&gt;
-    {{ todo.text }}
-  &lt;/template&gt;
-</code></pre>
-<p>这里面用了{todo}解构出上面slot的<code>:todo</code>其值为上面那个组件中的<code>todo</code>值，<br>
-暴露出来在外层组件的template里面，就可以访问了：<code>todo.isComplete</code>及<code>{{ todo.text }}</code>就是从外层访问的子组件中的值。<br>
-slot只能通过这种方式由内而外，被外层访问到。<br>
-需要注意的是，之前版本是<code>slot-scope=&quot;slotProps&quot;</code>这种方式访问的，但是已经被<strong>废弃了</strong>。</p>
 ]]></content>
     </entry>
 </feed>

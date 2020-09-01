@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Laravel Mail学习提纲 | JojoLegend
+    Laravel Package Development学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1598977216367">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,10 +114,10 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Laravel Mail学习提纲
+                            Laravel Package Development学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-09-01</time>
+                            <time class="post-time">2020-09-02</time>
                             
                         </div>
                         
@@ -125,36 +125,27 @@
                                     <blockquote>
 <p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
 </blockquote>
-<p>Mail不用说，就是发邮件的时候使用，那么官方文档里介绍的功能，就应该主要思考，发邮件需要什么功能的时候才能够用上？</p>
-<p>而这种场景下要用的功能，具体怎么配置，使用方法就不介绍，需要的时候参阅官方文档。 <strong>主要思考的是使用场景，而不是使用方法。</strong></p>
-<h3 id="driver">Driver</h3>
-<p>如果需要的是更加简便快捷的Email发送服务器，比SMTP更快的，那就是API式的服务器，比如MailGun或者Postmark。</p>
+<p>开发包主要是给Laravel提供功能。</p>
 <blockquote>
-<p>Mailgun和Postmark的配置使用参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
+<p>有些大佬开发的包，是独立的，任何PHP 框架都可以用，</p>
+<p>有的包就必须在Laravel框架才能用，包里可能有routes controllers views 以及configuration之类的，包只是针对Laravel功能的。</p>
+<p>Laravel中使用的时候，就是设置在composer.json文件中；</p>
 </blockquote>
-<p>如果需要Amazon SES驱动可以参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
-<h3 id="mailables">Mailables</h3>
+<p>扩展包里的servicer provider除了用户手动注册在app.php的providers里面，还可以参考<a href="https://laravel.com/docs/7.x/packages#package-discovery">Package Discovery</a>自动处理。</p>
+<p>开发包如果有以下的部分，代码写完后，如何配置和发布可以参考：</p>
 <blockquote>
-<p>Laravel发出的Email，就是被叫做可邮件化的类。</p>
-<p>需要生成这个类，请参考<a href="https://laravel.com/docs/7.x/mail#generating-mailables">Generating Mailables</a></p>
-<p>具体如何编辑这个类，请参考<a href="https://laravel.com/docs/7.x/mail#writing-mailables">Writing Mailables</a></p>
+<h4 id="resources"><a href="https://laravel.com/docs/7.x/packages#resources">Resources</a></h4>
+<h5 id="configuration"><a href="https://laravel.com/docs/7.x/packages#configuration">Configuration</a></h5>
+<h5 id="migrations"><a href="https://laravel.com/docs/7.x/packages#migrations">Migrations</a></h5>
+<h5 id="factories"><a href="https://laravel.com/docs/7.x/packages#factories">Factories</a></h5>
+<h5 id="routes"><a href="https://laravel.com/docs/7.x/packages#routes">Routes</a></h5>
+<h4 id="translations"><a href="https://laravel.com/docs/7.x/packages#translations">Translations</a></h4>
+<h4 id="views"><a href="https://laravel.com/docs/7.x/packages#views">Views</a></h4>
+<h5 id="view-components"><a href="https://laravel.com/docs/7.x/packages#view-components">View Components</a></h5>
+<h4 id="commands"><a href="https://laravel.com/docs/7.x/packages#commands">Commands</a></h4>
+<h4 id="public-assets"><a href="https://laravel.com/docs/7.x/packages#public-assets">Public Assets</a></h4>
+<h4 id="publishing-file-groups"><a href="https://laravel.com/docs/7.x/packages#publishing-file-groups">Publishing File Groups</a></h4>
 </blockquote>
-<p>如果需要在邮件发送前，再执行某些自定义修改，可以使用<a href="https://laravel.com/docs/7.x/mail#customizing-the-swiftmailer-message">withSwiftMessage方法</a>。</p>
-<h4 id="markdown-mailables">MarkDown Mailables</h4>
-<blockquote>
-<p>直接有预置模板，而且同时可以生成响应式HTML模板和对应的纯文本邮件内容。使用参考<a href="https://laravel.com/docs/7.x/mail#markdown-mailables">Markdown Mailables</a></p>
-</blockquote>
-<blockquote>
-<p>Markdown可邮递类，结合了Blade组件和Markdown语法。</p>
-<p><strong>特别需要注意的是，Markdown解析器会把缩进给解析为代码块</strong>，所以不要CTRL+SHIFT+L做代码格式化。</p>
-</blockquote>
-<p>预制的button组件，Panel组件，Table组件等直接开箱可用，需要了解可以参考 <a href="https://laravel.com/docs/7.x/mail#writing-markdown-messages">Writing Markdown Messages</a></p>
-<p>很多情况下，邮件要做个自定义的样式，那么参考<a href="https://laravel.com/docs/7.x/mail#customizing-the-components">Customizing The Components</a></p>
-<p>有需要queue 发送Mail的，可以参考<a href="https://laravel.com/docs/7.x/mail#queueing-mail">Queueing Mail</a></p>
-<p>如果需要不发出邮件但是查看以文本样式渲染出来的Mail，可以参考<a href="https://laravel.com/docs/7.x/mail#rendering-mailables">Rendering Mailables</a></p>
-<p>测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者<strong>使用Mailtrap，这个也是比较建议的。</strong></p>
-<h3 id="events">Events</h3>
-<p>邮件的发送会触发一系列的事件，详细参考<a href="https://laravel.com/docs/7.x/mail#events">Events</a></p>
 
                                 </div>
                     </article>
@@ -162,9 +153,9 @@
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-http-client-xue-xi-ti-gang/">
+                            <a href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    Laravel HTTP Client 学习提纲
+                                    Laravel Notifications学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -187,13 +178,27 @@
 <ul>
 <li>
 <ul>
-<li><a href="#driver">Driver</a></li>
-<li><a href="#mailables">Mailables</a>
+<li>
 <ul>
-<li><a href="#markdown-mailables">MarkDown Mailables</a></li>
+<li><a href="#resources">Resources</a>
+<ul>
+<li><a href="#configuration">Configuration</a></li>
+<li><a href="#migrations">Migrations</a></li>
+<li><a href="#factories">Factories</a></li>
+<li><a href="#routes">Routes</a></li>
 </ul>
 </li>
-<li><a href="#events">Events</a></li>
+<li><a href="#translations">Translations</a></li>
+<li><a href="#views">Views</a>
+<ul>
+<li><a href="#view-components">View Components</a></li>
+</ul>
+</li>
+<li><a href="#commands">Commands</a></li>
+<li><a href="#public-assets">Public Assets</a></li>
+<li><a href="#publishing-file-groups">Publishing File Groups</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
