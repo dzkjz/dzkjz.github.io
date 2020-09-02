@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599031715983">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599064045925">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599031715983" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599064045925" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,101 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-database-xue-xi-ti-gang/">
+                        Laravel Database学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-03</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+*带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+Laravel支持多种SQL数据库，如果需要查看每个数据库怎么配置，请查看官方文档Configuration
+使用了多个数据库链接的情况下，如果要指定选其中一个链接来处理，可以参考Using Multiple Database Connections
+
+DB facade支持的增删改查方法，详细的请看官方文档Running Raw SQL Queries
+
+Listening For Query Events
+每个SQL请求都会触发事件，如果需要log这些query或者debug，可以使用DB::listen方法。
+
+详细请看Listening For Query Events
+
+数据库事务Database Transactions
+$users = DB::connection(&#39;mysql&#39;)-&amp;gt;select(&#39;&#39;);
+
+//获取底层的pdo实例
+$pdo = DB::connection()-&amp;gt;getPdo();
+
+// The select method will always return an array of results.
+// Each result within the array will be a PHP stdClass object,
+// allowing you to access the values of the results:
+$users = DB::select(&#39;select * from users where active = ?&#39;, [1]);
+if ($users) {
+    return view(&#39;user.index&#39;, [&#39;users&#39; =&amp;gt; $users]);
+}
+
+foreach ($users as $user) {
+    echo $user-&amp;gt;name;
+}
+
+//Naming bindings
+
+$results = DB::select(&#39;select * from users where id =:id&#39;, [&#39;id&#39; =&amp;gt; 1]);
+
+
+//insert
+DB::insert(&#39;insert into users(id,name) values(?,?)&#39;, [1, &#39;Dayle&#39;]);
+
+//update
+$affected = DB::update(&#39;update users set votes = 100 where name= ? &#39;, [&#39;John&#39;]);
+
+
+//delete
+$deleted = DB::delete(&#39;delete from users&#39;); // the number of rows affected will be returned:
+
+
+//statement
+// Some database statements do not return any value.
+// For these types of operations, you may use the statement method on the DB facade:
+DB::statement(&#39;drop table users&#39;);
+
+
+//Database Transactions 数据库事务，闭包内事务如果执行异常，会自动回滚处理，如果成功，事务就会自动完成执行
+DB::transaction(function () {
+    DB::table(&#39;users&#39;)-&amp;gt;update([&#39;votes&#39; =&amp;gt; 1]);
+    DB::table(&#39;posts&#39;)-&amp;gt;delete();
+});
+
+
+DB::transaction(function () {
+    DB::table(&#39;users&#39;)-&amp;gt;update([&#39;votes&#39; =&amp;gt; 1]);
+    DB::table(&#39;posts&#39;)-&amp;gt;delete();
+}, 5);//第二个参数作用，如果出现死锁，会最大尝试5次，超次就会抛异常
+
+//手动启动事务执行
+DB::beginTransaction();
+//手动回滚
+DB::rollBack();
+//手动提交事务
+DB::commit();
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-database-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
@@ -719,85 +814,6 @@ Cache的操作会触发事件，如果有需要监听这些事件做响应的操
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-broadcasting-xue-xi-ti-gang/">
-                        Laravel Broadcasting 学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-30</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            1.思考每一个模块，功能有什么用，什么时候可以用到？
-主要就是通过利用WebSocket技术实现服务端对用户端的信息更新推送。
-提前需要知道Event【事件】和Listeners 【监听器】如何用。
-
-详细一点，就是利用Pusher和Redis作为驱动，log一般是测试的时候用，自己可以参考 laravel-websockets实现一个，通过WebSocket，实现Laravel服务端把事件广播到客户端的JavaScript应用上。
-事件广播用到的信道，具体分公共和私有信道，公共的信道，任何用户可以不经授权和认证就可以订阅接受，私有的就必须认证和授权了。
-
-使用举例：
-
-
-假定有一个给用户查看订单发货状态的页面；
-
-
-订单运输状态发生改变就会触发一个ShippingStatusUpdated事件。
-
-
-
-event(new ShippingStatusUpdated($update));
-
-当用户挂在这个页面，即使不需要刷新。也可以在运单状态改变的时候通过广播到应用的方式进行运单状态的更新。
-
-只需要实现ShouldBroadcast接口即可；具体实现看官方文档。
-
-
-对于需要私有信道的，可以看Authorizing Channels。就是JS应用向后端发送HTTP请求，后端鉴权搞定就可以了，使用Laravel Echo的话，这些都是默认实现好了的。不过，需要定义相应的routes来响应这些请求。
-
-路由及其他的配置见官方文档。
-
-如果你的应用在routes/channels.php中配置有太多的channel，会非常的臃肿，这个时候，就建议执行php artisan make:channel OrderChannel这个artisan命令添加channel类【位于App\Broadcasting文件夹】，其实就很类似于http请求的routes了；把channels.php文件里面的闭包就换成类名Broadcast::channel(&#39;order.{order}&#39;, OrderChannel::class);具体代码就在channel类的join方法里面处理。
-
-更多的参考官方文档
-
-对于一个事件广播需要排除当前用户【客户端】的，一般是使用toOthers()方法，事件类需要使用Illuminate\Broadcasting\InteractsWithSocketstrait来调用toOthers()方法。
-
-​	However, remember that we also broadcast the task&#39;s creation. If your JavaScript application is listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast. You may solve this by using the toOthers method to instruct the broadcaster to not broadcast the event to the current user.
-
-场景就是，用户发布了一个任务，然后axios的response获取到该任务更新，同时这个任务更新被事件广播出去，前端代码通过事件广播将用户们的任务列表+1，其他用户接收到了，本用户也接受到了，相当于当前用户收到了两次响应，这样就重复了，使用toOthers方法就可以不通知当前用户，这样就不会重复。
-
-
-默认情况下，Vue+Axios已经实现了客户端的处理逻辑，也可以自定义，具体的看官方文档：Only To Others。
-
-
-在线状态频道【我愿称之为局域网】，可以实现比如bilibili在线观看人数实时变动的功能。用户多一个，大家的在线观看人数都显示+1，当然更精细的可以做到，谁加入了直播间这种提示。肯定也就是private信道，而且用户还必须过channel鉴权，不然怎么统计用户信息？
-
-也因此，鉴权的回调函数不是返回true值，而是一个包含用户数据的array，这个数据会被其他事件广播监听的用户所使用，如果没有被授权或授权失败，返回false或者null。
-
-
-如果需要做聊天室类的应用或者功能可以参考官方文档。
-
-如果需要一个比如“正在输入”的状态提示给其他用户，而不用通知到后端，只需要一个很轻量简洁的功能，触发方使用Echo的whisper方法，接收方使用listenForWhisper即可。
-
-具体参考官方文档
-
-需要Notification也使用BroadCasting服务，不需要刷新就可以通知到前端，
-请先参考the broadcast notification channel配置Notification，然后前端参考官方文档进行Notification广播的监听即可。
-2.具体用法只需要了解【不使用的时候是记不住的】，具体要用再查官方文档。
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-broadcasting-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -816,7 +832,7 @@ event(new ShippingStatusUpdated($update));
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599031715983)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599064045925)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-02T07:28:40.874Z</updated>
+    <updated>2020-09-02T16:27:31.853Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,86 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Database学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-database-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-database-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-02T16:27:12.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>*<em>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</em></p>
+</blockquote>
+<p>Laravel支持多种SQL数据库，如果需要查看每个数据库怎么配置，请查看官方文档<a href="https://laravel.com/docs/7.x/database#configuration">Configuration</a></p>
+<p>使用了多个数据库链接的情况下，如果要指定选其中一个链接来处理，可以参考<a href="https://laravel.com/docs/7.x/database#using-multiple-database-connections">Using Multiple Database Connections</a></p>
+<blockquote>
+<p>DB facade支持的增删改查方法，详细的请看官方文档<a href="https://laravel.com/docs/7.x/database#running-queries">Running Raw SQL Queries</a></p>
+</blockquote>
+<h3 id="listening-for-query-events"><a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></h3>
+<p>每个SQL请求都会触发事件，如果需要log这些query或者debug，可以使用<code>DB::listen</code>方法。</p>
+<blockquote>
+<p>详细请看<a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></p>
+</blockquote>
+<h3 id="数据库事务database-transactions">数据库事务<a href="https://laravel.com/docs/7.x/database#database-transactions">Database Transactions</a></h3>
+<pre><code class="language-php">$users = DB::connection('mysql')-&gt;select('');
+
+//获取底层的pdo实例
+$pdo = DB::connection()-&gt;getPdo();
+
+// The select method will always return an array of results.
+// Each result within the array will be a PHP stdClass object,
+// allowing you to access the values of the results:
+$users = DB::select('select * from users where active = ?', [1]);
+if ($users) {
+    return view('user.index', ['users' =&gt; $users]);
+}
+
+foreach ($users as $user) {
+    echo $user-&gt;name;
+}
+
+//Naming bindings
+
+$results = DB::select('select * from users where id =:id', ['id' =&gt; 1]);
+
+
+//insert
+DB::insert('insert into users(id,name) values(?,?)', [1, 'Dayle']);
+
+//update
+$affected = DB::update('update users set votes = 100 where name= ? ', ['John']);
+
+
+//delete
+$deleted = DB::delete('delete from users'); // the number of rows affected will be returned:
+
+
+//statement
+// Some database statements do not return any value.
+// For these types of operations, you may use the statement method on the DB facade:
+DB::statement('drop table users');
+
+
+//Database Transactions 数据库事务，闭包内事务如果执行异常，会自动回滚处理，如果成功，事务就会自动完成执行
+DB::transaction(function () {
+    DB::table('users')-&gt;update(['votes' =&gt; 1]);
+    DB::table('posts')-&gt;delete();
+});
+
+
+DB::transaction(function () {
+    DB::table('users')-&gt;update(['votes' =&gt; 1]);
+    DB::table('posts')-&gt;delete();
+}, 5);//第二个参数作用，如果出现死锁，会最大尝试5次，超次就会抛异常
+
+//手动启动事务执行
+DB::beginTransaction();
+//手动回滚
+DB::rollBack();
+//手动提交事务
+DB::commit();
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Task Scheduling学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/</id>
@@ -487,70 +567,6 @@ echo $user-&gt;id;
 <blockquote>
 <p>Cache的操作会触发事件，如果有需要监听这些事件做响应的操作，可以设置监听器，设置在EventServiceProvider类中，具体参考<a href="https://laravel.com/docs/7.x/cache#events">Events</a></p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel Broadcasting 学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-broadcasting-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-broadcasting-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-08-30T12:17:52.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1思考每一个模块功能有什么用什么时候可以用到">1.思考每一个模块，功能有什么用，什么时候可以用到？</h2>
-<p>主要就是通过利用WebSocket技术实现服务端对用户端的信息更新推送。</p>
-<p><em>提前需要知道Event【事件】和Listeners 【监听器】如何用。</em></p>
-<blockquote>
-<p>详细一点，就是利用Pusher和Redis作为驱动，log一般是测试的时候用，自己可以参考 <a href="https://github.com/beyondcode/laravel-websockets">laravel-websockets</a>实现一个，通过WebSocket，实现Laravel服务端把事件广播到客户端的JavaScript应用上。</p>
-<p>事件广播用到的信道，具体分公共和私有信道，公共的信道，任何用户可以不经授权和认证就可以订阅接受，私有的就必须认证和授权了。</p>
-</blockquote>
-<p>使用举例：</p>
-<ol>
-<li>
-<p>假定有一个给用户查看订单发货状态的页面；</p>
-</li>
-<li>
-<p>订单运输状态发生改变就会触发一个ShippingStatusUpdated事件。</p>
-</li>
-</ol>
-<blockquote>
-<pre><code class="language-php">event(new ShippingStatusUpdated($update));
-</code></pre>
-<p>当用户挂在这个页面，即使不需要刷新。也可以在运单状态改变的时候通过广播到应用的方式进行运单状态的更新。</p>
-<blockquote>
-<p>只需要实现<code>ShouldBroadcast</code>接口即可；具体实现看官方文档。</p>
-</blockquote>
-</blockquote>
-<p>对于需要私有信道的，可以看<a href="https://laravel.com/docs/7.x/broadcasting#authorizing-channels">Authorizing Channels</a>。就是JS应用向后端发送HTTP请求，后端鉴权搞定就可以了，使用Laravel Echo的话，这些都是默认实现好了的。不过，需要定义相应的routes来响应这些请求。</p>
-<blockquote>
-<p>路由及其他的配置见官方文档。</p>
-</blockquote>
-<p>如果你的应用在routes/channels.php中配置有太多的channel，会非常的臃肿，这个时候，就建议执行<code>php artisan make:channel OrderChannel</code>这个artisan命令添加channel类【位于App\Broadcasting文件夹】，其实就很类似于http请求的routes了；把channels.php文件里面的闭包就换成类名<code>Broadcast::channel('order.{order}', OrderChannel::class);</code>具体代码就在channel类的join方法里面处理。</p>
-<blockquote>
-<p>更多的参考官方文档</p>
-</blockquote>
-<p>对于一个事件广播需要排除当前用户【客户端】的，一般是使用toOthers()方法，事件类需要使用<code>Illuminate\Broadcasting\InteractsWithSockets</code>trait来调用toOthers()方法。</p>
-<blockquote>
-<p>​	However, remember that we also broadcast the task's creation. If your JavaScript application is listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast. You may solve this by using the <code>toOthers</code> method to instruct the broadcaster to not broadcast the event to the current user.</p>
-<blockquote>
-<p>场景就是，用户发布了一个任务，然后axios的response获取到该任务更新，同时这个任务更新被事件广播出去，前端代码通过事件广播将用户们的任务列表+1，其他用户接收到了，本用户也接受到了，相当于当前用户收到了两次响应，这样就重复了，使用<code>toOthers</code>方法就可以不通知当前用户，这样就不会重复。</p>
-</blockquote>
-<blockquote>
-<p>默认情况下，Vue+Axios已经实现了客户端的处理逻辑，也可以自定义，具体的看官方文档：<a href="https://laravel.com/docs/7.x/broadcasting#only-to-others">Only To Others</a>。</p>
-</blockquote>
-</blockquote>
-<p>在线状态频道【我愿称之为局域网】，可以实现比如bilibili在线观看人数实时变动的功能。用户多一个，大家的在线观看人数都显示+1，当然更精细的可以做到，谁加入了直播间这种提示。<em>肯定也就是private信道，而且用户还必须过channel鉴权，不然怎么统计用户信息？</em></p>
-<blockquote>
-<p>也因此，鉴权的回调函数不是返回true值，而是一个包含用户数据的array，这个数据会被其他事件广播监听的用户所使用，如果没有被授权或授权失败，返回false或者null。</p>
-</blockquote>
-<blockquote>
-<p>如果需要做聊天室类的应用或者功能可以参考官方文档。</p>
-</blockquote>
-<p>如果需要一个比如“正在输入”的状态提示给其他用户，而不用通知到后端，只需要一个很轻量简洁的功能，触发方使用Echo的<code>whisper</code>方法，接收方使用<code>listenForWhisper</code>即可。</p>
-<blockquote>
-<p>具体参考官方文档</p>
-</blockquote>
-<p>需要Notification也使用BroadCasting服务，不需要刷新就可以通知到前端，</p>
-<p>请先参考<a href="https://laravel.com/docs/7.x/notifications#broadcast-notifications">the broadcast notification channel</a>配置Notification，然后前端参考<a href="https://laravel.com/docs/7.x/broadcasting#notifications">官方文档</a>进行Notification广播的监听即可。</p>
-<h2 id="2具体用法只需要了解不使用的时候是记不住的具体要用再查官方文档">2.具体用法只需要了解【不使用的时候是记不住的】，具体要用再查官方文档。</h2>
 ]]></content>
     </entry>
 </feed>

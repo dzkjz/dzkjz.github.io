@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Laravel Package Development学习提纲 | JojoLegend
+    Laravel Database学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599064045925">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,38 +114,86 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Laravel Package Development学习提纲
+                            Laravel Database学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-09-02</time>
+                            <time class="post-time">2020-09-03</time>
                             
                         </div>
                         
                                 <div class="post-content">
                                     <blockquote>
-<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+<p>*<em>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</em></p>
 </blockquote>
-<p>开发包主要是给Laravel提供功能。</p>
+<p>Laravel支持多种SQL数据库，如果需要查看每个数据库怎么配置，请查看官方文档<a href="https://laravel.com/docs/7.x/database#configuration">Configuration</a></p>
+<p>使用了多个数据库链接的情况下，如果要指定选其中一个链接来处理，可以参考<a href="https://laravel.com/docs/7.x/database#using-multiple-database-connections">Using Multiple Database Connections</a></p>
 <blockquote>
-<p>有些大佬开发的包，是独立的，任何PHP 框架都可以用，</p>
-<p>有的包就必须在Laravel框架才能用，包里可能有routes controllers views 以及configuration之类的，包只是针对Laravel功能的。</p>
-<p>Laravel中使用的时候，就是设置在composer.json文件中；</p>
+<p>DB facade支持的增删改查方法，详细的请看官方文档<a href="https://laravel.com/docs/7.x/database#running-queries">Running Raw SQL Queries</a></p>
 </blockquote>
-<p>扩展包里的servicer provider除了用户手动注册在app.php的providers里面，还可以参考<a href="https://laravel.com/docs/7.x/packages#package-discovery">Package Discovery</a>自动处理。</p>
-<p>开发包如果有以下的部分，代码写完后，如何配置和发布可以参考：</p>
+<h3 id="listening-for-query-events"><a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></h3>
+<p>每个SQL请求都会触发事件，如果需要log这些query或者debug，可以使用<code>DB::listen</code>方法。</p>
 <blockquote>
-<h4 id="resources"><a href="https://laravel.com/docs/7.x/packages#resources">Resources</a></h4>
-<h5 id="configuration"><a href="https://laravel.com/docs/7.x/packages#configuration">Configuration</a></h5>
-<h5 id="migrations"><a href="https://laravel.com/docs/7.x/packages#migrations">Migrations</a></h5>
-<h5 id="factories"><a href="https://laravel.com/docs/7.x/packages#factories">Factories</a></h5>
-<h5 id="routes"><a href="https://laravel.com/docs/7.x/packages#routes">Routes</a></h5>
-<h4 id="translations"><a href="https://laravel.com/docs/7.x/packages#translations">Translations</a></h4>
-<h4 id="views"><a href="https://laravel.com/docs/7.x/packages#views">Views</a></h4>
-<h5 id="view-components"><a href="https://laravel.com/docs/7.x/packages#view-components">View Components</a></h5>
-<h4 id="commands"><a href="https://laravel.com/docs/7.x/packages#commands">Commands</a></h4>
-<h4 id="public-assets"><a href="https://laravel.com/docs/7.x/packages#public-assets">Public Assets</a></h4>
-<h4 id="publishing-file-groups"><a href="https://laravel.com/docs/7.x/packages#publishing-file-groups">Publishing File Groups</a></h4>
+<p>详细请看<a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></p>
 </blockquote>
+<h3 id="数据库事务database-transactions">数据库事务<a href="https://laravel.com/docs/7.x/database#database-transactions">Database Transactions</a></h3>
+<pre><code class="language-php">$users = DB::connection('mysql')-&gt;select('');
+
+//获取底层的pdo实例
+$pdo = DB::connection()-&gt;getPdo();
+
+// The select method will always return an array of results.
+// Each result within the array will be a PHP stdClass object,
+// allowing you to access the values of the results:
+$users = DB::select('select * from users where active = ?', [1]);
+if ($users) {
+    return view('user.index', ['users' =&gt; $users]);
+}
+
+foreach ($users as $user) {
+    echo $user-&gt;name;
+}
+
+//Naming bindings
+
+$results = DB::select('select * from users where id =:id', ['id' =&gt; 1]);
+
+
+//insert
+DB::insert('insert into users(id,name) values(?,?)', [1, 'Dayle']);
+
+//update
+$affected = DB::update('update users set votes = 100 where name= ? ', ['John']);
+
+
+//delete
+$deleted = DB::delete('delete from users'); // the number of rows affected will be returned:
+
+
+//statement
+// Some database statements do not return any value.
+// For these types of operations, you may use the statement method on the DB facade:
+DB::statement('drop table users');
+
+
+//Database Transactions 数据库事务，闭包内事务如果执行异常，会自动回滚处理，如果成功，事务就会自动完成执行
+DB::transaction(function () {
+    DB::table('users')-&gt;update(['votes' =&gt; 1]);
+    DB::table('posts')-&gt;delete();
+});
+
+
+DB::transaction(function () {
+    DB::table('users')-&gt;update(['votes' =&gt; 1]);
+    DB::table('posts')-&gt;delete();
+}, 5);//第二个参数作用，如果出现死锁，会最大尝试5次，超次就会抛异常
+
+//手动启动事务执行
+DB::beginTransaction();
+//手动回滚
+DB::rollBack();
+//手动提交事务
+DB::commit();
+</code></pre>
 
                                 </div>
                     </article>
@@ -153,9 +201,9 @@
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">
+                            <a href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    Laravel Notifications学习提纲
+                                    Laravel Task Scheduling学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -178,27 +226,8 @@
 <ul>
 <li>
 <ul>
-<li>
-<ul>
-<li><a href="#resources">Resources</a>
-<ul>
-<li><a href="#configuration">Configuration</a></li>
-<li><a href="#migrations">Migrations</a></li>
-<li><a href="#factories">Factories</a></li>
-<li><a href="#routes">Routes</a></li>
-</ul>
-</li>
-<li><a href="#translations">Translations</a></li>
-<li><a href="#views">Views</a>
-<ul>
-<li><a href="#view-components">View Components</a></li>
-</ul>
-</li>
-<li><a href="#commands">Commands</a></li>
-<li><a href="#public-assets">Public Assets</a></li>
-<li><a href="#publishing-file-groups">Publishing File Groups</a></li>
-</ul>
-</li>
+<li><a href="#listening-for-query-events">Listening For Query Events</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1database-transactions">数据库事务Database Transactions</a></li>
 </ul>
 </li>
 </ul>
