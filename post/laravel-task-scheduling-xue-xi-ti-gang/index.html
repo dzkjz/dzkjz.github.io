@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    guest post 或者 买外链 结论 | JojoLegend
+    Laravel Task Scheduling学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599031715983">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,56 +114,109 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            guest post 或者 买外链 结论
+                            Laravel Task Scheduling学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-08-07</time>
+                            <time class="post-time">2020-09-02</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>source https://ahrefs.com/blog/buy-backlinks/</p>
-<blockquote>
-<p>谷歌搜buy guest posts 可以看到很多结果</p>
-<blockquote>
-<p>​	All of these services fall into one of three categories:</p>
-<ol>
-<li><strong>Genuine guest posting services:</strong> They conduct <em>real</em> outreach to <em>real</em> blogs and secure guest post placements on your behalf.</li>
-<li><strong>Disguised PBNs:</strong> They sell their service as real outreach, but they actually use PBNs. You can usually tell these services a mile off, as they’re <em>very</em> cheap (&lt;$100 per post). We don’t recommend using them unless you’re aware of, and accept, the risks associated with PBNs.</li>
-<li><strong>Intermediary link buyers/sellers:</strong> They pay sites for inclusion on behalf of their clients, markup the price, then pocket the difference. Essentially, they’re middlemen (or women) in the link buying/selling process.</li>
-</ol>
-<p>I’d say #3 is the most common.</p>
+                                    <blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
 </blockquote>
-<p>博主测试给blogger直接发邮件</p>
-<ol>
-<li>直接说我要买guest post 价格平均361.44刀，</li>
-</ol>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/outreach-email-1.jpg" alt="" loading="lazy"></figure>
-<ol start="2">
-<li>说能不能发一篇guestpost不说给钱，要价均价77.8刀</li>
-</ol>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/guest-post-outreach-email.png" alt="" loading="lazy"></figure>
-<p>DA越高，要价越高</p>
-<p>结论</p>
-<h3 id="paid-links-can-be-very-low-quality">Paid Links Can Be Very Low-quality</h3>
-</blockquote>
-<p>source https://www.authorityhacker.com/link-building-services/</p>
-<p>测试了几个</p>
+<p>Schedule就是用来简化Cron操作的。</p>
 <blockquote>
-<p>Fiverr<br>
-Love to Link<br>
-SERP Logic<br>
-The Hoth<br>
-FatJoe</p>
+<p>初始配置查看 <a href="https://laravel.com/docs/7.x/scheduling#introduction">Introduction</a></p>
 </blockquote>
-<p><strong>都是垃圾，不值钱；</strong></p>
-<p>fiverr几刀的就不说了，100刀的就是很普通的站点的外链。而且出站链接超多的站。</p>
-<p>最低起价都是100+刀</p>
 <blockquote>
-<p>So should you buy them?</p>
-<p>Nope, those services deliver low quality links that most of the time break Google’s terms of service, you are better off building a team that does the real thing.</p>
+<p>执行Artisan command，queue job，shell命令，闭包方法，以及执行时间间隔，频率，执行所处的时间段等详细资料查看官方文档<a href="https://laravel.com/docs/7.x/scheduling#defining-schedules">Defining Schedules</a>。</p>
 </blockquote>
-<p>具体每一个商家的购买记录和评价看原文。</p>
+<p>如果你的应用放置在三个服务器上，你的计划调度就会三个服务器同时启动，只需要一个调度完成的任务，三个都在调度，这样明显不好，应该限制只在一个机器上运行就可以了。使用onOneServer方法。</p>
+<blockquote>
+<p>详细参考<a href="https://laravel.com/docs/7.x/scheduling#running-tasks-on-one-server">Running Tasks On One Server</a></p>
+</blockquote>
+<p>如果有多个命令依序执行，有几个超耗时的命令排在前面，那后面的命令可能就一直卡很久，都不能按计划时间执行，这时候应该把这些命令改成后台执行，这样它们就能同步执行了。</p>
+<blockquote>
+<p>详细参考<a href="https://laravel.com/docs/7.x/scheduling#background-tasks">Background Tasks</a></p>
+</blockquote>
+<p>如果你的应用进入维护模式，这个时候Scheduled任务是不会运行的，但是如果你不想某些任务受到维护模式影响而不能运行，使用 <code>evenInMaintenanceMode</code>方法；</p>
+<blockquote>
+<p>详细参考：<a href="https://laravel.com/docs/7.x/scheduling#maintenance-mode">Maintenance Mode</a></p>
+</blockquote>
+<h3 id="task-output"><a href="https://laravel.com/docs/7.x/scheduling#task-output">Task Output</a></h3>
+<pre><code class="language-php">//输出到文件
+$filePath = '';
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;sendOutputTo($filePath);
+
+//追加到文件
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;appendOutputTo($filePath);
+
+//如果配置好了email发送服务
+//可以把输出发送到指定邮箱
+$schedule-&gt;command('foo')
+    -&gt;daily()
+    -&gt;sendOutputTo($filePath)
+    -&gt;emailOutputTo('foo@example.com');
+
+//只把错误信息发到指定邮箱
+$schedule-&gt;command('foo')
+    -&gt;daily()
+    -&gt;emailOutputOnFailure('foo@example.com');
+</code></pre>
+<blockquote>
+<p>独有的方法：</p>
+<p>The <code>emailOutputTo</code>, <code>emailOutputOnFailure</code>, <code>sendOutputTo</code>, and <code>appendOutputTo</code> methods are exclusive to the <code>command</code> and <code>exec</code> methods.</p>
+</blockquote>
+<h3 id="task-hooks"><a href="https://laravel.com/docs/7.x/scheduling#task-hooks">Task Hooks</a></h3>
+<pre><code class="language-php">//可以在任务执行前后安插逻辑
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;before(function () {
+        // Task is about to start...
+    })-&gt;after(function () {
+        // Task is complete...
+    });
+
+//可以在任务成功和失败后安插逻辑
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;onSuccess(function () {
+        // The task succeeded...
+    })-&gt;onFailure(function () {
+        // The task is failed...
+    });
+
+
+$url = '';
+//可以在任务执行前或完成后ping一个URL
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;pingBefore($url)
+    -&gt;thenPing($url);
+
+//条件为真才ping
+$condition = true;
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;pingBeforeIf($condition, $url)
+    -&gt;thenPingIf($condition, $url);
+
+
+//任务执行成功或失败后ping url
+$schedule-&gt;command('emails:send')
+    -&gt;daily()
+    -&gt;pingOnSuccess($url)
+    -&gt;pingOnFailure($url);
+</code></pre>
+<blockquote>
+<p>上面所有的ping 方法需要安装Guzzle Http包;</p>
+<p>执行 <code>composer require guzzlehttp/guzzle</code>安装</p>
+</blockquote>
 
                                 </div>
                     </article>
@@ -171,9 +224,9 @@ FatJoe</p>
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/seo-xi-lie-zhai-yao-backlinkocom/">
+                            <a href="https://dzkjz.github.io/post/laravel-queues-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    SEO 系列摘要【backlinko.com】
+                                    Laravel Queues学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -196,7 +249,8 @@ FatJoe</p>
 <ul>
 <li>
 <ul>
-<li><a href="#paid-links-can-be-very-low-quality">Paid Links Can Be Very Low-quality</a></li>
+<li><a href="#task-output">Task Output</a></li>
+<li><a href="#task-hooks">Task Hooks</a></li>
 </ul>
 </li>
 </ul>
