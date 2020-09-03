@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Surfer SEO | JojoLegend
+    Laravel Database Pagination学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599136231339">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,16 +114,42 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Surfer SEO
+                            Laravel Database Pagination学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-08-07</time>
+                            <time class="post-time">2020-09-03</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>就是文章检测，帮你优化文章SEO效果的。有几个技术性指标，这个软件会检测，然后提供建议，建议直接按这个技术指标写一个app，就懒得付费了。<br>
-https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
+                                    <blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>默认情况下，分页的当前页码是在http的请求字符串page里的，后端会自动检测到，当然也会由分页器自动给插入到前端。</p>
+<pre><code class="language-php">$users = DB::table('users')-&gt;paginate(15);
+if ($users) {
+    return view('user.index', ['users' =&gt; $users]);
+}
+//分页数据对于groupBy方法结果不太支持【目前】，如果确有需要，请自己实现
+
+$users = DB::table('users')-&gt;simplePaginate(15);//前端只需要后一页，前一页的链接数据，而不是分页结果里每一页的链接地址数据
+
+
+$users = \App\Models\User::paginate(15);
+
+$users = \App\Models\User::where('votes', '&gt;', 100)-&gt;paginate(15);
+
+$users = \App\Models\User::where('votes', '&gt;', 100)-&gt;simplePaginate(15);
+
+
+//自定义分页器
+// Illuminate\Pagination\Paginator[对应simplePaginate方法]
+// or
+// Illuminate\Pagination\LengthAwarePaginator【对应有paginate方法】
+</code></pre>
+<blockquote>
+<p>View部分，如果使用laravel的前端，可以查看<a href="https://laravel.com/docs/7.x/pagination#customizing-the-pagination-view">Customizing The Pagination View</a>详细了解。以及前端的blade模板自定义，blade中paginator方法的调用<a href="https://laravel.com/docs/7.x/pagination#paginator-instance-methods">Paginator Instance Methods</a>。</p>
+</blockquote>
 
                                 </div>
                     </article>
@@ -131,9 +157,9 @@ https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/</p>
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/guest-post-huo-zhe-mai-wai-lian-jie-lun/">
+                            <a href="https://dzkjz.github.io/post/laravel-database-query-builder-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    guest post 或者 买外链 结论
+                                    Laravel Database Query Builder学习提纲
                                 </h3>
                             </a>
                         </div>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-03T11:38:17.119Z</updated>
+    <updated>2020-09-03T12:30:35.875Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,42 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Database Pagination学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-database-pagination-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-database-pagination-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-03T12:30:23.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>默认情况下，分页的当前页码是在http的请求字符串page里的，后端会自动检测到，当然也会由分页器自动给插入到前端。</p>
+<pre><code class="language-php">$users = DB::table('users')-&gt;paginate(15);
+if ($users) {
+    return view('user.index', ['users' =&gt; $users]);
+}
+//分页数据对于groupBy方法结果不太支持【目前】，如果确有需要，请自己实现
+
+$users = DB::table('users')-&gt;simplePaginate(15);//前端只需要后一页，前一页的链接数据，而不是分页结果里每一页的链接地址数据
+
+
+$users = \App\Models\User::paginate(15);
+
+$users = \App\Models\User::where('votes', '&gt;', 100)-&gt;paginate(15);
+
+$users = \App\Models\User::where('votes', '&gt;', 100)-&gt;simplePaginate(15);
+
+
+//自定义分页器
+// Illuminate\Pagination\Paginator[对应simplePaginate方法]
+// or
+// Illuminate\Pagination\LengthAwarePaginator【对应有paginate方法】
+</code></pre>
+<blockquote>
+<p>View部分，如果使用laravel的前端，可以查看<a href="https://laravel.com/docs/7.x/pagination#customizing-the-pagination-view">Customizing The Pagination View</a>详细了解。以及前端的blade模板自定义，blade中paginator方法的调用<a href="https://laravel.com/docs/7.x/pagination#paginator-instance-methods">Paginator Instance Methods</a>。</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Database Query Builder学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-database-query-builder-xue-xi-ti-gang/</id>
@@ -593,68 +629,6 @@ php artisan migrate
 <blockquote>
 <p>对于文件存取，文件夹存取，disk配置，与Request交互，文件数据更新，追加数据，文件属性信息获取，文件URL获取与配置，以及自定义文件系统，请查看官方文档。</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel Collection 学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-collection-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-collection-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-08-31T07:43:27.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>带着问题学习，文档上介绍的功能在什么时候可以用？用来做什么？具体的用法请查看官方文档</strong></p>
-</blockquote>
-<ol>
-<li>
-<p>Collection主要是用来提供更方便的方法处理array数据的；</p>
-</li>
-<li>
-<p>并且collection里方法都是返回一个新的collection实例，意味着可以写出面条代码，而原来的底层数据就不会被修改，就会完整的保留下来。</p>
-</li>
-<li>
-<p>Eloquent查询的结果基本上也是返回的collection实例。</p>
-</li>
-</ol>
-<blockquote>
-<p>Collection有很多的方法，查看官方文档<a href="https://laravel.com/docs/7.x/collections#available-methods">Available Methods</a></p>
-</blockquote>
-<h3 id="higher-order-messages">Higher Order Messages</h3>
-<blockquote>
-<p>平时的方法：</p>
-<pre><code class="language-php">$users = User::where('votes', '&gt;', 500)-&gt;get();
-
-$users-&gt;each(function($item,$key){
-    $item-&gt;markAsVip();
-});
-</code></pre>
-<p>如each：</p>
-<pre><code class="language-php">$users = User::where('votes', '&gt;', 500)-&gt;get();
-
-$users-&gt;each-&gt;markAsVip();
-</code></pre>
-</blockquote>
-<h3 id="lazycollection">LazyCollection</h3>
-<p>对于需要读取大文件，数据量比较大的数据【10万条Eloquent模型数据】到collection里面，可以用LazyCollection，底层主要是PHP yield，这样不用一次性读取完到内存，而是一次一取一读。</p>
-<blockquote>
-<p>如果10万条数据一次用这种方式读取，那内存占用太大了：</p>
-<pre><code class="language-php">$users = App\User::all()-&gt;filter(function ($user) {
- return $user-&gt;id &gt; 500;
-});
-</code></pre>
-<p>Eloquent有一个cursor方法返回的是LazyCollection实例，一次读取一条，这样内存不会卡爆：</p>
-<blockquote>
-<pre><code class="language-php">$users = App\User::cursor()-&gt;filter(function ($user) {
-return $user-&gt;id &gt; 500;
-});
-
-foreach ($users as $user) {
-echo $user-&gt;id;
-}
-</code></pre>
-</blockquote>
-<p>当然，filter方法并不会在foreach之前就执行，而是在foreach中每次迭代的时候执行。</p>
-</blockquote>
-<p>LazyCollection 有2个与Collection不同的方法可以看下官方文档<a href="https://laravel.com/docs/7.x/collections#lazy-collection-methods">Lazy Collection Methods</a></p>
 ]]></content>
     </entry>
 </feed>

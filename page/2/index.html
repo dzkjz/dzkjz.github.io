@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599133089475">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599136231339">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599133089475" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599136231339" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,83 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-collection-xue-xi-ti-gang/">
+                        Laravel Collection 学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-08-31</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学习，文档上介绍的功能在什么时候可以用？用来做什么？具体的用法请查看官方文档
+
+
+
+Collection主要是用来提供更方便的方法处理array数据的；
+
+
+并且collection里方法都是返回一个新的collection实例，意味着可以写出面条代码，而原来的底层数据就不会被修改，就会完整的保留下来。
+
+
+Eloquent查询的结果基本上也是返回的collection实例。
+
+
+
+Collection有很多的方法，查看官方文档Available Methods
+
+Higher Order Messages
+
+平时的方法：
+$users = User::where(&#39;votes&#39;, &#39;&amp;gt;&#39;, 500)-&amp;gt;get();
+
+$users-&amp;gt;each(function($item,$key){
+    $item-&amp;gt;markAsVip();
+});
+
+如each：
+$users = User::where(&#39;votes&#39;, &#39;&amp;gt;&#39;, 500)-&amp;gt;get();
+
+$users-&amp;gt;each-&amp;gt;markAsVip();
+
+
+LazyCollection
+对于需要读取大文件，数据量比较大的数据【10万条Eloquent模型数据】到collection里面，可以用LazyCollection，底层主要是PHP yield，这样不用一次性读取完到内存，而是一次一取一读。
+
+如果10万条数据一次用这种方式读取，那内存占用太大了：
+$users = App\User::all()-&amp;gt;filter(function ($user) {
+ return $user-&amp;gt;id &amp;gt; 500;
+});
+
+Eloquent有一个cursor方法返回的是LazyCollection实例，一次读取一条，这样内存不会卡爆：
+
+$users = App\User::cursor()-&amp;gt;filter(function ($user) {
+return $user-&amp;gt;id &amp;gt; 500;
+});
+
+foreach ($users as $user) {
+echo $user-&amp;gt;id;
+}
+
+
+当然，filter方法并不会在foreach之前就执行，而是在foreach中每次迭代的时候执行。
+
+LazyCollection 有2个与Collection不同的方法可以看下官方文档Lazy Collection Methods
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-collection-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-cache-xue-xi-ti-gang/">
@@ -639,7 +716,7 @@ export default {
                     <time class="post-time">2020-08-09</time>
                     
                         <a href="https://dzkjz.github.io/tag/Gki6VgISX/" class="post-tag i-tag
-                            i-tag-success">
+                            i-tag-other_3">
             #Vue
         </a>
                         
@@ -1236,31 +1313,6 @@ https://moz.com/learn/seo 初学者建议看这个先。
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/surfer-seo/">
-                        Surfer SEO
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-07</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            就是文章检测，帮你优化文章SEO效果的。有几个技术性指标，这个软件会检测，然后提供建议，建议直接按这个技术指标写一个app，就懒得付费了。
-https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/surfer-seo/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -1281,7 +1333,7 @@ https://www.matthewwoodward.co.uk/seo/reviews/surfer-seo/
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599133089475)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599136231339)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
