@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599136231339">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599142463286">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599136231339" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599142463286" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,87 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-database-migrations-xue-xi-ti-gang/">
+                        Laravel Database Migrations学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-03</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+Migrations就类似于数据包的版本控制。
+Creating Columns 创建列
+Column Modifiers 修饰列
+Modifying Columns 修改列
+Dropping Columns删除列
+Indexes
+$table-&amp;gt;id()-&amp;gt;unique();
+$table-&amp;gt;primary(&#39;id&#39;);
+$table-&amp;gt;spatialIndex(&#39;location&#39;);//除了sqlite以外的都支持
+$table-&amp;gt;primary([&#39;id&#39;, &#39;parent_id&#39;]);
+$table-&amp;gt;unique(&#39;email&#39;);
+$table-&amp;gt;index([&#39;account_id&#39;, &#39;created_at&#39;]);
+$table-&amp;gt;unique(&#39;email&#39;,
+    &#39;unique_email&#39;// specify the index name yourself
+);
+$table-&amp;gt;renameIndex(&#39;from&#39;, &#39;to&#39;);
+
+
+Foreign Key Constraints
+//外键【一个表[users表]上的键[id]出现在别的表[orders表]上，就是外键[user_id]】添加
+$table-&amp;gt;foreign(&#39;user_id&#39;)-&amp;gt;references(&#39;id&#39;)-&amp;gt;on(&#39;users&#39;);
+
+
+//作用同上
+$table-&amp;gt;foreignId(&#39;user_id&#39;)//unsignedBigInteger别名
+-&amp;gt;constrained();
+
+
+$table-&amp;gt;foreignId(&#39;user_id&#39;)//unsignedBigInteger别名
+-&amp;gt;constrained(&#39;users&#39;)//可以指定表名
+-&amp;gt;onDelete(&#39;cascade&#39;)//预期行为
+;
+
+
+$table-&amp;gt;foreignId(&#39;user_id&#39;)//unsignedBigInteger别名
+-&amp;gt;nullable()//可在constrained前调用
+-&amp;gt;constrained();
+
+
+$table-&amp;gt;dropForeign(&#39;posts_user_id_foreign&#39;);//删除外键[存放在posts表中的user_id外键]
+
+//也可以
+$table-&amp;gt;dropForeign([&#39;user_id&#39;]);
+
+
+//启动外键约束
+// SQLite disables foreign key constraints by default.
+// When using SQLite, make sure to enable foreign key support in your
+// database configuration before attempting to create them in your migrations.
+// In addition, SQLite only supports foreign keys upon creation of the table and not when tables are altered.
+Schema::enableForeignKeyConstraints();
+
+//取消外键约束
+Schema::disableForeignKeyConstraints();
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-database-migrations-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-database-pagination-xue-xi-ti-gang/">
@@ -844,38 +925,6 @@ Events
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-file-storagefilesystem-xue-xi-ti-gang/">
-                        Laravel File Storage[FileSystem] 学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-09-01</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            
-带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
-
-
-​	Laravel提供了强大的文件抽象特性。
-
-
-对于文件存取，文件夹存取，disk配置，与Request交互，文件数据更新，追加数据，文件属性信息获取，文件URL获取与配置，以及自定义文件系统，请查看官方文档。
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-file-storagefilesystem-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -894,7 +943,7 @@ Events
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599136231339)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599142463286)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

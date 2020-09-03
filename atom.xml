@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-03T12:30:35.875Z</updated>
+    <updated>2020-09-03T14:14:28.158Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,72 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Database Migrations学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-database-migrations-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-database-migrations-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-03T14:12:50.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>Migrations就类似于数据包的版本控制。</p>
+<h4 id="creating-columns"><a href="https://laravel.com/docs/7.x/migrations#creating-columns">Creating Columns</a> 创建列</h4>
+<h4 id="column-modifiers"><a href="https://laravel.com/docs/7.x/migrations#column-modifiers">Column Modifiers</a> 修饰列</h4>
+<h4 id="modifying-columns"><a href="https://laravel.com/docs/7.x/migrations#modifying-columns">Modifying Columns</a> 修改列</h4>
+<h4 id="dropping-columns"><a href="https://laravel.com/docs/7.x/migrations#dropping-columns">Dropping Columns</a>删除列</h4>
+<h3 id="indexes"><a href="https://laravel.com/docs/7.x/migrations#indexes">Indexes</a></h3>
+<pre><code class="language-php">$table-&gt;id()-&gt;unique();
+$table-&gt;primary('id');
+$table-&gt;spatialIndex('location');//除了sqlite以外的都支持
+$table-&gt;primary(['id', 'parent_id']);
+$table-&gt;unique('email');
+$table-&gt;index(['account_id', 'created_at']);
+$table-&gt;unique('email',
+    'unique_email'// specify the index name yourself
+);
+$table-&gt;renameIndex('from', 'to');
+
+</code></pre>
+<h4 id="foreign-key-constraints"><a href="https://laravel.com/docs/7.x/migrations#foreign-key-constraints">Foreign Key Constraints</a></h4>
+<pre><code class="language-php">//外键【一个表[users表]上的键[id]出现在别的表[orders表]上，就是外键[user_id]】添加
+$table-&gt;foreign('user_id')-&gt;references('id')-&gt;on('users');
+
+
+//作用同上
+$table-&gt;foreignId('user_id')//unsignedBigInteger别名
+-&gt;constrained();
+
+
+$table-&gt;foreignId('user_id')//unsignedBigInteger别名
+-&gt;constrained('users')//可以指定表名
+-&gt;onDelete('cascade')//预期行为
+;
+
+
+$table-&gt;foreignId('user_id')//unsignedBigInteger别名
+-&gt;nullable()//可在constrained前调用
+-&gt;constrained();
+
+
+$table-&gt;dropForeign('posts_user_id_foreign');//删除外键[存放在posts表中的user_id外键]
+
+//也可以
+$table-&gt;dropForeign(['user_id']);
+
+
+//启动外键约束
+// SQLite disables foreign key constraints by default.
+// When using SQLite, make sure to enable foreign key support in your
+// database configuration before attempting to create them in your migrations.
+// In addition, SQLite only supports foreign keys upon creation of the table and not when tables are altered.
+Schema::enableForeignKeyConstraints();
+
+//取消外键约束
+Schema::disableForeignKeyConstraints();
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Database Pagination学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-database-pagination-xue-xi-ti-gang/</id>
@@ -612,23 +678,6 @@ php artisan migrate
 </blockquote>
 <p>如果有需要向外发送HTTP请求，因为Laravel包裹了<a href="http://docs.guzzlephp.org/en/stable/">Guzzle</a>，可以执行HTTP请求处理。不过需要提前执行<code>composer require guzzlehttp/guzzle</code>安装。</p>
 <p>对于包含的guzzle请求，响应结果处理，异常处理，和发送方法，以及Http使用fake方法测试及asset断言，都参考<a href="https://laravel.com/docs/7.x/http-client">官方文档</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel File Storage[FileSystem] 学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-file-storagefilesystem-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-file-storagefilesystem-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-08-31T17:16:28.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
-</blockquote>
-<blockquote>
-<p>​	Laravel提供了强大的文件抽象特性。</p>
-</blockquote>
-<blockquote>
-<p>对于文件存取，文件夹存取，disk配置，与Request交互，文件数据更新，追加数据，文件属性信息获取，文件URL获取与配置，以及自定义文件系统，请查看官方文档。</p>
-</blockquote>
 ]]></content>
     </entry>
 </feed>

@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    My 15 All-Time BEST SEO Tips (That Get Results) | JojoLegend
+    Laravel Database Migrations学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599142463286">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,52 +114,72 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            My 15 All-Time BEST SEO Tips (That Get Results)
+                            Laravel Database Migrations学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-08-04</time>
+                            <time class="post-time">2020-09-03</time>
                             
                         </div>
                         
                                 <div class="post-content">
-                                    <p>视频发布时间是2018年，源地址 https://www.youtube.com/watch?v=P_hPlUpLD54 作者官网 https://backlinko.com/</p>
-<h2 id="use-short-urls">Use Short URL's</h2>
-<p>说的是博主自己统计后，发现短链接rank better</p>
-<h2 id="use-amazon-for-keyword-ideas">Use Amazon for keyword ideas</h2>
-<p>find pop book on amazon in your niche<br>
-checkout toc of that book, 这些标题小标题就是关键词呗<br>
-然后去你常用的keyword 软件或者网站 搜这些关键词的volume大小，然后就是老路子，收集关键词。</p>
-<h2 id="optimize-your-title-tag-for-ctr">Optimize your title tag for CTR</h2>
-<p>CTR 利于 seo 就是整点能增加CTR的标题标签啥的，道理我都懂，做起来哪有那么多时间和心思。顾不过来啊。</p>
-<h2 id="publish-content-at-least-1890-words">Publish content at-least 1890 words</h2>
-<h2 id="use-title-tag-modifiers">Use title tag modifiers</h2>
-<p>标题标签里加[2020] &quot;Best&quot; &quot;Review&quot; 'Free Shipping' &quot;Checklist&quot;这些词。<br>
-最后标题就这模式：<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804021234.png" alt="" loading="lazy"><br>
-然后你的关键词就可以match这么多：<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804021329.png" alt="" loading="lazy"></p>
-<h2 id="use-keyword-rich-urls">Use Keyword-Rich URL's</h2>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804021414.png" alt="" loading="lazy"></figure>
-<h2 id="use-numbers-in-your-title-tag">Use numbers in your title tag</h2>
-<p><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804021559.png" alt="" loading="lazy"><br>
-根据研究结果，标题里带数字CTR更高：这尼玛很容易变化的，有时候带表情也很高，有时候素一点更高。<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804021625.png" alt="" loading="lazy"></p>
-<h2 id="use-two-step-email-outreach">Use two-step EMAIL outreach</h2>
-<h2 id="broken-link-building">Broken Link-Building</h2>
-<p>check my links 这招<br>
-邮件模板：<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804022218.png" alt="" loading="lazy"><br>
-等回复，然后<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804022239.png" alt="" loading="lazy"><br>
-等回复，然后<br>
-<img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200804022306.png" alt="" loading="lazy"></p>
-<h2 id="choose-keyword-with-strong-commercial-intend">Choose keyword with strong commercial intend</h2>
-<h2 id="delete-under-performing-pages">Delete Under performing Pages</h2>
-<p>删掉多余的没啥用的页面，转换不高，没人气的就删了。</p>
-<h2 id="optimize-your-videos-around-video-keywords">Optimize your videos around &quot;Video Keywords&quot;</h2>
-<h2 id="use-reddit-for-keyword-research">Use Reddit for Keyword Research</h2>
-<h2 id="link-out-to-authority-website">Link out to Authority website</h2>
-<h2 id="hack-wikipedia-for-keyword-research">Hack Wikipedia for keyword research</h2>
+                                    <blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>Migrations就类似于数据包的版本控制。</p>
+<h4 id="creating-columns"><a href="https://laravel.com/docs/7.x/migrations#creating-columns">Creating Columns</a> 创建列</h4>
+<h4 id="column-modifiers"><a href="https://laravel.com/docs/7.x/migrations#column-modifiers">Column Modifiers</a> 修饰列</h4>
+<h4 id="modifying-columns"><a href="https://laravel.com/docs/7.x/migrations#modifying-columns">Modifying Columns</a> 修改列</h4>
+<h4 id="dropping-columns"><a href="https://laravel.com/docs/7.x/migrations#dropping-columns">Dropping Columns</a>删除列</h4>
+<h3 id="indexes"><a href="https://laravel.com/docs/7.x/migrations#indexes">Indexes</a></h3>
+<pre><code class="language-php">$table-&gt;id()-&gt;unique();
+$table-&gt;primary('id');
+$table-&gt;spatialIndex('location');//除了sqlite以外的都支持
+$table-&gt;primary(['id', 'parent_id']);
+$table-&gt;unique('email');
+$table-&gt;index(['account_id', 'created_at']);
+$table-&gt;unique('email',
+    'unique_email'// specify the index name yourself
+);
+$table-&gt;renameIndex('from', 'to');
+
+</code></pre>
+<h4 id="foreign-key-constraints"><a href="https://laravel.com/docs/7.x/migrations#foreign-key-constraints">Foreign Key Constraints</a></h4>
+<pre><code class="language-php">//外键【一个表[users表]上的键[id]出现在别的表[orders表]上，就是外键[user_id]】添加
+$table-&gt;foreign('user_id')-&gt;references('id')-&gt;on('users');
+
+
+//作用同上
+$table-&gt;foreignId('user_id')//unsignedBigInteger别名
+-&gt;constrained();
+
+
+$table-&gt;foreignId('user_id')//unsignedBigInteger别名
+-&gt;constrained('users')//可以指定表名
+-&gt;onDelete('cascade')//预期行为
+;
+
+
+$table-&gt;foreignId('user_id')//unsignedBigInteger别名
+-&gt;nullable()//可在constrained前调用
+-&gt;constrained();
+
+
+$table-&gt;dropForeign('posts_user_id_foreign');//删除外键[存放在posts表中的user_id外键]
+
+//也可以
+$table-&gt;dropForeign(['user_id']);
+
+
+//启动外键约束
+// SQLite disables foreign key constraints by default.
+// When using SQLite, make sure to enable foreign key support in your
+// database configuration before attempting to create them in your migrations.
+// In addition, SQLite only supports foreign keys upon creation of the table and not when tables are altered.
+Schema::enableForeignKeyConstraints();
+
+//取消外键约束
+Schema::disableForeignKeyConstraints();
+</code></pre>
 
                                 </div>
                     </article>
@@ -167,9 +187,9 @@ checkout toc of that book, 这些标题小标题就是关键词呗<br>
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/seo-tutorial-for-beginners-step-by-step-guide-2020-yoast-seo/">
+                            <a href="https://dzkjz.github.io/post/laravel-database-pagination-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                     SEO Tutorial for Beginners - Step by Step Guide 2020! (+YOAST SEO)
+                                    Laravel Database Pagination学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -190,21 +210,23 @@ checkout toc of that book, 这些标题小标题就是关键词呗<br>
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#use-short-urls">Use Short URL's</a></li>
-<li><a href="#use-amazon-for-keyword-ideas">Use Amazon for keyword ideas</a></li>
-<li><a href="#optimize-your-title-tag-for-ctr">Optimize your title tag for CTR</a></li>
-<li><a href="#publish-content-at-least-1890-words">Publish content at-least 1890 words</a></li>
-<li><a href="#use-title-tag-modifiers">Use title tag modifiers</a></li>
-<li><a href="#use-keyword-rich-urls">Use Keyword-Rich URL's</a></li>
-<li><a href="#use-numbers-in-your-title-tag">Use numbers in your title tag</a></li>
-<li><a href="#use-two-step-email-outreach">Use two-step EMAIL outreach</a></li>
-<li><a href="#broken-link-building">Broken Link-Building</a></li>
-<li><a href="#choose-keyword-with-strong-commercial-intend">Choose keyword with strong commercial intend</a></li>
-<li><a href="#delete-under-performing-pages">Delete Under performing Pages</a></li>
-<li><a href="#optimize-your-videos-around-video-keywords">Optimize your videos around &quot;Video Keywords&quot;</a></li>
-<li><a href="#use-reddit-for-keyword-research">Use Reddit for Keyword Research</a></li>
-<li><a href="#link-out-to-authority-website">Link out to Authority website</a></li>
-<li><a href="#hack-wikipedia-for-keyword-research">Hack Wikipedia for keyword research</a></li>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#creating-columns">Creating Columns</a></li>
+<li><a href="#column-modifiers">Column Modifiers</a></li>
+<li><a href="#modifying-columns">Modifying Columns</a></li>
+<li><a href="#dropping-columns">Dropping Columns</a></li>
+</ul>
+</li>
+<li><a href="#indexes">Indexes</a>
+<ul>
+<li><a href="#foreign-key-constraints">Foreign Key Constraints</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
