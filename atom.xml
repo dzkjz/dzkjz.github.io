@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-03T14:42:46.103Z</updated>
+    <updated>2020-09-03T14:53:05.116Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,25 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Database Seeding学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-database-seeding-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-database-seeding-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-03T14:52:54.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<blockquote>
+<p><a href="https://laravel.com/docs/7.x/eloquent#mass-assignment">Mass assignment protection</a> is automatically disabled during database seeding.</p>
+</blockquote>
+<blockquote>
+<p>Once you have written your seeder, you may need to regenerate Composer's autoloader using the <code>dump-autoload</code> command:</p>
+<pre><code class="language-php">composer dump-autoload
+</code></pre>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Database Migrations学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-database-migrations-xue-xi-ti-gang/</id>
@@ -665,19 +684,6 @@ php artisan migrate
 <p>测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者<strong>使用Mailtrap，这个也是比较建议的。</strong></p>
 <h3 id="events">Events</h3>
 <p>邮件的发送会触发一系列的事件，详细参考<a href="https://laravel.com/docs/7.x/mail#events">Events</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel HTTP Client 学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-http-client-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-http-client-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-08-31T17:50:17.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
-</blockquote>
-<p>如果有需要向外发送HTTP请求，因为Laravel包裹了<a href="http://docs.guzzlephp.org/en/stable/">Guzzle</a>，可以执行HTTP请求处理。不过需要提前执行<code>composer require guzzlehttp/guzzle</code>安装。</p>
-<p>对于包含的guzzle请求，响应结果处理，异常处理，和发送方法，以及Http使用fake方法测试及asset断言，都参考<a href="https://laravel.com/docs/7.x/http-client">官方文档</a></p>
 ]]></content>
     </entry>
 </feed>
