@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Laravel Database学习提纲 | JojoLegend
+    Laravel Database Query Builder学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599133089475">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,7 +114,7 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Laravel Database学习提纲
+                            Laravel Database Query Builder学习提纲
                         </h2>
                         <div class="post-info">
                             <time class="post-time">2020-09-03</time>
@@ -125,74 +125,125 @@
                                     <blockquote>
 <p>*<em>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</em></p>
 </blockquote>
-<p>Laravel支持多种SQL数据库，如果需要查看每个数据库怎么配置，请查看官方文档<a href="https://laravel.com/docs/7.x/database#configuration">Configuration</a></p>
-<p>使用了多个数据库链接的情况下，如果要指定选其中一个链接来处理，可以参考<a href="https://laravel.com/docs/7.x/database#using-multiple-database-connections">Using Multiple Database Connections</a></p>
 <blockquote>
-<p>DB facade支持的增删改查方法，详细的请看官方文档<a href="https://laravel.com/docs/7.x/database#running-queries">Running Raw SQL Queries</a></p>
+<p>The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.</p>
 </blockquote>
-<h3 id="listening-for-query-events"><a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></h3>
-<p>每个SQL请求都会触发事件，如果需要log这些query或者debug，可以使用<code>DB::listen</code>方法。</p>
-<blockquote>
-<p>详细请看<a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></p>
-</blockquote>
-<h3 id="数据库事务database-transactions">数据库事务<a href="https://laravel.com/docs/7.x/database#database-transactions">Database Transactions</a></h3>
-<pre><code class="language-php">$users = DB::connection('mysql')-&gt;select('');
+<pre><code class="language-php">//Retrieve single Row
+$user = DB::table('users')-&gt;where('name', 'John')-&gt;first();
+echo $user-&gt;name;
 
-//获取底层的pdo实例
-$pdo = DB::connection()-&gt;getPdo();
+//Retrieve single row data's column value
+$email = DB::table('users')-&gt;where('name', 'John')-&gt;value('email');
 
-// The select method will always return an array of results.
-// Each result within the array will be a PHP stdClass object,
-// allowing you to access the values of the results:
-$users = DB::select('select * from users where active = ?', [1]);
-if ($users) {
-    return view('user.index', ['users' =&gt; $users]);
+//Retrieve By ID
+$user = DB::table('users')-&gt;find(3);
+
+
+//Retrieve a list of column values
+$titles = DB::table('roles')-&gt;pluck('title');
+foreach ($titles as $title) {
+    echo $title;
 }
 
-foreach ($users as $user) {
-    echo $user-&gt;name;
+//
+$roles = DB::table('roles')-&gt;pluck('title', 'name');
+foreach ($roles as $name =&gt; $title) {
+    echo $title;
 }
 
-//Naming bindings
+//一次取一部分数据，分块获取，每一小块还可放进闭包里处理
+DB::table('users')-&gt;orderBy('id')-&gt;chunk(100, function ($users) {
+    foreach ($users as $user) {
+        //
+    }
+});
 
-$results = DB::select('select * from users where id =:id', ['id' =&gt; 1]);
+DB::table('users')-&gt;orderBy('id')-&gt;chunk(100, function ($users) {
+    //处理数据
 
-
-//insert
-DB::insert('insert into users(id,name) values(?,?)', [1, 'Dayle']);
-
-//update
-$affected = DB::update('update users set votes = 100 where name= ? ', ['John']);
-
-
-//delete
-$deleted = DB::delete('delete from users'); // the number of rows affected will be returned:
-
-
-//statement
-// Some database statements do not return any value.
-// For these types of operations, you may use the statement method on the DB facade:
-DB::statement('drop table users');
-
-
-//Database Transactions 数据库事务，闭包内事务如果执行异常，会自动回滚处理，如果成功，事务就会自动完成执行
-DB::transaction(function () {
-    DB::table('users')-&gt;update(['votes' =&gt; 1]);
-    DB::table('posts')-&gt;delete();
+    return false;//返回false表示停止处理然后退出返回
 });
 
 
-DB::transaction(function () {
-    DB::table('users')-&gt;update(['votes' =&gt; 1]);
-    DB::table('posts')-&gt;delete();
-}, 5);//第二个参数作用，如果出现死锁，会最大尝试5次，超次就会抛异常
+//如果你需要在闭包里处理及更新数据，一遍更新，一边取，如果是按修改时间取，那你修改了的就一直是最新，就一直在修改这一段，
+//这个时候，建议使用chunkById方法，会依据数据的primary key排序
+DB::table('users')-&gt;where('active', false)
+    -&gt;chunkById(100, function ($users) {
+        foreach ($users as $user) {
+            DB::table('users')-&gt;where('id', $user-&gt;id)-&gt;update(['active' =&gt; true]);
+        }
+    });
 
-//手动启动事务执行
-DB::beginTransaction();
-//手动回滚
-DB::rollBack();
-//手动提交事务
-DB::commit();
+//不过还需要注意，如果你的操作是增加或者删除数据，任何对primary key或者外键的修改，会影响chunk query结果。
+
+/** Aggregates */
+// count, max, min, avg, sum
+
+$users = DB::table('users')-&gt;count();
+
+$price = DB::table('orders')-&gt;max('price');
+
+$price = DB::table('orders')
+    -&gt;where('finalized', 1)
+    -&gt;avg('price');
+
+$exists = DB::table('orders')-&gt;where('finalized', 1)-&gt;exists();
+$notExists = DB::table('orders')-&gt;where('finalized', 1)-&gt;doesntExist();
+
+/** Selects */
+$users = DB::table('users')-&gt;select('name', 'email as user_email')-&gt;get();
+
+//唯一值
+$users = DB::table('users')-&gt;distinct()-&gt;get();
+
+//追加select限定
+$query = DB::table('users')-&gt;select('name');
+$users = $query-&gt;addSelect('age')-&gt;get();
+
+//原生 表达式
+$users = DB::table('users')
+    -&gt;select(DB::raw('count(*) as user_count,status'))//原生语句会以字符串的形式注入到sql query种，一定要避免sql注入
+    -&gt;where('status', '&lt;&gt;', 1)
+    -&gt;groupBy('status')
+    -&gt;get();
+
+//selectRaw
+$orders = DB::table('orders')
+    -&gt;selectRaw('price * ? as price_with_tax', [1.0825])//接受第二个参数作为第一语句中'?'的绑定值
+    -&gt;get();
+
+DB::table('orders')
+    -&gt;whereRaw('price &gt; IF(state = &quot;TX&quot;,?,100)', [200])
+    -&gt;get();
+
+DB::table('orders')-&gt;select('department', DB::raw('SUM(price) as total_sales'))
+    -&gt;groupBy('department')
+    -&gt;havingRaw('SUM(price)&gt;?', [2500]) //haveRaw和orHavingRaw方法可用于将原始字符串设置为having子句的值
+    -&gt;get();
+
+
+//orderByRaw方法可用于将原始字符串设置为order by子句的值：
+DB::table('orders')-&gt;orderByRaw('updated_at - created_at DESC')-&gt;get();
+
+//groupByRaw方法可用于将原始字符串设置为group by子句的值：
+DB::table('orders')-&gt;select('city', 'state')-&gt;groupByRaw('city,state')-&gt;get();
+
+
+//Joins
+//Unions
+//Where Clauses
+//Ordering, Grouping, Limit &amp; Offset
+//Conditional Clauses
+$role = $request-&gt;input('role');
+DB::table('users')
+    -&gt;when($role, function ($query, $role) {
+        $query-&gt;where('role_id', $role);
+    })-&gt;get();
+//Inserts
+//Updates
+//Deletes
+//Pessimistic Locking
+//Debugging
 </code></pre>
 
                                 </div>
@@ -201,9 +252,9 @@ DB::commit();
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
+                            <a href="https://dzkjz.github.io/post/laravel-database-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    Laravel Task Scheduling学习提纲
+                                    Laravel Database学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -216,51 +267,32 @@ DB::commit();
                 <!-- right -->
                 <div id="sidebar" class="main-container-right">
                     
-                        <!-- toc -->
-                        
-    <div class="toc-card i-card ">
-        <div class="toc-title i-card-title">目录</div>
-        <div class="toc-content">
-            <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#listening-for-query-events">Listening For Query Events</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1database-transactions">数据库事务Database Transactions</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+                                <!-- id-card -->
+                                
+    <div class="id_card i-card">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599133089475)">
+        </div>
+        <h1 class="id_card-title">
+            JojoLegend
+        </h1>
+        <h2 class="id_card-description">
+            Something for age
+        </h2>
+        <!--  -->
+        <div class="id_card-sns">
+            <!-- github -->
+            
+                    <!-- twitter -->
+                    
+                            <!-- weibo -->
+                            
+                                    <!-- facebook -->
+                                    
 
         </div>
-        <script>
-            function locateCatelogList() {
-                /*获取文章目录集合,可通过:header过滤器*/
-                var alis = $('.post-content :header');
-                /*获取侧边栏目录列表集合**/
-                var sidebar_alis = $('.markdownIt-TOC a');
-                /*获取滚动条到顶部的距离*/
-                var scroll_height = $(window).scrollTop();
-                for (var i = 0; i < alis.length; i++) {
-                    /*获取锚点集合中的元素分别到顶点的距离*/
-                    var a_height = $(alis[i]).offset().top;
-                    if (a_height < scroll_height) {
-                        /*高亮显示*/
-                        sidebar_alis.removeClass('on');
-                        $(sidebar_alis[i]).addClass('on');
-                    }
-                }
-            }
-            $(function() {
-                /*绑定滚动事件 */
-                $(window).bind('scroll', locateCatelogList);
-            });
-        </script>
     </div>
     
-                            
+                                    
 
                 </div>
 

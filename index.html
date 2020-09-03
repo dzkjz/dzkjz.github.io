@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599064045925">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599133089475">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599064045925" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599133089475" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,152 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-database-query-builder-xue-xi-ti-gang/">
+                        Laravel Database Query Builder学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-03</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+*带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+
+The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
+
+//Retrieve single Row
+$user = DB::table(&#39;users&#39;)-&amp;gt;where(&#39;name&#39;, &#39;John&#39;)-&amp;gt;first();
+echo $user-&amp;gt;name;
+
+//Retrieve single row data&#39;s column value
+$email = DB::table(&#39;users&#39;)-&amp;gt;where(&#39;name&#39;, &#39;John&#39;)-&amp;gt;value(&#39;email&#39;);
+
+//Retrieve By ID
+$user = DB::table(&#39;users&#39;)-&amp;gt;find(3);
+
+
+//Retrieve a list of column values
+$titles = DB::table(&#39;roles&#39;)-&amp;gt;pluck(&#39;title&#39;);
+foreach ($titles as $title) {
+    echo $title;
+}
+
+//
+$roles = DB::table(&#39;roles&#39;)-&amp;gt;pluck(&#39;title&#39;, &#39;name&#39;);
+foreach ($roles as $name =&amp;gt; $title) {
+    echo $title;
+}
+
+//一次取一部分数据，分块获取，每一小块还可放进闭包里处理
+DB::table(&#39;users&#39;)-&amp;gt;orderBy(&#39;id&#39;)-&amp;gt;chunk(100, function ($users) {
+    foreach ($users as $user) {
+        //
+    }
+});
+
+DB::table(&#39;users&#39;)-&amp;gt;orderBy(&#39;id&#39;)-&amp;gt;chunk(100, function ($users) {
+    //处理数据
+
+    return false;//返回false表示停止处理然后退出返回
+});
+
+
+//如果你需要在闭包里处理及更新数据，一遍更新，一边取，如果是按修改时间取，那你修改了的就一直是最新，就一直在修改这一段，
+//这个时候，建议使用chunkById方法，会依据数据的primary key排序
+DB::table(&#39;users&#39;)-&amp;gt;where(&#39;active&#39;, false)
+    -&amp;gt;chunkById(100, function ($users) {
+        foreach ($users as $user) {
+            DB::table(&#39;users&#39;)-&amp;gt;where(&#39;id&#39;, $user-&amp;gt;id)-&amp;gt;update([&#39;active&#39; =&amp;gt; true]);
+        }
+    });
+
+//不过还需要注意，如果你的操作是增加或者删除数据，任何对primary key或者外键的修改，会影响chunk query结果。
+
+/** Aggregates */
+// count, max, min, avg, sum
+
+$users = DB::table(&#39;users&#39;)-&amp;gt;count();
+
+$price = DB::table(&#39;orders&#39;)-&amp;gt;max(&#39;price&#39;);
+
+$price = DB::table(&#39;orders&#39;)
+    -&amp;gt;where(&#39;finalized&#39;, 1)
+    -&amp;gt;avg(&#39;price&#39;);
+
+$exists = DB::table(&#39;orders&#39;)-&amp;gt;where(&#39;finalized&#39;, 1)-&amp;gt;exists();
+$notExists = DB::table(&#39;orders&#39;)-&amp;gt;where(&#39;finalized&#39;, 1)-&amp;gt;doesntExist();
+
+/** Selects */
+$users = DB::table(&#39;users&#39;)-&amp;gt;select(&#39;name&#39;, &#39;email as user_email&#39;)-&amp;gt;get();
+
+//唯一值
+$users = DB::table(&#39;users&#39;)-&amp;gt;distinct()-&amp;gt;get();
+
+//追加select限定
+$query = DB::table(&#39;users&#39;)-&amp;gt;select(&#39;name&#39;);
+$users = $query-&amp;gt;addSelect(&#39;age&#39;)-&amp;gt;get();
+
+//原生 表达式
+$users = DB::table(&#39;users&#39;)
+    -&amp;gt;select(DB::raw(&#39;count(*) as user_count,status&#39;))//原生语句会以字符串的形式注入到sql query种，一定要避免sql注入
+    -&amp;gt;where(&#39;status&#39;, &#39;&amp;lt;&amp;gt;&#39;, 1)
+    -&amp;gt;groupBy(&#39;status&#39;)
+    -&amp;gt;get();
+
+//selectRaw
+$orders = DB::table(&#39;orders&#39;)
+    -&amp;gt;selectRaw(&#39;price * ? as price_with_tax&#39;, [1.0825])//接受第二个参数作为第一语句中&#39;?&#39;的绑定值
+    -&amp;gt;get();
+
+DB::table(&#39;orders&#39;)
+    -&amp;gt;whereRaw(&#39;price &amp;gt; IF(state = &amp;quot;TX&amp;quot;,?,100)&#39;, [200])
+    -&amp;gt;get();
+
+DB::table(&#39;orders&#39;)-&amp;gt;select(&#39;department&#39;, DB::raw(&#39;SUM(price) as total_sales&#39;))
+    -&amp;gt;groupBy(&#39;department&#39;)
+    -&amp;gt;havingRaw(&#39;SUM(price)&amp;gt;?&#39;, [2500]) //haveRaw和orHavingRaw方法可用于将原始字符串设置为having子句的值
+    -&amp;gt;get();
+
+
+//orderByRaw方法可用于将原始字符串设置为order by子句的值：
+DB::table(&#39;orders&#39;)-&amp;gt;orderByRaw(&#39;updated_at - created_at DESC&#39;)-&amp;gt;get();
+
+//groupByRaw方法可用于将原始字符串设置为group by子句的值：
+DB::table(&#39;orders&#39;)-&amp;gt;select(&#39;city&#39;, &#39;state&#39;)-&amp;gt;groupByRaw(&#39;city,state&#39;)-&amp;gt;get();
+
+
+//Joins
+//Unions
+//Where Clauses
+//Ordering, Grouping, Limit &amp;amp; Offset
+//Conditional Clauses
+$role = $request-&amp;gt;input(&#39;role&#39;);
+DB::table(&#39;users&#39;)
+    -&amp;gt;when($role, function ($query, $role) {
+        $query-&amp;gt;where(&#39;role_id&#39;, $role);
+    })-&amp;gt;get();
+//Inserts
+//Updates
+//Deletes
+//Pessimistic Locking
+//Debugging
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-database-query-builder-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-database-xue-xi-ti-gang/">
@@ -756,64 +902,6 @@ LazyCollection 有2个与Collection不同的方法可以看下官方文档Lazy C
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-cache-xue-xi-ti-gang/">
-                        Laravel Cache学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-30</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            
-带着问题学：文档上介绍的功能在什么情况下使用，有什么作用？
-
-
-一般建议使用Memcached或者Redis。
-
-Cache使用方法
-
-Cache的增删改查具体使用方法，请查看官方文档。
-利用Mock方式进行Cache测试的时候，需要调用Cache::shouldReceive方法提供值。
-
-Cache Tags
-给一堆的Cache值分组打标签需用到Cache Tags。
-
-Cache Tags 不被file 、dynamodb及 database驱动所支持，特别是如果需要使用多Tags的永久存储，memcached驱动时最优选择，性能最好，并自动清楚陈旧记录值。
-
-
-Cache Tags的增删改读请查看官方文档
-
-原子锁
-原子锁只有在memcached,dynamodb,redis,database,array作为cache驱动的时候才能被使用。而且所有的servers【从属服务器】都必须与相同的中央cache server【主服务器】通信。
-
-每个类型的驱动如何配置，原子锁的具体使用，方法调用请查看官方文档
-
-
-跨进程管理原子锁，比如http请求的时候加锁，但是解锁是放在queue job或者某个事件触发逻辑之后。具体请查看官方文档
-
-添加自定义Cache驱动
-
-参考 Adding Custom Cache Drivers
-
-事件
-
-Cache的操作会触发事件，如果有需要监听这些事件做响应的操作，可以设置监听器，设置在EventServiceProvider类中，具体参考Events
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-cache-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -832,7 +920,7 @@ Cache的操作会触发事件，如果有需要监听这些事件做响应的操
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599064045925)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599133089475)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
