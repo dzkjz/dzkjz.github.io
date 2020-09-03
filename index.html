@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599144780023">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599150392833">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599144780023" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599150392833" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,81 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-redis-xue-xi-ti-gang/">
+                        Laravel Redis学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-04</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+Redis 键值存储
+配置Redis 需安装扩展包，以及在database.php中配置redis选项。
+database.php中的默认配置一般足够应付开发需要。但是也可以自己修改。
+
+可以参考 Configuration
+
+注意 Predis 以及 PhpRedis
+
+If you plan to use PhpRedis extension along with the Redis Facade alias, you should rename it to something else, like RedisManager, to avoid a collision with the Redis class. You can do that in the aliases section of your app.php config file.
+&#39;RedisManager&#39; =&amp;gt; Illuminate\Support\Facades\Redis::class,
+
+
+Interacting With Redis
+// Laravel uses magic methods to pass the commands to the Redis server,
+// so pass the arguments the Redis command expects:
+Redis::set(&#39;name&#39;, &#39;Taylor&#39;);
+
+$values = Redis::lrange(&#39;names&#39;, 5, 10);
+
+// Alternatively, you may also pass commands to the server using the command method,
+// which accepts the name of the command as its first argument,
+// and an array of values as its second argument:
+
+$values = Redis::command(&#39;lrange&#39;, [&#39;name&#39;, 5, 10]);
+
+// You may get a Redis instance by calling the Redis::connection method:
+// This will give you an instance of the default Redis server
+$redis = Redis::connection();
+
+
+// You may also pass the connection or cluster name to the connection method to
+// get a specific server or cluster as defined in your Redis configuration:
+$redis = Redis::connection(&#39;my-connection&#39;);
+
+
+// 一次要向redis服务器发送多个命令，建议使用管道
+Redis::pipeline(
+// 管道方法接受一个闭包作为参数，这个闭包参数是redis实例
+    function ($pipe) {
+        //把你要执行的命令通过闭包一次发送到redis服务器，提供了更好的性能
+    for ($i = 0; $i &amp;lt; 1000; $i++) {
+        $pipe-&amp;gt;set(&amp;quot;key:$i&amp;quot;, $i);
+    }
+});
+
+Pub / Sub
+// pub sub 命令 可以于一个指定信道监听获取消息
+// 可以从其他应用发消息，甚至使用其他的编程语言 可以在进程、应用之间通信
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-redis-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-database-seeding-xue-xi-ti-gang/">
@@ -875,62 +950,6 @@ Laravel以及提供了很多Notification发送的信道，如果还有更多需�
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">
-                        Laravel Mail学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-09-01</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            
-带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
-
-Mail不用说，就是发邮件的时候使用，那么官方文档里介绍的功能，就应该主要思考，发邮件需要什么功能的时候才能够用上？
-而这种场景下要用的功能，具体怎么配置，使用方法就不介绍，需要的时候参阅官方文档。 主要思考的是使用场景，而不是使用方法。
-Driver
-如果需要的是更加简便快捷的Email发送服务器，比SMTP更快的，那就是API式的服务器，比如MailGun或者Postmark。
-
-Mailgun和Postmark的配置使用参考Driver Prerequisites
-
-如果需要Amazon SES驱动可以参考Driver Prerequisites
-Mailables
-
-Laravel发出的Email，就是被叫做可邮件化的类。
-需要生成这个类，请参考Generating Mailables
-具体如何编辑这个类，请参考Writing Mailables
-
-如果需要在邮件发送前，再执行某些自定义修改，可以使用withSwiftMessage方法。
-MarkDown Mailables
-
-直接有预置模板，而且同时可以生成响应式HTML模板和对应的纯文本邮件内容。使用参考Markdown Mailables
-
-
-Markdown可邮递类，结合了Blade组件和Markdown语法。
-特别需要注意的是，Markdown解析器会把缩进给解析为代码块，所以不要CTRL+SHIFT+L做代码格式化。
-
-预制的button组件，Panel组件，Table组件等直接开箱可用，需要了解可以参考 Writing Markdown Messages
-很多情况下，邮件要做个自定义的样式，那么参考Customizing The Components
-有需要queue 发送Mail的，可以参考Queueing Mail
-如果需要不发出邮件但是查看以文本样式渲染出来的Mail，可以参考Rendering Mailables
-测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者使用Mailtrap，这个也是比较建议的。
-Events
-邮件的发送会触发一系列的事件，详细参考Events
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -949,7 +968,7 @@ Events
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599144780023)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599150392833)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

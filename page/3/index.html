@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599144780023">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599150392833">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599144780023" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599150392833" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -107,6 +107,118 @@
         
             <article class="post i-card">
                 <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/vue-zhi-dollarattrs/">
+                        Vue 之 $attrs
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-08-11</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            参考Using v-model + $attrs on Vue Components：
+&amp;lt;template&amp;gt;
+  &amp;lt;div&amp;gt;
+    &amp;lt;label for=&amp;quot;name&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Name&amp;lt;/label&amp;gt;
+    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;name&amp;quot; v-model=&amp;quot;$attrs.value.name&amp;quot;&amp;gt;
+    &amp;lt;label for=&amp;quot;role&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Title&amp;lt;/label&amp;gt;
+    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;role&amp;quot; v-model=&amp;quot;$attrs.value.role&amp;quot;&amp;gt;
+    &amp;lt;label for=&amp;quot;email&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Email&amp;lt;/label&amp;gt;
+    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;email&amp;quot; v-model=&amp;quot;$attrs.value.email&amp;quot;&amp;gt;
+    &amp;lt;label for=&amp;quot;insta&amp;quot; :class=&amp;quot;label_cls&amp;quot;&amp;gt;Instagram&amp;lt;/label&amp;gt;
+    &amp;lt;input :class=&amp;quot;input_cls&amp;quot; id=&amp;quot;insta&amp;quot; v-model=&amp;quot;$attrs.value.insta&amp;quot; autocomplete=&amp;quot;insta_off&amp;quot;&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/template&amp;gt;
+
+&amp;lt;script&amp;gt;
+import { mapGetters } from &amp;quot;vuex&amp;quot;;
+export default {
+  name: &amp;quot;UserFields&amp;quot;,
+  computed: {
+    input_cls() {
+      return &amp;quot;w-full appearance-none border rounded py-2 px-3 mb-6 text-grey-darkest&amp;quot;;
+    },
+    label_cls() {
+      return &amp;quot;text-grey-darker font-light inline-block mb-2&amp;quot;;
+    }
+  }
+};
+&amp;lt;/script&amp;gt;
+
+&amp;lt;template&amp;gt;
+  &amp;lt;div class=&amp;quot;w-5/6 md:w-3/4 lg:w-2/3 mx-auto mt-8&amp;quot; v-if=&amp;quot;activeUser&amp;quot;&amp;gt;
+    &amp;lt;h2 class=&amp;quot;font-light&amp;quot;&amp;gt;Account Settings&amp;lt;/h2&amp;gt;
+    &amp;lt;div class=&amp;quot;flex mt-8 pt-8 border-t border-grey-light&amp;quot;&amp;gt;
+      &amp;lt;div class=&amp;quot;w-64 hidden md:block&amp;quot;&amp;gt;
+        &amp;lt;div class=&amp;quot;mb-2&amp;quot;&amp;gt;Profile&amp;lt;/div&amp;gt;
+        &amp;lt;span class=&amp;quot;text-xs text-grey-dark&amp;quot;&amp;gt;
+          Keep your user infomation up to date so that team members can contact
+          you.
+        &amp;lt;/span&amp;gt;
+      &amp;lt;/div&amp;gt;
+      &amp;lt;form @submit.prevent=&amp;quot;updateUser(user);&amp;quot; class=&amp;quot;flex flex-col md:ml-8 w-full&amp;quot;&amp;gt;
+        &amp;lt;UserFields v-model=&amp;quot;user&amp;quot;/&amp;gt;
+        &amp;lt;div class=&amp;quot;flex items-center&amp;quot;&amp;gt;
+          &amp;lt;input
+            class=&amp;quot;bg-blue hover:bg-blue-dark text-white font-normal py-2 px-4 my-6 rounded w-48 tracking-wide&amp;quot;
+            type=&amp;quot;submit&amp;quot;
+            value=&amp;quot;Submit&amp;quot;
+          &amp;gt;
+        &amp;lt;/div&amp;gt;
+      &amp;lt;/form&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/template&amp;gt;
+&amp;lt;script&amp;gt;
+import { mapGetters, mapActions } from &amp;quot;vuex&amp;quot;;
+import UserFields from &amp;quot;./UserFields.vue&amp;quot;;
+export default {
+  name: &amp;quot;UserForm&amp;quot;,
+  components: {
+    UserFields
+  },
+  data() {
+    return {
+      user: {}
+    };
+  },
+  mounted() {
+    this.getUser();
+  },
+  computed: {
+    ...mapGetters([&amp;quot;activeUser&amp;quot;])
+  },
+  methods: {
+    ...mapActions([&amp;quot;getUser&amp;quot;, &amp;quot;updateUser&amp;quot;]),
+    updateLocalUser(e) {
+      this.$set(this.user, e.target.id, e.target.value);
+    }
+  },
+  watch: {
+    activeUser: {
+      handler() {
+        this.user = { ...this.activeUser };
+      }
+    },
+    immediate: true
+  }
+};
+&amp;lt;/script&amp;gt;
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/vue-zhi-dollarattrs/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/vue-yuan-ma-xue-xi-zhi-mainjs-dai-ma-jie-xi/">
                         Vue 源码学习之main.js代码解析
                     </a>
@@ -115,7 +227,7 @@
                     <time class="post-time">2020-08-09</time>
                     
                         <a href="https://dzkjz.github.io/tag/Gki6VgISX/" class="post-tag i-tag
-                            i-tag-warning">
+                            i-tag-other_2">
             #Vue
         </a>
                         
@@ -2685,75 +2797,6 @@ dofollow和nofollow要比率适当。
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/wai-mao-wang-zhan-tui-guang-zhi-quora-tui-guang-yin-liu-yue-jun-60you-zhi-xun-pan/">
-                        外贸网站推广之Quora推广引流（月均60+优质询盘）
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-05</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            什么商家会选择Quora推广？
-Quora是一个知识内容问答社区，基本大公司都有很多链接指向，而且还建立了专门的Topic。一般品牌商家比较多，很多品牌利用Quora打造自己的品牌文化和价值。
-从B2B和B2C角度看，B2B的价值稍微大一些，因为B端品牌因素占据交易很大份量，Quora里面高质量回答就好像品牌背书一样，无形给品牌加高分，所以我的网站从Quora进入的B2B询盘还是非常优质的。
-Quora如何推广？
-
-创建个人信息：
-Quora认证基本都是实名的，所以不能给自己命名品牌名。
-
-把基础信息完善好，尽量真实，know about写你最专长的领域。
-
-养号1-2周
-
-有人刚创建帐号，就搜索自己行业关键词，然后看到有问题，就连忙回答3、5句话，抛上自己的网址。这种做法是一点作用都没有的，因为这样的回答很多都被Collapsed.
-所以帐号需要养一会儿，刚注册Quora，Quora还不知道你这个帐号是否是营销号，所以不会给你好排名。如果你直接就开始打广告，好吧，营销号无疑。。。。虽然Quora删除帐号政策很松，但还是不要这样做，实在是对品牌一点意义没有。
-养帐号1-2周，期间每周回复差不多10个擅长的问题。这个时候Quora就会推荐一些类似的问题，这样你的帐号就基本平稳了。
-
-准备Excel，把自己行业相关关键词显示出来的问题都整理好，放在一张表格里。这样记录的好处是：
-
-你不会漏掉一些问题，有规划，节省时间。
-同类型的问题答案可以相似，不需要每次都重新自己慢慢写。
-可以把一些问题发给fiverr上的freelancer，让他们代为回答，可能质量比你自己回答的还高。
-有些回答了的问题排名不好，可以统计下来继续后期补充。
-Quora上回答问题，最主要是解决别人问题，同时给别人推荐自己的产品和服务。（就像软文一些）
-我一共回答了十几个问题，好久都没有回答问题了，但是每周的浏览人数都有400多。一个月有1700多Visit。加上让别人发的，我们网站每天从Quora来的流量就40-50ip，从Quora来的流量咨询率很高！
-查找行业别人问的问题方法：
-
-关键词搜索
-Related questions
-Topic问题
-
-
-
-你所有的问题不要只有你们网站的链接，要问题均衡，如果所有回答外链都是一个网站的链接，这样你的回答营销意味就很重。所以你需要部分加链接，部分不加。部分关于行业，部分不是关于行业，关于个人兴趣也是可以的。所有的操作像一个正常人操作就好。
-
-
-Quora Blog
-Quora还可以写自己的Blog，权重也不错，如果文章质量好，这个流量也是很不错的。当然也可以做外链，但是是Nofollow .
-
-
-Quora付费推广
-Quora出了付费广告，价格比较低，所以是有很大机会的。你看看你的产品适不适合这个平台。你可以先用几十美金测试一下。从个人的账户里可以直接Create Ads.
-
-
-进入之后，新建账户。就可以进入推广主页面了。这是一个非常简单的广告系统。你可以自己去摸索一下。
-
-总结：Quora推广引流严重被外贸独立站站长低估。我自己使用过，产生的价值是非常高的。不管是免费还是付费流量，对网站有价值就是好流量。如果你之前没有注意到Quora，你可以尝试一下。
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/wai-mao-wang-zhan-tui-guang-zhi-quora-tui-guang-yin-liu-yue-jun-60you-zhi-xun-pan/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -2774,7 +2817,7 @@ Quora出了付费广告，价格比较低，所以是有很大机会的。你看
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599144780023)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599150392833)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

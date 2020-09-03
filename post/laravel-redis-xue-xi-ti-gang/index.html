@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Laravel Collection 学习提纲 | JojoLegend
+    Laravel Redis学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599150392833">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,68 +114,66 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Laravel Collection 学习提纲
+                            Laravel Redis学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-08-31</time>
+                            <time class="post-time">2020-09-04</time>
                             
                         </div>
                         
                                 <div class="post-content">
                                     <blockquote>
-<p><strong>带着问题学习，文档上介绍的功能在什么时候可以用？用来做什么？具体的用法请查看官方文档</strong></p>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
 </blockquote>
-<ol>
-<li>
-<p>Collection主要是用来提供更方便的方法处理array数据的；</p>
-</li>
-<li>
-<p>并且collection里方法都是返回一个新的collection实例，意味着可以写出面条代码，而原来的底层数据就不会被修改，就会完整的保留下来。</p>
-</li>
-<li>
-<p>Eloquent查询的结果基本上也是返回的collection实例。</p>
-</li>
-</ol>
+<p>Redis 键值存储</p>
+<p>配置Redis 需安装扩展包，以及在database.php中配置<code>redis</code>选项。</p>
+<p><code>database.php</code>中的默认配置一般足够应付开发需要。但是也可以自己修改。</p>
 <blockquote>
-<p>Collection有很多的方法，查看官方文档<a href="https://laravel.com/docs/7.x/collections#available-methods">Available Methods</a></p>
+<p>可以参考 <a href="https://laravel.com/docs/7.x/redis#configuration">Configuration</a></p>
 </blockquote>
-<h3 id="higher-order-messages">Higher Order Messages</h3>
+<p>注意 <a href="https://laravel.com/docs/7.x/redis#predis">Predis</a> 以及 <a href="https://laravel.com/docs/7.x/redis#phpredis">PhpRedis</a></p>
 <blockquote>
-<p>平时的方法：</p>
-<pre><code class="language-php">$users = User::where('votes', '&gt;', 500)-&gt;get();
+<p>If you plan to use PhpRedis extension along with the <code>Redis</code> Facade alias, you should rename it to something else, like <code>RedisManager</code>, to avoid a collision with the Redis class. You can do that in the aliases section of your <code>app.php</code> config file.</p>
+<pre><code class="language-php">'RedisManager' =&gt; Illuminate\Support\Facades\Redis::class,
+</code></pre>
+</blockquote>
+<h3 id="interacting-with-redis"><a href="https://laravel.com/docs/7.x/redis#interacting-with-redis">Interacting With Redis</a></h3>
+<pre><code class="language-php">// Laravel uses magic methods to pass the commands to the Redis server,
+// so pass the arguments the Redis command expects:
+Redis::set('name', 'Taylor');
 
-$users-&gt;each(function($item,$key){
-    $item-&gt;markAsVip();
+$values = Redis::lrange('names', 5, 10);
+
+// Alternatively, you may also pass commands to the server using the command method,
+// which accepts the name of the command as its first argument,
+// and an array of values as its second argument:
+
+$values = Redis::command('lrange', ['name', 5, 10]);
+
+// You may get a Redis instance by calling the Redis::connection method:
+// This will give you an instance of the default Redis server
+$redis = Redis::connection();
+
+
+// You may also pass the connection or cluster name to the connection method to
+// get a specific server or cluster as defined in your Redis configuration:
+$redis = Redis::connection('my-connection');
+
+
+// 一次要向redis服务器发送多个命令，建议使用管道
+Redis::pipeline(
+// 管道方法接受一个闭包作为参数，这个闭包参数是redis实例
+    function ($pipe) {
+        //把你要执行的命令通过闭包一次发送到redis服务器，提供了更好的性能
+    for ($i = 0; $i &lt; 1000; $i++) {
+        $pipe-&gt;set(&quot;key:$i&quot;, $i);
+    }
 });
 </code></pre>
-<p>如each：</p>
-<pre><code class="language-php">$users = User::where('votes', '&gt;', 500)-&gt;get();
-
-$users-&gt;each-&gt;markAsVip();
+<h3 id="pub-sub"><a href="https://laravel.com/docs/7.x/redis#pubsub">Pub / Sub</a></h3>
+<pre><code>// pub sub 命令 可以于一个指定信道监听获取消息
+// 可以从其他应用发消息，甚至使用其他的编程语言 可以在进程、应用之间通信
 </code></pre>
-</blockquote>
-<h3 id="lazycollection">LazyCollection</h3>
-<p>对于需要读取大文件，数据量比较大的数据【10万条Eloquent模型数据】到collection里面，可以用LazyCollection，底层主要是PHP yield，这样不用一次性读取完到内存，而是一次一取一读。</p>
-<blockquote>
-<p>如果10万条数据一次用这种方式读取，那内存占用太大了：</p>
-<pre><code class="language-php">$users = App\User::all()-&gt;filter(function ($user) {
- return $user-&gt;id &gt; 500;
-});
-</code></pre>
-<p>Eloquent有一个cursor方法返回的是LazyCollection实例，一次读取一条，这样内存不会卡爆：</p>
-<blockquote>
-<pre><code class="language-php">$users = App\User::cursor()-&gt;filter(function ($user) {
-return $user-&gt;id &gt; 500;
-});
-
-foreach ($users as $user) {
-echo $user-&gt;id;
-}
-</code></pre>
-</blockquote>
-<p>当然，filter方法并不会在foreach之前就执行，而是在foreach中每次迭代的时候执行。</p>
-</blockquote>
-<p>LazyCollection 有2个与Collection不同的方法可以看下官方文档<a href="https://laravel.com/docs/7.x/collections#lazy-collection-methods">Lazy Collection Methods</a></p>
 
                                 </div>
                     </article>
@@ -183,9 +181,9 @@ echo $user-&gt;id;
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-cache-xue-xi-ti-gang/">
+                            <a href="https://dzkjz.github.io/post/laravel-database-seeding-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    Laravel Cache学习提纲
+                                    Laravel Database Seeding学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -208,8 +206,8 @@ echo $user-&gt;id;
 <ul>
 <li>
 <ul>
-<li><a href="#higher-order-messages">Higher Order Messages</a></li>
-<li><a href="#lazycollection">LazyCollection</a></li>
+<li><a href="#interacting-with-redis">Interacting With Redis</a></li>
+<li><a href="#pub-sub">Pub / Sub</a></li>
 </ul>
 </li>
 </ul>

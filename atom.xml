@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-03T14:54:00.964Z</updated>
+    <updated>2020-09-03T16:26:40.538Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,66 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[Laravel Redis学习提纲]]></title>
+        <id>https://dzkjz.github.io/post/laravel-redis-xue-xi-ti-gang/</id>
+        <link href="https://dzkjz.github.io/post/laravel-redis-xue-xi-ti-gang/">
+        </link>
+        <updated>2020-09-03T16:26:15.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
+</blockquote>
+<p>Redis 键值存储</p>
+<p>配置Redis 需安装扩展包，以及在database.php中配置<code>redis</code>选项。</p>
+<p><code>database.php</code>中的默认配置一般足够应付开发需要。但是也可以自己修改。</p>
+<blockquote>
+<p>可以参考 <a href="https://laravel.com/docs/7.x/redis#configuration">Configuration</a></p>
+</blockquote>
+<p>注意 <a href="https://laravel.com/docs/7.x/redis#predis">Predis</a> 以及 <a href="https://laravel.com/docs/7.x/redis#phpredis">PhpRedis</a></p>
+<blockquote>
+<p>If you plan to use PhpRedis extension along with the <code>Redis</code> Facade alias, you should rename it to something else, like <code>RedisManager</code>, to avoid a collision with the Redis class. You can do that in the aliases section of your <code>app.php</code> config file.</p>
+<pre><code class="language-php">'RedisManager' =&gt; Illuminate\Support\Facades\Redis::class,
+</code></pre>
+</blockquote>
+<h3 id="interacting-with-redis"><a href="https://laravel.com/docs/7.x/redis#interacting-with-redis">Interacting With Redis</a></h3>
+<pre><code class="language-php">// Laravel uses magic methods to pass the commands to the Redis server,
+// so pass the arguments the Redis command expects:
+Redis::set('name', 'Taylor');
+
+$values = Redis::lrange('names', 5, 10);
+
+// Alternatively, you may also pass commands to the server using the command method,
+// which accepts the name of the command as its first argument,
+// and an array of values as its second argument:
+
+$values = Redis::command('lrange', ['name', 5, 10]);
+
+// You may get a Redis instance by calling the Redis::connection method:
+// This will give you an instance of the default Redis server
+$redis = Redis::connection();
+
+
+// You may also pass the connection or cluster name to the connection method to
+// get a specific server or cluster as defined in your Redis configuration:
+$redis = Redis::connection('my-connection');
+
+
+// 一次要向redis服务器发送多个命令，建议使用管道
+Redis::pipeline(
+// 管道方法接受一个闭包作为参数，这个闭包参数是redis实例
+    function ($pipe) {
+        //把你要执行的命令通过闭包一次发送到redis服务器，提供了更好的性能
+    for ($i = 0; $i &lt; 1000; $i++) {
+        $pipe-&gt;set(&quot;key:$i&quot;, $i);
+    }
+});
+</code></pre>
+<h3 id="pub-sub"><a href="https://laravel.com/docs/7.x/redis#pubsub">Pub / Sub</a></h3>
+<pre><code>// pub sub 命令 可以于一个指定信道监听获取消息
+// 可以从其他应用发消息，甚至使用其他的编程语言 可以在进程、应用之间通信
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Database Seeding学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-database-seeding-xue-xi-ti-gang/</id>
@@ -643,47 +703,6 @@ php artisan migrate
 <p>在notification被发送后，会触发相关的事件，如果需要了解，请参考官方文档</p>
 <h3 id="custom-channels"><a href="https://laravel.com/docs/7.x/notifications#custom-channels">Custom Channels</a></h3>
 <p>Laravel以及提供了很多Notification发送的信道，如果还有更多需求来传输你的Notification，那么可以参考此部分文档：<a href="https://laravel.com/docs/7.x/notifications#custom-channels">Custom Channels</a>。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel Mail学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-09-01T07:31:48.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
-</blockquote>
-<p>Mail不用说，就是发邮件的时候使用，那么官方文档里介绍的功能，就应该主要思考，发邮件需要什么功能的时候才能够用上？</p>
-<p>而这种场景下要用的功能，具体怎么配置，使用方法就不介绍，需要的时候参阅官方文档。 <strong>主要思考的是使用场景，而不是使用方法。</strong></p>
-<h3 id="driver">Driver</h3>
-<p>如果需要的是更加简便快捷的Email发送服务器，比SMTP更快的，那就是API式的服务器，比如MailGun或者Postmark。</p>
-<blockquote>
-<p>Mailgun和Postmark的配置使用参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
-</blockquote>
-<p>如果需要Amazon SES驱动可以参考<a href="https://laravel.com/docs/7.x/mail#driver-prerequisites">Driver Prerequisites</a></p>
-<h3 id="mailables">Mailables</h3>
-<blockquote>
-<p>Laravel发出的Email，就是被叫做可邮件化的类。</p>
-<p>需要生成这个类，请参考<a href="https://laravel.com/docs/7.x/mail#generating-mailables">Generating Mailables</a></p>
-<p>具体如何编辑这个类，请参考<a href="https://laravel.com/docs/7.x/mail#writing-mailables">Writing Mailables</a></p>
-</blockquote>
-<p>如果需要在邮件发送前，再执行某些自定义修改，可以使用<a href="https://laravel.com/docs/7.x/mail#customizing-the-swiftmailer-message">withSwiftMessage方法</a>。</p>
-<h4 id="markdown-mailables">MarkDown Mailables</h4>
-<blockquote>
-<p>直接有预置模板，而且同时可以生成响应式HTML模板和对应的纯文本邮件内容。使用参考<a href="https://laravel.com/docs/7.x/mail#markdown-mailables">Markdown Mailables</a></p>
-</blockquote>
-<blockquote>
-<p>Markdown可邮递类，结合了Blade组件和Markdown语法。</p>
-<p><strong>特别需要注意的是，Markdown解析器会把缩进给解析为代码块</strong>，所以不要CTRL+SHIFT+L做代码格式化。</p>
-</blockquote>
-<p>预制的button组件，Panel组件，Table组件等直接开箱可用，需要了解可以参考 <a href="https://laravel.com/docs/7.x/mail#writing-markdown-messages">Writing Markdown Messages</a></p>
-<p>很多情况下，邮件要做个自定义的样式，那么参考<a href="https://laravel.com/docs/7.x/mail#customizing-the-components">Customizing The Components</a></p>
-<p>有需要queue 发送Mail的，可以参考<a href="https://laravel.com/docs/7.x/mail#queueing-mail">Queueing Mail</a></p>
-<p>如果需要不发出邮件但是查看以文本样式渲染出来的Mail，可以参考<a href="https://laravel.com/docs/7.x/mail#rendering-mailables">Rendering Mailables</a></p>
-<p>测试发送邮件，如果不是发送到真地址来看效果，可以使用log 邮件驱动，把邮件发出存到log文件里面；或者在mail.php文件中设置一个全局的to地址，或者<strong>使用Mailtrap，这个也是比较建议的。</strong></p>
-<h3 id="events">Events</h3>
-<p>邮件的发送会触发一系列的事件，详细参考<a href="https://laravel.com/docs/7.x/mail#events">Events</a></p>
 ]]></content>
     </entry>
 </feed>
