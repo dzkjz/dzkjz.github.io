@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599188439178">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599199084919">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599188439178" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599199084919" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,58 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-eloquent-relationships-xue-xi-ti-gang/">
+                        Laravel Eloquent: Relationships学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-04</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+存取器和更改器
+如果需要在返回的模型实例数据【返回的array和json api都自动添加上】后追加自定义的存取器值，先定义一个存取器【类似于计算属性】，
+   public function getIsAdminAttribute()
+    {
+        return $this-&amp;gt;attributes[&#39;admin&#39;] === &#39;yes&#39;;
+    }
+
+然后再在模型类的appends属性array中，添加存储器的snake属性字符串
+class User extends Model
+{
+    /**
+     * The accessors to append to the model&#39;s array form.
+     *
+     * @var array
+     */
+    protected $appends = [&#39;is_admin&#39;];
+}
+
+属性转换
+
+$casts属性
+自定义Cast类
+Array &amp;amp; JSON Casting
+Date Casting
+Query Time Casting
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-eloquent-relationships-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-eloquent-getting-started-xue-xi-ti-gang/">
@@ -836,53 +888,6 @@ Job Events
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/">
-                        Laravel Package Development学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-09-02</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            
-带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
-
-开发包主要是给Laravel提供功能。
-
-有些大佬开发的包，是独立的，任何PHP 框架都可以用，
-有的包就必须在Laravel框架才能用，包里可能有routes controllers views 以及configuration之类的，包只是针对Laravel功能的。
-Laravel中使用的时候，就是设置在composer.json文件中；
-
-扩展包里的servicer provider除了用户手动注册在app.php的providers里面，还可以参考Package Discovery自动处理。
-开发包如果有以下的部分，代码写完后，如何配置和发布可以参考：
-
-Resources
-Configuration
-Migrations
-Factories
-Routes
-Translations
-Views
-View Components
-Commands
-Public Assets
-Publishing File Groups
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -901,7 +906,7 @@ Publishing File Groups
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599188439178)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599199084919)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

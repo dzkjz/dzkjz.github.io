@@ -5,7 +5,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
-    Laravel Database学习提纲 | JojoLegend
+    Laravel Eloquent: Relationships学习提纲 | JojoLegend
 </title>
 <link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599199084919">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
@@ -114,86 +114,43 @@
                 <div id="content" class="main-container-left">
                     <article class="post i-card">
                         <h2 class="post-title">
-                            Laravel Database学习提纲
+                            Laravel Eloquent: Relationships学习提纲
                         </h2>
                         <div class="post-info">
-                            <time class="post-time">2020-09-03</time>
+                            <time class="post-time">2020-09-04</time>
                             
                         </div>
                         
                                 <div class="post-content">
                                     <blockquote>
-<p>*<em>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</em></p>
+<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
 </blockquote>
-<p>Laravel支持多种SQL数据库，如果需要查看每个数据库怎么配置，请查看官方文档<a href="https://laravel.com/docs/7.x/database#configuration">Configuration</a></p>
-<p>使用了多个数据库链接的情况下，如果要指定选其中一个链接来处理，可以参考<a href="https://laravel.com/docs/7.x/database#using-multiple-database-connections">Using Multiple Database Connections</a></p>
-<blockquote>
-<p>DB facade支持的增删改查方法，详细的请看官方文档<a href="https://laravel.com/docs/7.x/database#running-queries">Running Raw SQL Queries</a></p>
-</blockquote>
-<h3 id="listening-for-query-events"><a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></h3>
-<p>每个SQL请求都会触发事件，如果需要log这些query或者debug，可以使用<code>DB::listen</code>方法。</p>
-<blockquote>
-<p>详细请看<a href="https://laravel.com/docs/7.x/database#listening-for-query-events">Listening For Query Events</a></p>
-</blockquote>
-<h3 id="数据库事务database-transactions">数据库事务<a href="https://laravel.com/docs/7.x/database#database-transactions">Database Transactions</a></h3>
-<pre><code class="language-php">$users = DB::connection('mysql')-&gt;select('');
-
-//获取底层的pdo实例
-$pdo = DB::connection()-&gt;getPdo();
-
-// The select method will always return an array of results.
-// Each result within the array will be a PHP stdClass object,
-// allowing you to access the values of the results:
-$users = DB::select('select * from users where active = ?', [1]);
-if ($users) {
-    return view('user.index', ['users' =&gt; $users]);
-}
-
-foreach ($users as $user) {
-    echo $user-&gt;name;
-}
-
-//Naming bindings
-
-$results = DB::select('select * from users where id =:id', ['id' =&gt; 1]);
-
-
-//insert
-DB::insert('insert into users(id,name) values(?,?)', [1, 'Dayle']);
-
-//update
-$affected = DB::update('update users set votes = 100 where name= ? ', ['John']);
-
-
-//delete
-$deleted = DB::delete('delete from users'); // the number of rows affected will be returned:
-
-
-//statement
-// Some database statements do not return any value.
-// For these types of operations, you may use the statement method on the DB facade:
-DB::statement('drop table users');
-
-
-//Database Transactions 数据库事务，闭包内事务如果执行异常，会自动回滚处理，如果成功，事务就会自动完成执行
-DB::transaction(function () {
-    DB::table('users')-&gt;update(['votes' =&gt; 1]);
-    DB::table('posts')-&gt;delete();
-});
-
-
-DB::transaction(function () {
-    DB::table('users')-&gt;update(['votes' =&gt; 1]);
-    DB::table('posts')-&gt;delete();
-}, 5);//第二个参数作用，如果出现死锁，会最大尝试5次，超次就会抛异常
-
-//手动启动事务执行
-DB::beginTransaction();
-//手动回滚
-DB::rollBack();
-//手动提交事务
-DB::commit();
+<h3 id="存取器和更改器"><a href="https://laravel.com/docs/7.x/eloquent-mutators#accessors-and-mutators">存取器和更改器</a></h3>
+<p>如果需要在返回的模型实例数据【返回的array和json api都自动添加上】后追加自定义的存取器值，先定义一个存取器【类似于计算属性】，</p>
+<pre><code class="language-php">   public function getIsAdminAttribute()
+    {
+        return $this-&gt;attributes['admin'] === 'yes';
+    }
 </code></pre>
+<p>然后再在模型类的appends属性array中，添加存储器的snake属性字符串</p>
+<pre><code class="language-php">class User extends Model
+{
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['is_admin'];
+}
+</code></pre>
+<h3 id="属性转换"><a href="https://laravel.com/docs/7.x/eloquent-mutators#attribute-casting">属性转换</a></h3>
+<blockquote>
+<p>$casts属性</p>
+<p>自定义Cast类</p>
+<h4 id="array-json-casting"><a href="https://laravel.com/docs/7.x/eloquent-mutators#array-and-json-casting">Array &amp; JSON Casting</a></h4>
+<h4 id="date-casting"><a href="https://laravel.com/docs/7.x/eloquent-mutators#date-casting">Date Casting</a></h4>
+<h4 id="query-time-casting"><a href="https://laravel.com/docs/7.x/eloquent-mutators#query-time-casting">Query Time Casting</a></h4>
+</blockquote>
 
                                 </div>
                     </article>
@@ -201,9 +158,9 @@ DB::commit();
                     
                         <div class="next-post">
                             <div class="next">下一篇</div>
-                            <a href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
+                            <a href="https://dzkjz.github.io/post/laravel-eloquent-getting-started-xue-xi-ti-gang/">
                                 <h3 class="post-title">
-                                    Laravel Task Scheduling学习提纲
+                                    Laravel Eloquent: Getting Started学习提纲
                                 </h3>
                             </a>
                         </div>
@@ -226,8 +183,14 @@ DB::commit();
 <ul>
 <li>
 <ul>
-<li><a href="#listening-for-query-events">Listening For Query Events</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1database-transactions">数据库事务Database Transactions</a></li>
+<li><a href="#%E5%AD%98%E5%8F%96%E5%99%A8%E5%92%8C%E6%9B%B4%E6%94%B9%E5%99%A8">存取器和更改器</a></li>
+<li><a href="#%E5%B1%9E%E6%80%A7%E8%BD%AC%E6%8D%A2">属性转换</a>
+<ul>
+<li><a href="#array-json-casting">Array &amp; JSON Casting</a></li>
+<li><a href="#date-casting">Date Casting</a></li>
+<li><a href="#query-time-casting">Query Time Casting</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
