@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599150392833">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599188439178">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599150392833" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599188439178" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,115 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">
+                        Laravel Notifications学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-01</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+Notification主要用来发送简洁的通知，告知，比如付款成功之类的，Laravel支持mail，SMS，Slack方式的推送通知给用户。而且因为Notification也可用来显示在web页面上，所以Notification也可以被存在数据库中。
+
+创建通知参考Creating Notifications
+
+Model类如果需要支持被通知，那请使用Notifiable trait，不只User model可以支持，只要需要，就可以用这个trait。
+
+使用方法参考Using The Notifiable Trait
+
+如果是发送给一组用户或者被通知的Model实例组，那可以使用Notification facade的send方法。
+
+使用方法具体参考Using The Notification Facade
+
+因为Notifications发送时需要消耗时间的，特别是还要调用外部API来发送的场景下，那么请启用Queue；【就是 implements the ShouldQueue，但是使用还是和平常一样】
+
+具体参考Queueing Notifications
+
+因为Notification的via方法是支持返回一组数组--如[&#39;mail&#39;,&#39;slack&#39;]
+就是这个通知发送将使用[&#39;mail&#39;,&#39;slack&#39;]两个渠道，而使用queue来处理发送的时候，可以针对这两个渠道，分别指定不同的queue处理。
+
+具体参考Queueing Notifications的Customizing Notification Channel Queues部分
+
+如果需要搞一个按需通知，可以使用Notification::route方法。
+
+具体参考On-Demand Notifications
+
+如果需要更改Mail Notification的Header和Footer的name值，请在config/app.php中设置name；
+
+如果需要了解怎么写一个Notification Email 以及更多的方法 请参考Mail Notifications
+
+
+如果需要自定义Mail Notification或有更多的配置需求，可以查看
+Customizing The Sender
+Customizing The Recipient
+Customizing The Subject
+Customizing The Mailer
+如果需要对默认给的Notification邮件模板做一些自定义修改，参考Customizing The Templates
+如果需要预览Notification Mail，可以参考Previewing Mail Notifications
+每个就是一个方法的讲解而已。很简单
+
+Markdown Mail Notifications
+和Mail Notification差不多，只是不再使用action或者line方法调用来生成邮件内容，而是一个markdown方法调用。
+
+具体参考 Generating The Message
+
+而如果要修改邮件内容，就需要前面修改编辑markdown文件了；
+
+如何使用参考  Writing The Message
+
+
+而每一个组件的修改编辑参考Customizing The Components，其实之前学习Email的时候，也是这个；
+
+Database Notifications
+主要是notification如果需要显示在页面上，这样就会用到database。比如用户登录了，就在dashbroad页面给显示notifications。
+参考Prerequisites，先执行：
+php artisan notifications:table
+
+php artisan migrate
+
+生成notification的数据表。
+
+定义被存储下来的数据，请参考Formatting Database Notifications
+
+
+存储下来的notifications数据，要展示出来的时候，请参考Accessing The Notifications
+
+
+现实使用的时候，可以添加一个Notification Controller，这样要从js客户端访问这个notifiable实体【比如当前user】的notifications数据的时候，可以从js客户端向后端的这个controller执行一个HTTP请求获取。
+
+
+其他的标注已读，批量标注已读，批量更新，批量删除，请查阅Marking Notifications As Read
+
+Broadcast Notifications
+这个用就很牛了，可以做成聊天室式的广播告知【游戏里的大喇叭式，全站送礼物通知】。前端后端都需要参考Broadcasting做一些设置。
+SMS Notifications
+如果有需要搞一个短信通知，那可以参考这个官方文档SMS Notifications做一些设置和修改。
+Slack Notifications
+Slack可以用到协同办公和公共留言板之类的，支持很多app，如果需要这个可以看看官方文档如何配置。
+Localizing Notifications
+语言本地化；
+Notification Events
+在notification被发送后，会触发相关的事件，如果需要了解，请参考官方文档
+Custom Channels
+Laravel以及提供了很多Notification发送的信道，如果还有更多需求来传输你的Notification，那么可以参考此部分文档：Custom Channels。
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-mail-xue-xi-ti-gang/">
@@ -581,135 +690,6 @@ slot只能通过这种方式由内而外，被外层访问到。
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/zi-ding-yi-zu-jian-de-v-model/">
-                        自定义组件的 v-model
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-11</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            自定义组件的 v-model
-一个组件上的 v-model 默认会利用名为 value 的 prop 和名为 input 的事件，但是像单选框、复选框等类型的输入控件可能会将 value attribute 用于不同的目的。model 选项可以用来避免这样的冲突：
-Vue.component(&#39;base-checkbox&#39;, {
-  model: {
-    prop: &#39;checked&#39;,
-    event: &#39;change&#39;
-  },
-  props: {
-    checked: Boolean
-  },
-  template: `
-    &amp;lt;input
-      type=&amp;quot;checkbox&amp;quot;
-      v-bind:checked=&amp;quot;checked&amp;quot;
-      v-on:change=&amp;quot;$emit(&#39;change&#39;, $event.target.checked)&amp;quot;
-    &amp;gt;
-  `
-})
-
-现在在这个组件上使用 v-model 的时候：
-&amp;lt;base-checkbox v-model=&amp;quot;lovingVue&amp;quot;&amp;gt;&amp;lt;/base-checkbox&amp;gt;
-
-这里的 lovingVue 的值将会传入这个名为 checked 的 prop。同时当 &amp;lt;base-checkbox&amp;gt; 触发一个 change 事件并附带一个新的值的时候，这个 lovingVue 的 property 将会被更新。
-注意你仍然需要在组件的 props 选项里声明 checked 这个 prop。
-就是说：
-默认情况下：
-&amp;lt;base-checkbox v-model=&amp;quot;lovingVue&amp;quot;&amp;gt;&amp;lt;/base-checkbox&amp;gt;
-lovingVue会对应到base-checkbox里面的value值，但是如果外层component需要的是使用这个base-checkboxcomponent的其他属性，那就用
-  model: {
-    prop: &#39;checked&#39;,
-    event: &#39;change&#39;
-  },
-
-这种方式；
-v-model=&amp;quot;lovingVue&amp;quot;对应到的就是base-checkboxcomponent里面的checked属性，这个属性必须在该组件props里声明，
-且
-v-on:change=&amp;quot;$emit(&#39;change&#39;, $event.target.checked)&amp;quot;
-
-以及
- model: {
-    prop: &#39;checked&#39;,
-    event: &#39;change&#39;
-  },
-
-中的event: &#39;change&#39;都不可省略，还必须对应，抛出的事件和model里的事件必须一样。
-拓展分析：
-有这样一个组件
-//BaseInput.vue
-&amp;lt;template&amp;gt;
-    &amp;lt;label class=&amp;quot;inner base&amp;quot;&amp;gt;
-        {{ label }} : {{value}}
-        &amp;lt;input :placeholder=&amp;quot;$attrs[&#39;placej&#39;]&amp;quot;
-               :value=&amp;quot;value&amp;quot;
-               @input=&amp;quot;$emit(&#39;inputa&#39;, $event.target.value)&amp;quot;&amp;gt;
-    &amp;lt;/label&amp;gt;
-&amp;lt;/template&amp;gt;
-
-&amp;lt;script&amp;gt;
-    export default {
-        name: &amp;quot;BaseInput&amp;quot;,
-        inheritAttrs: false,
-        props: [&#39;label&#39;, &#39;value&#39;],
-        model: {
-            prop: &#39;label&#39;,
-            event: &#39;inputa&#39;
-        }
-    }
-&amp;lt;/script&amp;gt;
-
-&amp;lt;style scoped&amp;gt;
-
-&amp;lt;/style&amp;gt;
-
-外层组件
-&amp;lt;template&amp;gt;
-    &amp;lt;div &amp;gt;
-        &amp;lt;BaseInput class=&amp;quot;outter home&amp;quot; placej=&amp;quot;aj&amp;quot; v-model=&amp;quot;bi&amp;quot;&amp;gt;&amp;lt;/BaseInput&amp;gt;
-    &amp;lt;/div&amp;gt;
-&amp;lt;/template&amp;gt;
-
-&amp;lt;script&amp;gt;
-    export default {
-        name: &#39;Home&#39;,
-        data() {
-            return {
-                bi: &#39;&#39;,
-            }
-        },
-    }
-&amp;lt;/script&amp;gt;
-
-&amp;lt;style scoped&amp;gt;
-
-&amp;lt;/style&amp;gt;
-
-
-流程分析：
-首先BaseInput.vue中两个属性props: [&#39;label&#39;, &#39;value&#39;]是空值。接下来，当输入的时候，input事件触发，在BaseInput.vue中
-@input=&amp;quot;$emit(&#39;inputa&#39;, $event.target.value)&amp;quot;，抛出inputa事件，值为input更加底层的value即$event.target.value抛出；
-然后由于
- model: {
-            prop: &#39;label&#39;,
-            event: &#39;inputa&#39;
-        }
-
-所以，label值被设置为这个$event.target.value的值，并v-model=&amp;quot;bi&amp;quot;设置到外层组件的bi值，同时，value值因为:value=&amp;quot;value&amp;quot;而该组件中value为空，则一旦触发input事件，这个:value又被重置为空，输入框值也就被清空。
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/zi-ding-yi-zu-jian-de-v-model/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -730,7 +710,7 @@ v-on:change=&amp;quot;$emit(&#39;change&#39;, $event.target.checked)&amp;quot;
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599150392833)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599188439178)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

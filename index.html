@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599150392833">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599188439178">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599150392833" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599188439178" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,48 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-eloquent-getting-started-xue-xi-ti-gang/">
+                        Laravel Eloquent: Getting Started学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-04</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+如果需要对指定模型的查询请求添加全局作用域，可以参考Global Scopes
+
+其内部的apply方法会对今后作用于此模型的查询都起限定作用。
+
+Eloquent的操作会触发一系列的事件，请查看Events
+
+​	Eloquent models fire several events, allowing you to hook into the following points in a model&#39;s lifecycle: retrieved, creating, created, updating, updated, saving, saved, deleting, deleted, restoring, restored. Events allow you to easily execute code each time a specific model class is saved or updated in the database. Each event receives the instance of the model through its constructor.
+The retrieved event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the creating and created events will fire. The updating / updated events will fire when an existing model is modified and the save method is called. The saving / saved events will fire when a model is created or updated.
+
+When issuing a mass update or delete via Eloquent, the saved, updated, deleting, and deleted model events will not be fired for the affected models. This is because the models are never actually retrieved when issuing a mass update or delete.
+
+
+如果需要监听模型上多个事件，建议代码重新组织，Laravel提供了一个Observer方式，查看Observers
+
+php artisan make:observer UserObserver --model=User
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-eloquent-getting-started-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-redis-xue-xi-ti-gang/">
@@ -841,115 +883,6 @@ Publishing File Groups
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">
-                        Laravel Notifications学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-09-01</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            
-带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
-
-Notification主要用来发送简洁的通知，告知，比如付款成功之类的，Laravel支持mail，SMS，Slack方式的推送通知给用户。而且因为Notification也可用来显示在web页面上，所以Notification也可以被存在数据库中。
-
-创建通知参考Creating Notifications
-
-Model类如果需要支持被通知，那请使用Notifiable trait，不只User model可以支持，只要需要，就可以用这个trait。
-
-使用方法参考Using The Notifiable Trait
-
-如果是发送给一组用户或者被通知的Model实例组，那可以使用Notification facade的send方法。
-
-使用方法具体参考Using The Notification Facade
-
-因为Notifications发送时需要消耗时间的，特别是还要调用外部API来发送的场景下，那么请启用Queue；【就是 implements the ShouldQueue，但是使用还是和平常一样】
-
-具体参考Queueing Notifications
-
-因为Notification的via方法是支持返回一组数组--如[&#39;mail&#39;,&#39;slack&#39;]
-就是这个通知发送将使用[&#39;mail&#39;,&#39;slack&#39;]两个渠道，而使用queue来处理发送的时候，可以针对这两个渠道，分别指定不同的queue处理。
-
-具体参考Queueing Notifications的Customizing Notification Channel Queues部分
-
-如果需要搞一个按需通知，可以使用Notification::route方法。
-
-具体参考On-Demand Notifications
-
-如果需要更改Mail Notification的Header和Footer的name值，请在config/app.php中设置name；
-
-如果需要了解怎么写一个Notification Email 以及更多的方法 请参考Mail Notifications
-
-
-如果需要自定义Mail Notification或有更多的配置需求，可以查看
-Customizing The Sender
-Customizing The Recipient
-Customizing The Subject
-Customizing The Mailer
-如果需要对默认给的Notification邮件模板做一些自定义修改，参考Customizing The Templates
-如果需要预览Notification Mail，可以参考Previewing Mail Notifications
-每个就是一个方法的讲解而已。很简单
-
-Markdown Mail Notifications
-和Mail Notification差不多，只是不再使用action或者line方法调用来生成邮件内容，而是一个markdown方法调用。
-
-具体参考 Generating The Message
-
-而如果要修改邮件内容，就需要前面修改编辑markdown文件了；
-
-如何使用参考  Writing The Message
-
-
-而每一个组件的修改编辑参考Customizing The Components，其实之前学习Email的时候，也是这个；
-
-Database Notifications
-主要是notification如果需要显示在页面上，这样就会用到database。比如用户登录了，就在dashbroad页面给显示notifications。
-参考Prerequisites，先执行：
-php artisan notifications:table
-
-php artisan migrate
-
-生成notification的数据表。
-
-定义被存储下来的数据，请参考Formatting Database Notifications
-
-
-存储下来的notifications数据，要展示出来的时候，请参考Accessing The Notifications
-
-
-现实使用的时候，可以添加一个Notification Controller，这样要从js客户端访问这个notifiable实体【比如当前user】的notifications数据的时候，可以从js客户端向后端的这个controller执行一个HTTP请求获取。
-
-
-其他的标注已读，批量标注已读，批量更新，批量删除，请查阅Marking Notifications As Read
-
-Broadcast Notifications
-这个用就很牛了，可以做成聊天室式的广播告知【游戏里的大喇叭式，全站送礼物通知】。前端后端都需要参考Broadcasting做一些设置。
-SMS Notifications
-如果有需要搞一个短信通知，那可以参考这个官方文档SMS Notifications做一些设置和修改。
-Slack Notifications
-Slack可以用到协同办公和公共留言板之类的，支持很多app，如果需要这个可以看看官方文档如何配置。
-Localizing Notifications
-语言本地化；
-Notification Events
-在notification被发送后，会触发相关的事件，如果需要了解，请参考官方文档
-Custom Channels
-Laravel以及提供了很多Notification发送的信道，如果还有更多需求来传输你的Notification，那么可以参考此部分文档：Custom Channels。
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-notifications-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -968,7 +901,7 @@ Laravel以及提供了很多Notification发送的信道，如果还有更多需�
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599150392833)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599188439178)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
