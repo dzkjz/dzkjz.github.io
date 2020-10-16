@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1599199084919">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1602855902648">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1599199084919" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1602855902648" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,95 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-queues-xue-xi-ti-gang/">
+                        Laravel Queues学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-02</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+如果你有特别消耗时间的任务的时候，比如发送邮件，这时候用queue延迟一下发送操作，对于你的应用来说，可以急剧的提升请求速度。【用户点发送按钮，然后加入queue，整个应用不会因为卡在发送email过程而长时间等待，而是直接返回给用户，这样用户体验比较好】
+如果你的应用在使用queue的时候，需要指定多个queue处理任务，比如一个queue用来存，一个用来发sms，一个用来做点其他的，那么可以给每个queue设置权重，权重越高的越先处理。参考 Connections Vs. Queues最后一段文本。
+queue.php中的驱动配置可以参考Driver Notes &amp;amp; Prerequisites
+Creating Jobs
+Job用来被queue延迟执行的，主要是handle方法。
+job一般是这样dispatch触发：dispatch就是加入到queue中；
+
+传入job的model会被序列化，
+
+而queue最后管理调用job的handle方法，执行处理。
+
+详细查看 Class Structure 以及 Job Middleware
+
+Dispatching Jobs
+触发job查看官方文档。
+如果要处理一个比如，发送邮件完毕且响应传回后才执行的job，可以使用
+
+这两个方法；
+如果不需要加入到queue而是需要立即处理掉job：
+
+如果需要执行一列跟随任务：
+参考Job Chaining，比如
+
+当然也可以在chain里加入闭包执行。
+
+job即使使用$this-&amp;gt;delete()删除，也不会阻止chained的job被执行，除非job chain里面有fail。
+
+chain的jobs也可以指定connection和queue驱动执行，当然，如果chain里面的job显式指定过queue或者connection，那么该job会使用其指定的queue或connection。
+
+如果需要对job做等待超时，执行超时，超次限制，频率限制，请查看 Specifying Max Job Attempts / Timeout Values
+
+如果一个queued的job正在修改一个资源，但是这个资源同时只能有一个job去修改编辑，那么需要限制最大的工作job进程。
+
+请使用funnel做限制 ，参考Rate Limiting
+
+需要注意的是，做了这么多限制之后，执行成功到底需要多少次尝试就很难判断了，因此，结合一个延时设置【 time based attempts】会比较有用。
+Queueing Closures
+不想写job，或者job比较简单，可以直接queue一个闭包，逻辑写闭包里面就行。
+Running The Queue Worker
+php artisan queue:work
+
+执行启动了queue之后，会一直在后台执行，但是代码的任何修改，work不会有反应，所以部署后，记得重启一下。
+不过php artisan queue:listen可以侦听代码变化，不用重启queue，但是listen没有work高效。
+php artisan queue:work redis --queue=emails
+
+redis就是指定的queue connection，emails就是指定的queue。
+更多的queue 命令行操作参数比如权重，单次处理，停止，参考Running The Queue Worker
+请注意：
+
+The queue uses the cache to store restart signals, so you should verify a cache driver is properly configured for your application before using this feature.
+
+Job Expirations &amp;amp; Timeouts
+在您的config / queue.php配置文件中，每个队列连接定义一个retry_after选项。
+该选项指定队列连接在重试正在处理的作业之前应等待的秒数。
+例如，如果retry_after的值设置为90，则该job如果已处理90秒但未删除，则将其释放回到队列中。
+Supervisor Configuration
+如果有需要配置Supervisor，参考这个Supervisor Configuration
+Dealing With Failed Jobs
+失败job重试，失败job记录到数据表，失败job清理，侦听失败job触发的事件，
+如果传入job中的Eloquent模型在job被processing前删除了，job会抛出异常 ModelNotFoundException，默认可以在job类中的处理，参考Ignoring Missing Models
+Job Events
+如果需要在queue job执行前后做一些logging或者状态的编辑记录，可以参考Job Events，主要是queue facade的before和after方法的调用，以及一个传入JobProcessing或JobProcessed类型事件参数的闭包。
+还可以在worker尝试从queue中取一个job之前，执行一些逻辑。每次取之前都会执行。
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-queues-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-package-development-xue-xi-ti-gang/">
@@ -631,71 +720,6 @@ Laradock遇到的坑
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/vue-zhi-inheritattrshttpscnvuejsorgv2apiinheritattrs/">
-                        Vue之inheritAttrs
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-13</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            参考what are inheritAttrs:false and $attrs used for in vue?：
-
-// Component
-Vue.component(&#39;base-input&#39;, {
- inheritAttrs: false,
- props: [&#39;label&#39;, &#39;value&#39;],
- template: `
-   &amp;lt;label&amp;gt;
-     {{ label }}
-     &amp;lt;input
-       v-bind=&amp;quot;$attrs&amp;quot;
-       v-bind:value=&amp;quot;value&amp;quot;
-       v-on:input=&amp;quot;$emit(&#39;input&#39;, $event.target.value)&amp;quot;
-     &amp;gt;
-   &amp;lt;/label&amp;gt;
- `
-})
-
-// Usage
-&amp;lt;base-input
- v-model=&amp;quot;username&amp;quot;
- required
- placeholder=&amp;quot;Enter your username&amp;quot;
-/&amp;gt;
-
-The required and placeholder attributes are then set on the input instead of the wrapping label.
-It doesn&#39;t really have anything to do with children of children of components but it can be used in such a hierarchy.
-I hope that clears things up for you.
-上面的示例代码来自 Disabling Attribute Inheritance官方文档。
-其实就是 inheritAttrs设置为false值之后，
-使用的
-&amp;lt;base-input
- v-model=&amp;quot;username&amp;quot;
- required
- placeholder=&amp;quot;Enter your username&amp;quot;
-
-这里面设置的 required 和 placeholder就不在模板根元素label上，而是在指定了$attrs的
-&amp;lt;input
-       v-bind=&amp;quot;$attrs&amp;quot;
-
-input标签上。参考这个，以后要用的就是你想设置到哪里，就设置$attrs到哪里，一般这个用在自定义基础组件base components的上面。
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/vue-zhi-inheritattrshttpscnvuejsorgv2apiinheritattrs/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -716,7 +740,7 @@ input标签上。参考这个，以后要用的就是你想设置到哪里，就
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1599199084919)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1602855902648)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

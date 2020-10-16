@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-09-04T05:58:10.360Z</updated>
+    <updated>2020-10-16T13:45:09.475Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,22 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[关于adsense的文章]]></title>
+        <id>https://dzkjz.github.io/post/guan-yu-adsense-de-wen-zhang/</id>
+        <link href="https://dzkjz.github.io/post/guan-yu-adsense-de-wen-zhang/">
+        </link>
+        <updated>2020-10-16T13:39:45.000Z</updated>
+        <content type="html"><![CDATA[<p>为什么最好是写那种流量文，新闻，垃圾文；<br>
+首先，如果你的站点是起步做，如果不是瞄准某一个niche，收割很长尾的流量；<br>
+那做新闻，热点文，最容易拿到流量。门事件一篇文，总流量1个亿你拿到一点点也许就是niche文的几百倍。<br>
+如果做垃圾词堆长尾，这样也能收割很多小流量，百万文章，10万篇来的流量也是很大的。<br>
+还有就是图片，下载资源流；但是搞笑流就比较难转，单价比较低。<br>
+要么就是小说，电影流。<br>
+而如果瞄准做一个类似中药健康保健类的，文章抄抄改改，也可以瞄准热点新闻再伪原创。<br>
+游戏类流量也可以。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Laravel Eloquent: Relationships学习提纲]]></title>
         <id>https://dzkjz.github.io/post/laravel-eloquent-relationships-xue-xi-ti-gang/</id>
@@ -567,80 +583,6 @@ $schedule-&gt;command('emails:send')
 <p>上面所有的ping 方法需要安装Guzzle Http包;</p>
 <p>执行 <code>composer require guzzlehttp/guzzle</code>安装</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel Queues学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-queues-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-queues-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-09-02T03:40:33.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
-</blockquote>
-<p>如果你有特别消耗时间的任务的时候，比如发送邮件，这时候用queue延迟一下发送操作，对于你的应用来说，可以急剧的提升请求速度。【用户点发送按钮，然后加入queue，整个应用不会因为卡在发送email过程而长时间等待，而是直接返回给用户，这样用户体验比较好】</p>
-<p>如果你的应用在使用queue的时候，需要指定多个queue处理任务，比如一个queue用来存，一个用来发sms，一个用来做点其他的，那么可以给每个queue设置权重，权重越高的越先处理。<em>参考 <a href="https://laravel.com/docs/7.x/queues#connections-vs-queues">Connections Vs. Queues</a>最后一段文本。</em></p>
-<h4 id="queuephp中的驱动配置可以参考driver-notes-prerequisites">queue.php中的驱动配置可以参考<a href="https://laravel.com/docs/7.x/queues#driver-prerequisites">Driver Notes &amp; Prerequisites</a></h4>
-<h3 id="creating-jobs"><a href="https://laravel.com/docs/7.x/queues#creating-jobs">Creating Jobs</a></h3>
-<p>Job用来被queue延迟执行的，主要是handle方法。</p>
-<p>job一般是这样dispatch触发：dispatch就是加入到queue中；</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200902093716.png" alt="" loading="lazy"></figure>
-<p>传入job的model会被序列化，</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200902093751.png" alt="" loading="lazy"></figure>
-<p>而queue最后管理调用job的handle方法，执行处理。</p>
-<blockquote>
-<p>详细查看 <a href="https://laravel.com/docs/7.x/queues#class-structure">Class Structure</a> 以及 <a href="https://laravel.com/docs/7.x/queues#job-middleware">Job Middleware</a></p>
-</blockquote>
-<h3 id="dispatching-jobs"><a href="https://laravel.com/docs/7.x/queues#dispatching-jobs">Dispatching Jobs</a></h3>
-<p>触发job查看官方文档。</p>
-<p>如果要处理一个比如，发送邮件完毕且响应传回后才执行的job，可以使用</p>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200902095041.png" alt="" loading="lazy"></figure>
-<p>这两个方法；</p>
-<p>如果不需要加入到queue而是需要立即处理掉job：</p>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200902095315.png" alt="" loading="lazy"></figure>
-<p>如果需要执行一列跟随任务：</p>
-<p>参考<a href="https://laravel.com/docs/7.x/queues#job-chaining">Job Chaining</a>，比如</p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20200902100238.png" alt="" loading="lazy"></figure>
-<p>当然也可以在chain里加入闭包执行。</p>
-<blockquote>
-<p>job即使使用$this-&gt;delete()删除，也不会阻止chained的job被执行，除非job chain里面有fail。</p>
-</blockquote>
-<p>chain的jobs也可以指定connection和queue驱动执行，当然，如果chain里面的job显式指定过queue或者connection，那么该job会使用其指定的queue或connection。</p>
-<blockquote>
-<p>如果需要对job做等待超时，执行超时，超次限制，频率限制，请查看 <a href="https://laravel.com/docs/7.x/queues#max-job-attempts-and-timeout">Specifying Max Job Attempts / Timeout Values</a></p>
-</blockquote>
-<p>如果一个queued的job正在修改一个资源，但是这个资源同时只能有一个job去修改编辑，那么需要限制最大的工作job进程。</p>
-<blockquote>
-<p>请使用funnel做限制 ，参考<a href="https://laravel.com/docs/7.x/queues#rate-limiting">Rate Limiting</a></p>
-</blockquote>
-<p>需要注意的是，做了这么多限制之后，执行成功到底需要多少次尝试就很难判断了，因此，结合一个延时设置【 <a href="https://laravel.com/docs/7.x/queues#time-based-attempts">time based attempts</a>】会比较有用。</p>
-<h3 id="queueing-closures"><a href="https://laravel.com/docs/7.x/queues#queueing-closures">Queueing Closures</a></h3>
-<p>不想写job，或者job比较简单，可以直接queue一个闭包，逻辑写闭包里面就行。</p>
-<h3 id="running-the-queue-worker"><a href="https://laravel.com/docs/7.x/queues#running-the-queue-worker">Running The Queue Worker</a></h3>
-<pre><code class="language-php">php artisan queue:work
-</code></pre>
-<p>执行启动了<code>queue</code>之后，会一直在后台执行，但是代码的任何修改，<code>work</code>不会有反应，所以部署后，记得重启一下。</p>
-<p>不过<code>php artisan queue:listen</code>可以侦听代码变化，不用重启<code>queue</code>，但是<code>listen</code>没有<code>work</code>高效。</p>
-<pre><code class="language-php">php artisan queue:work redis --queue=emails
-</code></pre>
-<p><code>redis</code>就是指定的<code>queue connection</code>，<code>emails</code>就是指定的<code>queue</code>。</p>
-<p>更多的queue 命令行操作参数比如权重，单次处理，停止，参考<a href="https://laravel.com/docs/7.x/queues#running-the-queue-worker">Running The Queue Worker</a></p>
-<p>请注意：</p>
-<blockquote>
-<p>The queue uses the <a href="https://laravel.com/docs/7.x/cache">cache</a> to store restart signals, so you should verify a cache driver is properly configured for your application before using this feature.</p>
-</blockquote>
-<h4 id="job-expirations-timeouts"><a href="https://laravel.com/docs/7.x/queues#job-expirations-and-timeouts">Job Expirations &amp; Timeouts</a></h4>
-<p>在您的config / queue.php配置文件中，每个队列连接定义一个retry_after选项。</p>
-<p>该选项指定队列连接在重试正在处理的作业之前应等待的秒数。</p>
-<p>例如，如果retry_after的值设置为90，则该job如果已处理90秒但未删除，则将其释放回到队列中。</p>
-<h3 id="supervisor-configuration"><a href="https://laravel.com/docs/7.x/queues#supervisor-configuration">Supervisor Configuration</a></h3>
-<p>如果有需要配置Supervisor，参考这个<a href="https://laravel.com/docs/7.x/queues#supervisor-configuration">Supervisor Configuration</a></p>
-<h3 id="dealing-with-failed-jobs"><a href="https://laravel.com/docs/7.x/queues#dealing-with-failed-jobs">Dealing With Failed Jobs</a></h3>
-<p>失败job重试，失败job记录到数据表，失败job清理，侦听失败job触发的事件，</p>
-<p>如果传入job中的Eloquent模型在job被processing前删除了，job会抛出异常 <code>ModelNotFoundException</code>，默认可以在job类中的处理，参考<a href="https://laravel.com/docs/7.x/queues#ignoring-missing-models">Ignoring Missing Models</a></p>
-<h3 id="job-events"><a href="https://laravel.com/docs/7.x/queues#job-events">Job Events</a></h3>
-<p>如果需要在queue job执行前后做一些logging或者状态的编辑记录，可以参考<a href="https://laravel.com/docs/7.x/queues#job-events">Job Events</a>，主要是queue facade的before和after方法的调用，以及一个传入JobProcessing或JobProcessed类型事件参数的闭包。</p>
-<p>还可以在worker尝试从queue中取一个job之前，执行一些逻辑。每次取之前都会执行。</p>
 ]]></content>
     </entry>
 </feed>
