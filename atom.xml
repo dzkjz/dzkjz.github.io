@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-10-16T13:45:09.475Z</updated>
+    <updated>2020-10-17T06:34:32.503Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://dzkjz.github.io/images/avatar.png</logo>
     <icon>https://dzkjz.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JojoLegend</rights>
+    <entry>
+        <title type="html"><![CDATA[使用Yandex 做域名邮箱]]></title>
+        <id>https://dzkjz.github.io/post/shi-yong-yandex-zuo-yu-ming-you-xiang/</id>
+        <link href="https://dzkjz.github.io/post/shi-yong-yandex-zuo-yu-ming-you-xiang/">
+        </link>
+        <updated>2020-10-17T06:28:00.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143012.png" alt="" loading="lazy"></figure>
+<p>第二，点开下拉</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143054.png" alt="" loading="lazy"></figure>
+<p>第三步：</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143155.png" alt="" loading="lazy"></figure>
+<p>第4步 add a domain</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143244.png" alt="" loading="lazy"></figure>
+<p>第5：输入域名</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143329.png" alt="" loading="lazy"></figure>
+<p>第6选择DNS 验证去域名注册商注册然后验证即可。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[关于adsense的文章]]></title>
         <id>https://dzkjz.github.io/post/guan-yu-adsense-de-wen-zhang/</id>
@@ -480,109 +498,6 @@ DB::rollBack();
 //手动提交事务
 DB::commit();
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Laravel Task Scheduling学习提纲]]></title>
-        <id>https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/</id>
-        <link href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
-        </link>
-        <updated>2020-09-02T07:28:27.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p><strong>带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！</strong></p>
-</blockquote>
-<p>Schedule就是用来简化Cron操作的。</p>
-<blockquote>
-<p>初始配置查看 <a href="https://laravel.com/docs/7.x/scheduling#introduction">Introduction</a></p>
-</blockquote>
-<blockquote>
-<p>执行Artisan command，queue job，shell命令，闭包方法，以及执行时间间隔，频率，执行所处的时间段等详细资料查看官方文档<a href="https://laravel.com/docs/7.x/scheduling#defining-schedules">Defining Schedules</a>。</p>
-</blockquote>
-<p>如果你的应用放置在三个服务器上，你的计划调度就会三个服务器同时启动，只需要一个调度完成的任务，三个都在调度，这样明显不好，应该限制只在一个机器上运行就可以了。使用onOneServer方法。</p>
-<blockquote>
-<p>详细参考<a href="https://laravel.com/docs/7.x/scheduling#running-tasks-on-one-server">Running Tasks On One Server</a></p>
-</blockquote>
-<p>如果有多个命令依序执行，有几个超耗时的命令排在前面，那后面的命令可能就一直卡很久，都不能按计划时间执行，这时候应该把这些命令改成后台执行，这样它们就能同步执行了。</p>
-<blockquote>
-<p>详细参考<a href="https://laravel.com/docs/7.x/scheduling#background-tasks">Background Tasks</a></p>
-</blockquote>
-<p>如果你的应用进入维护模式，这个时候Scheduled任务是不会运行的，但是如果你不想某些任务受到维护模式影响而不能运行，使用 <code>evenInMaintenanceMode</code>方法；</p>
-<blockquote>
-<p>详细参考：<a href="https://laravel.com/docs/7.x/scheduling#maintenance-mode">Maintenance Mode</a></p>
-</blockquote>
-<h3 id="task-output"><a href="https://laravel.com/docs/7.x/scheduling#task-output">Task Output</a></h3>
-<pre><code class="language-php">//输出到文件
-$filePath = '';
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;sendOutputTo($filePath);
-
-//追加到文件
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;appendOutputTo($filePath);
-
-//如果配置好了email发送服务
-//可以把输出发送到指定邮箱
-$schedule-&gt;command('foo')
-    -&gt;daily()
-    -&gt;sendOutputTo($filePath)
-    -&gt;emailOutputTo('foo@example.com');
-
-//只把错误信息发到指定邮箱
-$schedule-&gt;command('foo')
-    -&gt;daily()
-    -&gt;emailOutputOnFailure('foo@example.com');
-</code></pre>
-<blockquote>
-<p>独有的方法：</p>
-<p>The <code>emailOutputTo</code>, <code>emailOutputOnFailure</code>, <code>sendOutputTo</code>, and <code>appendOutputTo</code> methods are exclusive to the <code>command</code> and <code>exec</code> methods.</p>
-</blockquote>
-<h3 id="task-hooks"><a href="https://laravel.com/docs/7.x/scheduling#task-hooks">Task Hooks</a></h3>
-<pre><code class="language-php">//可以在任务执行前后安插逻辑
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;before(function () {
-        // Task is about to start...
-    })-&gt;after(function () {
-        // Task is complete...
-    });
-
-//可以在任务成功和失败后安插逻辑
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;onSuccess(function () {
-        // The task succeeded...
-    })-&gt;onFailure(function () {
-        // The task is failed...
-    });
-
-
-$url = '';
-//可以在任务执行前或完成后ping一个URL
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;pingBefore($url)
-    -&gt;thenPing($url);
-
-//条件为真才ping
-$condition = true;
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;pingBeforeIf($condition, $url)
-    -&gt;thenPingIf($condition, $url);
-
-
-//任务执行成功或失败后ping url
-$schedule-&gt;command('emails:send')
-    -&gt;daily()
-    -&gt;pingOnSuccess($url)
-    -&gt;pingOnFailure($url);
-</code></pre>
-<blockquote>
-<p>上面所有的ping 方法需要安装Guzzle Http包;</p>
-<p>执行 <code>composer require guzzlehttp/guzzle</code>安装</p>
-</blockquote>
 ]]></content>
     </entry>
 </feed>

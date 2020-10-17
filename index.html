@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1602855902648">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1602916459189">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1602855902648" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1602916459189" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,39 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/shi-yong-yandex-zuo-yu-ming-you-xiang/">
+                        使用Yandex 做域名邮箱
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-10-17</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+第二，点开下拉
+
+第三步：
+
+第4步 add a domain
+
+第5：输入域名
+
+第6选择DNS 验证去域名注册商注册然后验证即可。
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/shi-yong-yandex-zuo-yu-ming-you-xiang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/guan-yu-adsense-de-wen-zhang/">
@@ -712,124 +745,6 @@ DB::commit();
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
-                        Laravel Task Scheduling学习提纲
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-09-02</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            
-带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
-
-Schedule就是用来简化Cron操作的。
-
-初始配置查看 Introduction
-
-
-执行Artisan command，queue job，shell命令，闭包方法，以及执行时间间隔，频率，执行所处的时间段等详细资料查看官方文档Defining Schedules。
-
-如果你的应用放置在三个服务器上，你的计划调度就会三个服务器同时启动，只需要一个调度完成的任务，三个都在调度，这样明显不好，应该限制只在一个机器上运行就可以了。使用onOneServer方法。
-
-详细参考Running Tasks On One Server
-
-如果有多个命令依序执行，有几个超耗时的命令排在前面，那后面的命令可能就一直卡很久，都不能按计划时间执行，这时候应该把这些命令改成后台执行，这样它们就能同步执行了。
-
-详细参考Background Tasks
-
-如果你的应用进入维护模式，这个时候Scheduled任务是不会运行的，但是如果你不想某些任务受到维护模式影响而不能运行，使用 evenInMaintenanceMode方法；
-
-详细参考：Maintenance Mode
-
-Task Output
-//输出到文件
-$filePath = &#39;&#39;;
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;sendOutputTo($filePath);
-
-//追加到文件
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;appendOutputTo($filePath);
-
-//如果配置好了email发送服务
-//可以把输出发送到指定邮箱
-$schedule-&amp;gt;command(&#39;foo&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;sendOutputTo($filePath)
-    -&amp;gt;emailOutputTo(&#39;foo@example.com&#39;);
-
-//只把错误信息发到指定邮箱
-$schedule-&amp;gt;command(&#39;foo&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;emailOutputOnFailure(&#39;foo@example.com&#39;);
-
-
-独有的方法：
-The emailOutputTo, emailOutputOnFailure, sendOutputTo, and appendOutputTo methods are exclusive to the command and exec methods.
-
-Task Hooks
-//可以在任务执行前后安插逻辑
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;before(function () {
-        // Task is about to start...
-    })-&amp;gt;after(function () {
-        // Task is complete...
-    });
-
-//可以在任务成功和失败后安插逻辑
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;onSuccess(function () {
-        // The task succeeded...
-    })-&amp;gt;onFailure(function () {
-        // The task is failed...
-    });
-
-
-$url = &#39;&#39;;
-//可以在任务执行前或完成后ping一个URL
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;pingBefore($url)
-    -&amp;gt;thenPing($url);
-
-//条件为真才ping
-$condition = true;
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;pingBeforeIf($condition, $url)
-    -&amp;gt;thenPingIf($condition, $url);
-
-
-//任务执行成功或失败后ping url
-$schedule-&amp;gt;command(&#39;emails:send&#39;)
-    -&amp;gt;daily()
-    -&amp;gt;pingOnSuccess($url)
-    -&amp;gt;pingOnFailure($url);
-
-
-上面所有的ping 方法需要安装Guzzle Http包;
-执行 composer require guzzlehttp/guzzle安装
-
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -848,7 +763,7 @@ $schedule-&amp;gt;command(&#39;emails:send&#39;)
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1602855902648)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1602916459189)">
         </div>
         <h1 class="id_card-title">
             JojoLegend

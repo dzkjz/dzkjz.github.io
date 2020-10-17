@@ -7,7 +7,7 @@
 <title>
     JojoLegend
 </title>
-<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1602855902648">
+<link rel="shortcut icon" href="https://dzkjz.github.io//favicon.ico?v=1602916459189">
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -27,7 +27,7 @@
     <div class="nav">
         <div class="logo">
             <a href="https://dzkjz.github.io/">
-                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1602855902648" alt="">
+                <img class="avatar" src="https://dzkjz.github.io//images/avatar.png?v=1602916459189" alt="">
             </a>
             <div class="site-title">
                 <h1>
@@ -105,6 +105,124 @@
                 <div id="content" class="main-container-left">
                     
         
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">
+                        Laravel Task Scheduling学习提纲
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-09-02</time>
+                    
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            
+带着问题学，文档里介绍的功能在什么情况下使用？这些功能有什么用？具体使用方法直接查看官方文档！
+
+Schedule就是用来简化Cron操作的。
+
+初始配置查看 Introduction
+
+
+执行Artisan command，queue job，shell命令，闭包方法，以及执行时间间隔，频率，执行所处的时间段等详细资料查看官方文档Defining Schedules。
+
+如果你的应用放置在三个服务器上，你的计划调度就会三个服务器同时启动，只需要一个调度完成的任务，三个都在调度，这样明显不好，应该限制只在一个机器上运行就可以了。使用onOneServer方法。
+
+详细参考Running Tasks On One Server
+
+如果有多个命令依序执行，有几个超耗时的命令排在前面，那后面的命令可能就一直卡很久，都不能按计划时间执行，这时候应该把这些命令改成后台执行，这样它们就能同步执行了。
+
+详细参考Background Tasks
+
+如果你的应用进入维护模式，这个时候Scheduled任务是不会运行的，但是如果你不想某些任务受到维护模式影响而不能运行，使用 evenInMaintenanceMode方法；
+
+详细参考：Maintenance Mode
+
+Task Output
+//输出到文件
+$filePath = &#39;&#39;;
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;sendOutputTo($filePath);
+
+//追加到文件
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;appendOutputTo($filePath);
+
+//如果配置好了email发送服务
+//可以把输出发送到指定邮箱
+$schedule-&amp;gt;command(&#39;foo&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;sendOutputTo($filePath)
+    -&amp;gt;emailOutputTo(&#39;foo@example.com&#39;);
+
+//只把错误信息发到指定邮箱
+$schedule-&amp;gt;command(&#39;foo&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;emailOutputOnFailure(&#39;foo@example.com&#39;);
+
+
+独有的方法：
+The emailOutputTo, emailOutputOnFailure, sendOutputTo, and appendOutputTo methods are exclusive to the command and exec methods.
+
+Task Hooks
+//可以在任务执行前后安插逻辑
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;before(function () {
+        // Task is about to start...
+    })-&amp;gt;after(function () {
+        // Task is complete...
+    });
+
+//可以在任务成功和失败后安插逻辑
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;onSuccess(function () {
+        // The task succeeded...
+    })-&amp;gt;onFailure(function () {
+        // The task is failed...
+    });
+
+
+$url = &#39;&#39;;
+//可以在任务执行前或完成后ping一个URL
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;pingBefore($url)
+    -&amp;gt;thenPing($url);
+
+//条件为真才ping
+$condition = true;
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;pingBeforeIf($condition, $url)
+    -&amp;gt;thenPingIf($condition, $url);
+
+
+//任务执行成功或失败后ping url
+$schedule-&amp;gt;command(&#39;emails:send&#39;)
+    -&amp;gt;daily()
+    -&amp;gt;pingOnSuccess($url)
+    -&amp;gt;pingOnFailure($url);
+
+
+上面所有的ping 方法需要安装Guzzle Http包;
+执行 composer require guzzlehttp/guzzle安装
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laravel-task-scheduling-xue-xi-ti-gang/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
             <article class="post i-card">
                 <h2 class="post-title">
                     <a href="https://dzkjz.github.io/post/laravel-queues-xue-xi-ti-gang/">
@@ -680,46 +798,6 @@ event(new ShippingStatusUpdated($update));
                 </div>
             </article>
             
-            <article class="post i-card">
-                <h2 class="post-title">
-                    <a href="https://dzkjz.github.io/post/laradock-win10/">
-                        Laradock Win10 
-                    </a>
-                </h2>
-                <div class="post-info">
-                    <time class="post-time">2020-08-15</time>
-                    
-                </div>
-                <div class="post-article">
-                    
-                            <div class="post-content">
-                                
-                                        <div class="post-content-content">
-                                            参考官方的文档 以及在 Mac/Windows 系统中使用 Laradock 搭建基于 Docker 的 Laravel 开发环境安装
-给👴一直报错。
-
-ERROR: for postgres  Cannot create container for service postgres: status code not OK but 500: {&amp;quot;Message&amp;quot;:&amp;quot;Unhandled exception: Filesharing has been cancelled&amp;quot;,&amp;quot;StackTrace&amp;quot;:&amp;quot;   at Docker.ApiServices.Mounting.FileSharing.&amp;lt;**DoShareAsync**&amp;gt;d__6.MoveNext() in C:\workspaces\stable-2.3.x\src\github.com\docker\pinata\win\src\Docker.ApiServices\Mounting\FileSharing.cs:line 0\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at Docker.ApiServices.Mounting.FileSharing.&amp;lt;**ShareAsync**&amp;gt;d__4.MoveNext() in C:\workspaces\stable-2.3.x\src\github.com\docker\pinata\win\src\Docker.ApiServices\Mounting\FileSharing.cs:line 47\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at Docker.HttpApi.Controllers.FilesharingController.&amp;lt;**ShareDirectory**&amp;gt;d__2.MoveNext() in C:\workspaces\stable-2.3.x\src\github.com\docker\pinata\win\src\Docker.HttpApi\Controllers\FilesharingController.cs:line 21\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Threading.Tasks.TaskHelpersExtensions.&amp;lt;**CastToObject**&amp;gt;d__1`1.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.&amp;lt;**InvokeActionAsyncCore**&amp;gt;d__1.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Controllers.ActionFilterResult.&amp;lt;**ExecuteAsync**&amp;gt;d__5.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.&amp;lt;**SendAsync**&amp;gt;d__15.MoveNext()&amp;quot;}	
-
-
-反正就是这类，没截完，
-根据
-https://github.com/docker/for-win/issues/5456
-https://stackoverflow.com/questions/59942110/docker-drive-has-not-been-shared
-https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798
-以及
-
-Laradock遇到的坑
-
-
-就是设置FILESHARING 里添加需要sharing的C盘和D盘就ok了。
-
-                                        </div>
-                                        
-                                            <a class="btn btn-text" href="https://dzkjz.github.io/post/laradock-win10/">Read More ~</a>
-                            </div>
-                </div>
-            </article>
-            
                 <!-- 翻页 -->
                 
     <div class="pagination-container">
@@ -740,7 +818,7 @@ Laradock遇到的坑
                     <!-- 个人信息 -->
                     
     <div class="id_card i-card">
-        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1602855902648)">
+        <div class="id_card-avatar" style="background-image: url(https://dzkjz.github.io//images/avatar.png?v=1602916459189)">
         </div>
         <h1 class="id_card-title">
             JojoLegend
