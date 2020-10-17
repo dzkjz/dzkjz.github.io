@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dzkjz.github.io/</id>
     <title>JojoLegend</title>
-    <updated>2020-10-17T06:34:32.503Z</updated>
+    <updated>2020-10-17T06:38:55.180Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dzkjz.github.io/"/>
     <link rel="self" href="https://dzkjz.github.io/atom.xml"/>
@@ -25,7 +25,9 @@
 <figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143244.png" alt="" loading="lazy"></figure>
 <p>第5：输入域名</p>
 <figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/dzkjz/images-repo/master/20201017143329.png" alt="" loading="lazy"></figure>
-<p>第6选择DNS 验证去域名注册商注册然后验证即可。</p>
+<p>第6选择DNS 验证去域名注册商注册然后验证即可。<br>
+第7：https://admin.yandex.ru/users?uid=639434943<br>
+到https://admin.yandex.ru/users?uid=639434943 添加一个新用户即可 一般添加info 设置密码就可以了</p>
 ]]></content>
     </entry>
     <entry>
